@@ -186,7 +186,8 @@ template <typename T, typename I, typename A>
 bool
 Array<T, I, A>::fill(const ElementType &value)
 {
-    std::fill_n(data(), length(), value);
+    thrust::fill_n(thrust::cuda::par, data(), length(), value);
+    //std::fill_n(data(), length(), value);
     return true;
 }
 
@@ -255,7 +256,7 @@ Array<T, I, A>::raw_allocate_()
     ASSERT(length()>=0);
 
     if (length()>0) {
-        data_ = allocator_.allocate(length_);
+      data_ = allocator_.allocate(length_).get();
         ASSERT(data_);
     }
 }
@@ -265,9 +266,10 @@ void
 Array<T, I, A>::allocate_(const ElementType &value)
 {
     raw_allocate_();
-    for (IndexType i=0; i<length(); ++i) {
-        allocator_.construct(data_+i, value);
-    }
+    fill(value);
+    //for (IndexType i=0; i<length(); ++i) {
+    //    allocator_.construct(data_+i, value);
+    //}
 }
 
 template <typename T, typename I, typename A>
@@ -276,10 +278,10 @@ Array<T, I, A>::release_()
 {
     if (data_) {
         ASSERT(length()>0);
-        for (IndexType i=0; i<length(); ++i) {
-            allocator_.destroy(data_+i);
-        }
-        allocator_.deallocate(data(), length_);
+        //for (IndexType i=0; i<length(); ++i) {
+        //    allocator_.destroy(data_+i);
+        //}
+        allocator_.deallocate(thrust::device_pointer_cast(data()), length_);
         data_ = 0;
     }
     ASSERT(data_==0);
