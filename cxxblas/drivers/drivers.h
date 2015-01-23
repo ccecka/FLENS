@@ -52,7 +52,7 @@
 #elif defined (WITH_NVBLAS)
 #   include <cxxblas/drivers/nvblas.h>
 #elif defined (WITH_CUBLAS)
-#   include <cxxblas/drivers/cublas.h>
+#   include <cxxblas/drivers/cublas_driver.h>
 #endif
 
 
