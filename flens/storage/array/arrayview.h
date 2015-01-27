@@ -54,6 +54,16 @@ class ArrayView
         typedef typename I::IndexType   IndexType;
         typedef A                       Allocator;
 
+  // std:: typedefs
+  typedef Allocator                                 allocator_type;
+  typedef T                                         value_type;
+  typedef typename allocator_type::size_type        size_type;
+  typedef typename allocator_type::pointer          pointer;
+  typedef typename allocator_type::const_pointer    const_pointer;
+  typedef typename allocator_type::reference        reference;
+  typedef typename allocator_type::const_reference  const_reference;
+
+
         typedef ConstArrayView<T, I, A> ConstView;
         typedef ArrayView               View;
         typedef Array<T, I, A>          NoView;
@@ -61,7 +71,7 @@ class ArrayView
         static const IndexType          defaultIndexBase = I::defaultIndexBase;
 
         ArrayView(IndexType length,
-                  ElementType *data,
+            pointer data,
                   IndexType stride = IndexType(1),
                   IndexType firstIndex = defaultIndexBase,
                   const Allocator &allocator = Allocator());
@@ -75,10 +85,10 @@ class ArrayView
 
         //-- operators ---------------------------------------------------------
 
-        const ElementType &
+  const_reference
         operator()(IndexType index) const;
 
-        ElementType &
+  reference
         operator()(IndexType index);
 
         //-- methods -----------------------------------------------------------
@@ -95,10 +105,10 @@ class ArrayView
         IndexType
         stride() const;
 
-        const ElementType *
+  const_pointer
         data() const;
 
-        ElementType *
+  pointer
         data();
 
         const Allocator &
@@ -130,9 +140,9 @@ class ArrayView
              IndexType firstViewIndex = defaultIndexBase);
 
     private:
-        ElementType  *data_;
-        Allocator    allocator_;
+  pointer      data_;
         IndexType    length_, stride_, firstIndex_;
+  Allocator    allocator_;
 };
 
 //-- ArrayView specific functions ----------------------------------------------

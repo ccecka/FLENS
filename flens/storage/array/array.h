@@ -54,6 +54,15 @@ class Array
         typedef typename I::IndexType    IndexType;
         typedef A                        Allocator;
 
+  // std:: typedefs
+  typedef Allocator                                 allocator_type;
+  typedef T                                         value_type;
+  typedef typename allocator_type::size_type        size_type;
+  typedef typename allocator_type::pointer          pointer;
+  typedef typename allocator_type::const_pointer    const_pointer;
+  typedef typename allocator_type::reference        reference;
+  typedef typename allocator_type::const_reference  const_reference;
+
         typedef ConstArrayView<T, I, A>  ConstView;
         typedef ArrayView<T, I, A>       View;
         typedef Array                    NoView;
@@ -76,10 +85,10 @@ class Array
 
         //-- operators ---------------------------------------------------------
 
-        const ElementType &
+  const_reference
         operator()(IndexType index) const;
 
-        ElementType &
+  reference
         operator()(IndexType index);
 
         //-- methods -----------------------------------------------------------
@@ -96,10 +105,10 @@ class Array
         IndexType
         stride() const;
 
-        const ElementType *
+  const_pointer
         data() const;
 
-        ElementType *
+  pointer
         data();
 
         const Allocator &
@@ -140,9 +149,9 @@ class Array
         void
         release_();
 
-        ElementType *data_;
-        Allocator   allocator_;
+  pointer     data_;
         IndexType   length_, firstIndex_;
+  Allocator   allocator_;   // XXX: EBO?
 };
 
 //-- Array specific functions --------------------------------------------------

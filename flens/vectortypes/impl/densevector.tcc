@@ -196,14 +196,14 @@ DenseVector<A>::operator/=(const T &alpha)
 }
 
 template <typename A>
-const typename DenseVector<A>::ElementType &
+typename DenseVector<A>::const_reference
 DenseVector<A>::operator()(IndexType index) const
 {
     return array_(index);
 }
 
 template <typename A>
-typename DenseVector<A>::ElementType &
+typename DenseVector<A>::reference
 DenseVector<A>::operator()(IndexType index)
 {
     return array_(index);
@@ -363,14 +363,14 @@ DenseVector<A>::endIndex() const
 }
 
 template <typename A>
-const typename DenseVector<A>::ElementType *
+typename DenseVector<A>::const_pointer
 DenseVector<A>::data() const
 {
     return array_.data();
 }
 
 template <typename A>
-typename DenseVector<A>::ElementType *
+typename DenseVector<A>::pointer
 DenseVector<A>::data()
 {
     return array_.data();

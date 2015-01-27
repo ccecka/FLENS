@@ -43,7 +43,7 @@
 namespace flens {
 
 template <typename T, typename I, typename A>
-ArrayView<T, I, A>::ArrayView(IndexType length, ElementType *data,
+ArrayView<T, I, A>::ArrayView(IndexType length, pointer data,
                               IndexType stride, IndexType firstIndex,
                               const Allocator &allocator)
     : data_(data),
@@ -87,7 +87,7 @@ ArrayView<T, I, A>::~ArrayView()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, typename I, typename A>
-const typename ArrayView<T, I, A>::ElementType &
+typename ArrayView<T, I, A>::const_reference
 ArrayView<T, I, A>::operator()(IndexType index) const
 {
 #   ifndef NDEBUG
@@ -101,7 +101,7 @@ ArrayView<T, I, A>::operator()(IndexType index) const
 }
 
 template <typename T, typename I, typename A>
-typename ArrayView<T, I, A>::ElementType &
+typename ArrayView<T, I, A>::reference
 ArrayView<T, I, A>::operator()(IndexType index)
 {
 #   ifndef NDEBUG
@@ -143,14 +143,14 @@ ArrayView<T, I, A>::stride() const
 }
 
 template <typename T, typename I, typename A>
-const typename ArrayView<T, I, A>::ElementType *
+typename ArrayView<T, I, A>::const_pointer
 ArrayView<T, I, A>::data() const
 {
     return data_;
 }
 
 template <typename T, typename I, typename A>
-typename ArrayView<T, I, A>::ElementType *
+typename ArrayView<T, I, A>::pointer
 ArrayView<T, I, A>::data()
 {
     return data_;
@@ -211,7 +211,7 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
         return ConstView(length,                // length
-                         0,                     // data
+                     pointer(),             // data
                          stride*stride_,        // stride
                          firstViewIndex,        // firstIndex in view
                          allocator());          // allocator
@@ -240,7 +240,7 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
         return ArrayView(length,                // length
-                         0,                     // data
+                     pointer(),             // data
                          stride*stride_,        // stride
                          firstViewIndex,        // firstIndex in view
                          allocator());          // allocator

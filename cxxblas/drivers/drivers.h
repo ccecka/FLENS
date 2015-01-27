@@ -60,6 +60,11 @@
 #include <cxxblas/drivers/cblas.h>
 #endif
 
+// XXX: Hack. CUBLAS defines its own CBLAS forwards
+#if defined (WITH_CUBLAS)
+#define HAVE_CBLAS 1
+#endif
+
 #ifdef HAVE_SPARSEBLAS
 #include <cxxblas/drivers/sparseblas.h>
 #endif
