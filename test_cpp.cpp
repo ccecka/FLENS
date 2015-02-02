@@ -1,3 +1,4 @@
+// $ g++ -std=c++11 -I. -DCXXBLAS_DEBUG -DWITH_OPENBLAS -o test_cpp test_cpp.cpp -L/usr/local/Cellar/openblas/0.2.12/lib -lopenblas
 
 #include <iostream>
 

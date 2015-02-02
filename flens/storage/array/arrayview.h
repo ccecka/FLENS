@@ -54,15 +54,14 @@ class ArrayView
         typedef typename I::IndexType   IndexType;
         typedef A                       Allocator;
 
-  // std:: typedefs
-  typedef Allocator                                 allocator_type;
-  typedef T                                         value_type;
-  typedef typename allocator_type::size_type        size_type;
-  typedef typename allocator_type::pointer          pointer;
-  typedef typename allocator_type::const_pointer    const_pointer;
-  typedef typename allocator_type::reference        reference;
-  typedef typename allocator_type::const_reference  const_reference;
-
+        // std:: typedefs
+        typedef Allocator                                 allocator_type;
+        typedef T                                         value_type;
+        typedef typename allocator_type::size_type        size_type;
+        typedef typename allocator_type::pointer          pointer;
+        typedef typename allocator_type::const_pointer    const_pointer;
+        typedef typename allocator_type::reference        reference;
+        typedef typename allocator_type::const_reference  const_reference;
 
         typedef ConstArrayView<T, I, A> ConstView;
         typedef ArrayView               View;
@@ -71,7 +70,7 @@ class ArrayView
         static const IndexType          defaultIndexBase = I::defaultIndexBase;
 
         ArrayView(IndexType length,
-            pointer data,
+                  pointer data,
                   IndexType stride = IndexType(1),
                   IndexType firstIndex = defaultIndexBase,
                   const Allocator &allocator = Allocator());
@@ -85,10 +84,10 @@ class ArrayView
 
         //-- operators ---------------------------------------------------------
 
-  const_reference
+        const_reference
         operator()(IndexType index) const;
 
-  reference
+        reference
         operator()(IndexType index);
 
         //-- methods -----------------------------------------------------------
@@ -105,10 +104,10 @@ class ArrayView
         IndexType
         stride() const;
 
-  const_pointer
+        const_pointer
         data() const;
 
-  pointer
+        pointer
         data();
 
         const Allocator &
@@ -140,9 +139,9 @@ class ArrayView
              IndexType firstViewIndex = defaultIndexBase);
 
     private:
-  pointer      data_;
+        pointer      data_;
         IndexType    length_, stride_, firstIndex_;
-  Allocator    allocator_;
+        Allocator    allocator_;
 };
 
 //-- ArrayView specific functions ----------------------------------------------

@@ -43,7 +43,7 @@ namespace flens {
 
 template <typename T, typename I, typename A>
 ConstArrayView<T, I, A>::ConstArrayView(IndexType length,
-                                        const ElementType *data,
+                                        const_pointer data,
                                         IndexType stride,
                                         IndexType firstIndex,
                                         const Allocator &allocator)
@@ -88,7 +88,7 @@ ConstArrayView<T, I, A>::~ConstArrayView()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, typename I, typename A>
-const typename ConstArrayView<T, I, A>::ElementType &
+typename ConstArrayView<T, I, A>::const_reference
 ConstArrayView<T, I, A>::operator()(IndexType index) const
 {
     ASSERT(index>=firstIndex());
@@ -127,7 +127,7 @@ ConstArrayView<T, I, A>::stride() const
 }
 
 template <typename T, typename I, typename A>
-const typename ConstArrayView<T, I, A>::ElementType *
+typename ConstArrayView<T, I, A>::const_pointer
 ConstArrayView<T, I, A>::data() const
 {
     return data_;

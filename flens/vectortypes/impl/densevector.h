@@ -69,13 +69,13 @@ class DenseVector
         typedef DenseVector<EngineView>                     View;
         typedef DenseVector<EngineNoView>                   NoView;
 
-  // std:: typedefs
-  typedef ElementType                       value_type;
-  typedef typename Engine::size_type        size_type;
-  typedef typename Engine::pointer          pointer;
-  typedef typename Engine::const_pointer    const_pointer;
-  typedef typename Engine::reference        reference;
-  typedef typename Engine::const_reference  const_reference;
+        // std:: typedefs
+        typedef ElementType                       value_type;
+        typedef typename Engine::size_type        size_type;
+        typedef typename Engine::pointer          pointer;
+        typedef typename Engine::const_pointer    const_pointer;
+        typedef typename Engine::reference        reference;
+        typedef typename Engine::const_reference  const_reference;
 
     private:
         typedef DenseVector                                 DV;
@@ -148,10 +148,10 @@ class DenseVector
                                 DenseVector>::Type &
             operator/=(const T &alpha);
 
-  const_reference
+        const_reference
         operator()(IndexType index) const;
 
-  reference
+        reference
         operator()(IndexType index);
 
         template <typename S>
@@ -214,10 +214,10 @@ class DenseVector
         IndexType
         endIndex() const;
 
-  const_pointer
+        const_pointer
         data() const;
 
-  pointer
+        pointer
         data();
 
         IndexType
@@ -243,17 +243,17 @@ class DenseVector
         changeIndexBase(IndexType firstIndex);
 
         // -- implementation ---------------------------------------------------
-  const Engine &
+        const Engine &
         engine() const;
 
-  Engine &
+        Engine &
         engine();
 
         bool
         reversed() const;
 
     private:
-  Engine           array_;
+        Engine           array_;
         const IndexType  stride_;
 };
 

@@ -1,9 +1,8 @@
+// $ nvcc -std=c++11 -ccbin=g++-4.7 -I. -DWITH_CUBLAS -DCXXBLAS_DEBUG -o test_cublas test_cublas.cu -lcublas
 
 #include <iostream>
 
 #include <thrust/device_malloc_allocator.h>
-#include <thrust/fill.h>
-#include <thrust/system/cuda/execution_policy.h>
 
 #include "flens/flens.cxx"
 

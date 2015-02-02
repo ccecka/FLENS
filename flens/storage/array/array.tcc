@@ -34,28 +34,12 @@
 #define FLENS_STORAGE_ARRAY_ARRAY_TCC 1
 
 #include <cxxstd/cassert.h>
+#include <cxxstd/algorithm.h>
 #include <cxxblas/level1/copy.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/array/array.h>
 #include <flens/storage/array/arrayview.h>
 #include <flens/storage/array/constarrayview.h>
-
-// XXX: DIRTY HACK
-#if defined(__CUDACC__)   // Compiling with nvcc
-#  include <thrust/device_ptr.h>
-#  include <thrust/fill.h>
-#  include <thrust/uninitialized_fill.h>
-namespace flens {
-using thrust::raw_pointer_cast;
-}
-#  define FLENS_ALG_NS thrust
-#else
-template <typename T>
-T* raw_pointer_cast(T* t) { return t; }
-const T* raw_pointer_cast(const T* t) { return t; }
-#  define FLENS_ALG_NS std
-#endif
-
 
 
 namespace flens {
@@ -84,8 +68,8 @@ Array<T, I, A>::Array(const Array &rhs)
     ASSERT(length_>=0);
 
     if (length()>0) {
-    raw_allocate_();
-    cxxblas::copy(length(), raw_pointer_cast(rhs.data()), rhs.stride(), raw_pointer_cast(data()), stride());
+        raw_allocate_();
+        cxxblas::copy(length(), raw_pointer_cast(rhs.data()), rhs.stride(), raw_pointer_cast(data()), stride());
     }
 }
 
@@ -96,8 +80,8 @@ Array<T, I, A>::Array(const RHS &rhs)
       length_(rhs.length()), firstIndex_(rhs.firstIndex())
 {
     if (length()>0) {
-    raw_allocate_();
-    cxxblas::copy(length(), raw_pointer_cast(rhs.data()), rhs.stride(), raw_pointer_cast(data()), stride());
+        raw_allocate_();
+        cxxblas::copy(length(), raw_pointer_cast(rhs.data()), rhs.stride(), raw_pointer_cast(data()), stride());
     }
 }
 
@@ -204,7 +188,7 @@ template <typename T, typename I, typename A>
 bool
 Array<T, I, A>::fill(const ElementType &value)
 {
-  FLENS_ALG_NS::fill_n(data(), length(), value);
+    flens::alg::fill_n(data(), length(), value);
     return true;
 }
 
@@ -224,7 +208,7 @@ Array<T, I, A>::view(IndexType from, IndexType to,
 
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
-  const_pointer data = (length!=0) ? &operator()(from) : 0;
+    const_pointer data = (length!=0) ? &operator()(from) : 0;
 
     if (length!=0) {
         ASSERT(firstIndex()<=from);
@@ -233,7 +217,7 @@ Array<T, I, A>::view(IndexType from, IndexType to,
     }
     ASSERT(stride>=1);
 #   else
-  const_pointer data = &operator()(from);
+    const_pointer data = &operator()(from);
 #   endif
 
     return ConstView(length, data, stride, firstViewIndex, allocator());
@@ -248,7 +232,7 @@ Array<T, I, A>::view(IndexType from, IndexType to,
 
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
-  pointer data = (length!=0) ? &operator()(from) : pointer();
+    pointer data = (length!=0) ? &operator()(from) : pointer();
 
     if (length!=0) {
         ASSERT(firstIndex()<=from);
@@ -257,7 +241,7 @@ Array<T, I, A>::view(IndexType from, IndexType to,
     }
     ASSERT(stride>=1);
 #   else
-  pointer data = &operator()(from);
+    pointer data = &operator()(from);
 #   endif
 
     return View(length, data, stride, firstViewIndex, allocator());
@@ -269,12 +253,12 @@ template <typename T, typename I, typename A>
 void
 Array<T, I, A>::raw_allocate_()
 {
-  ASSERT(data_ == pointer());
+    ASSERT(data_ == pointer());
     ASSERT(length()>=0);
 
     if (length()>0) {
-    data_ = allocator_.allocate(length_);
-    ASSERT(data_ != pointer());
+        data_ = allocator_.allocate(length_);
+        ASSERT(data_ != pointer());
     }
 }
 
@@ -283,22 +267,22 @@ void
 Array<T, I, A>::allocate_(const ElementType &value)
 {
     raw_allocate_();
-  FLENS_ALG_NS::uninitialized_fill_n(data(), length(), value);
+    flens::alg::uninitialized_fill_n(data(), length(), value);
 }
 
 template <typename T, typename I, typename A>
 void
 Array<T, I, A>::release_()
 {
-  if (data_ != pointer()) {
+    if (data_ != pointer()) {
         ASSERT(length()>0);
         //for (IndexType i=0; i<length(); ++i) {
         //    allocator_.destroy(data_+i);
         //}
-    allocator_.deallocate(data(), length());
-    data_ = pointer();
+        allocator_.deallocate(data(), length());
+        data_ = pointer();
     }
-  ASSERT(data_ == pointer());
+    ASSERT(data_ == pointer());
 }
 
 //-- Array specific functions --------------------------------------------------
@@ -314,8 +298,8 @@ fillRandom(Array<T, I, A> &x)
     typedef typename Array<T,I,A>::ElementType  ElementType;
     typedef typename Array<T,I,A>::IndexType    IndexType;
 
-  for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
-    x[i] = randomValue<T>();
+    for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
+        x[i] = randomValue<T>();
     }
     return true;
 }
