@@ -137,7 +137,7 @@ HpMatrix<PS>::operator-=(const Matrix<RHS> &rhs)
 }
 
 template <typename PS>
-const typename HpMatrix<PS>::ElementType &
+typename HpMatrix<PS>::const_reference
 HpMatrix<PS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
@@ -151,7 +151,7 @@ HpMatrix<PS>::operator()(IndexType row, IndexType col) const
 }
 
 template <typename PS>
-typename HpMatrix<PS>::ElementType &
+typename HpMatrix<PS>::reference
 HpMatrix<PS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
@@ -286,14 +286,14 @@ HpMatrix<PS>::upLo()
 }
 
 template <typename PS>
-const typename HpMatrix<PS>::ElementType *
+typename HpMatrix<PS>::const_pointer
 HpMatrix<PS>::data() const
 {
     return engine_.data();
 }
 
 template <typename PS>
-typename HpMatrix<PS>::ElementType *
+typename HpMatrix<PS>::pointer
 HpMatrix<PS>::data()
 {
     return engine_.data();

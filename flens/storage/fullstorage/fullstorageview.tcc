@@ -114,7 +114,7 @@ FullStorageView<T, Order, I, A>::~FullStorageView()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename FullStorageView<T, Order, I, A>::ElementType &
+typename FullStorageView<T, Order, I, A>::const_reference
 FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
@@ -137,7 +137,7 @@ FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col) const
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-typename FullStorageView<T, Order, I, A>::ElementType &
+typename FullStorageView<T, Order, I, A>::reference
 FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
@@ -227,14 +227,14 @@ FullStorageView<T, Order, I, A>::strideCol() const
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename FullStorageView<T, Order, I, A>::ElementType *
+typename FullStorageView<T, Order, I, A>::const_pointer
 FullStorageView<T, Order, I, A>::data() const
 {
     return &(operator()(firstRow_, firstCol_));
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-typename FullStorageView<T, Order, I, A>::ElementType *
+typename FullStorageView<T, Order, I, A>::pointer
 FullStorageView<T, Order, I, A>::data()
 {
     return &(operator()(firstRow_, firstCol_));

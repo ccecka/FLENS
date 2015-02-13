@@ -228,7 +228,7 @@ GeMatrix<FS>::operator/=(const ElementType &alpha)
 
 template <typename FS>
 inline
-const typename GeMatrix<FS>::ElementType &
+typename GeMatrix<FS>::const_reference
 GeMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
     return engine_(row, col);
@@ -236,7 +236,7 @@ GeMatrix<FS>::operator()(IndexType row, IndexType col) const
 
 template <typename FS>
 inline
-typename GeMatrix<FS>::ElementType &
+typename GeMatrix<FS>::reference
 GeMatrix<FS>::operator()(IndexType row, IndexType col)
 {
     return engine_(row, col);
@@ -327,14 +327,14 @@ GeMatrix<FS>::cols() const
 }
 
 template <typename FS>
-const typename GeMatrix<FS>::ElementType *
+typename GeMatrix<FS>::const_pointer
 GeMatrix<FS>::data() const
 {
     return engine_.data();
 }
 
 template <typename FS>
-typename GeMatrix<FS>::ElementType *
+typename GeMatrix<FS>::pointer
 GeMatrix<FS>::data()
 {
     return engine_.data();

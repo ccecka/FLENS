@@ -51,7 +51,7 @@ TinyConstArrayView<T,n,inc,indexBase>::~TinyConstArrayView()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, int n, int inc, int indexBase>
-const typename TinyConstArrayView<T,n,inc,indexBase>::ElementType &
+typename TinyConstArrayView<T,n,inc,indexBase>::const_reference
 TinyConstArrayView<T,n,inc,indexBase>::operator()(IndexType index) const
 {
     return data_[inc*(index-indexBase)];
@@ -60,7 +60,7 @@ TinyConstArrayView<T,n,inc,indexBase>::operator()(IndexType index) const
 //-- methods -------------------------------------------------------------------
 
 template <typename T, int n, int inc, int indexBase>
-const typename TinyConstArrayView<T,n,inc,indexBase>::ElementType *
+typename TinyConstArrayView<T,n,inc,indexBase>::const_pointer
 TinyConstArrayView<T,n,inc,indexBase>::data() const
 {
     return data_;

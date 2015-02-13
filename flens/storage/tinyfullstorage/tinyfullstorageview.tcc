@@ -53,7 +53,7 @@ TinyFullStorageView<T,m,n,ldA,ib>::~TinyFullStorageView()
 //-- operators -----------------------------------------------------------------
 
 template  <typename T, int m, int n, int ldA, int ib>
-const typename TinyFullStorageView<T,m,n,ldA,ib>::ElementType &
+typename TinyFullStorageView<T,m,n,ldA,ib>::const_reference
 TinyFullStorageView<T,m,n,ldA,ib>::operator()(IndexType row,
                                               IndexType col) const
 {
@@ -63,7 +63,7 @@ TinyFullStorageView<T,m,n,ldA,ib>::operator()(IndexType row,
 }
 
 template  <typename T, int m, int n, int ldA, int ib>
-typename TinyFullStorageView<T,m,n,ldA,ib>::ElementType &
+typename TinyFullStorageView<T,m,n,ldA,ib>::reference
 TinyFullStorageView<T,m,n,ldA,ib>::operator()(IndexType row, IndexType col)
 {
     T *data = reinterpret_cast<T *>(data_)
@@ -74,14 +74,14 @@ TinyFullStorageView<T,m,n,ldA,ib>::operator()(IndexType row, IndexType col)
 //-- methods -------------------------------------------------------------------
 
 template  <typename T, int m, int n, int ldA, int ib>
-const typename TinyFullStorageView<T,m,n,ldA,ib>::ElementType *
+typename TinyFullStorageView<T,m,n,ldA,ib>::const_pointer
 TinyFullStorageView<T,m,n,ldA,ib>::data() const
 {
     return reinterpret_cast<const T *>(data_);
 }
 
 template  <typename T, int m, int n, int ldA, int ib>
-typename TinyFullStorageView<T,m,n,ldA,ib>::ElementType *
+typename TinyFullStorageView<T,m,n,ldA,ib>::pointer
 TinyFullStorageView<T,m,n,ldA,ib>::data()
 {
     return reinterpret_cast<T *>(data_);

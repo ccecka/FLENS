@@ -51,8 +51,8 @@ template <typename M>
 int
 ElementClosure<M>::operator=(const ElementType &rhs)
 {
-    typename IndexVariable::ElementType &i = row_.value();
-    typename IndexVariable::ElementType &j = col_.value();
+    typename IndexVariable::reference i = row_.value();
+    typename IndexVariable::reference j = col_.value();
 
     if (M::Engine::order==RowMajor) {
         for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
@@ -75,8 +75,8 @@ template <typename S>
 void
 ElementClosure<M>::operator=(const Scalar<S> &rhs)
 {
-    typename IndexVariable::ElementType &i = row_.value();
-    typename IndexVariable::ElementType &j = col_.value();
+    typename IndexVariable::reference i = row_.value();
+    typename IndexVariable::reference j = col_.value();
 
     if (M::Engine::order==RowMajor) {
         for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {
@@ -97,8 +97,8 @@ template <typename M>
 void
 ElementClosure<M>::operator=(const ElementClosure &rhs)
 {
-    typename IndexVariable::ElementType &i = row_.value();
-    typename IndexVariable::ElementType &j = col_.value();
+    typename IndexVariable::reference i = row_.value();
+    typename IndexVariable::reference j = col_.value();
 
     if (M::Engine::order==RowMajor) {
         for (i=matrix_.firstRow(); i<=matrix_.lastRow(); ++i) {

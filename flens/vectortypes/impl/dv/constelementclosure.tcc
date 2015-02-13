@@ -45,7 +45,7 @@ ConstElementClosure<V, I>::ConstElementClosure(const Vector &vector,
 }
 
 template <typename V, typename I>
-const typename ConstElementClosure<V, I>::ElementType &
+typename ConstElementClosure<V, I>::const_reference
 ConstElementClosure<V, I>::value() const
 {
     return vector_(index_.impl().value());

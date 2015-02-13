@@ -47,10 +47,18 @@ class ConstElementClosure
         typedef typename Vector::ElementType    ElementType;
         typedef I                               IndexVariable;
 
+        // std:: typedefs
+        typedef typename Vector::size_type        size_type;
+        typedef ElementType                       value_type;
+        typedef typename Vector::pointer          pointer;
+        typedef typename Vector::const_pointer    const_pointer;
+        typedef typename Vector::reference        reference;
+        typedef typename Vector::const_reference  const_reference;
+
         ConstElementClosure(const Vector &vector,
                             const IndexVariable &index);
 
-        const ElementType &
+        const_reference
         value() const;
 
     private:

@@ -54,7 +54,7 @@ TinyConstFullStorageView<T,m,n,ldA,ib>::~TinyConstFullStorageView()
 //-- operators -----------------------------------------------------------------
 
 template  <typename T, int m, int n, int ldA, int ib>
-const typename TinyConstFullStorageView<T,m,n,ldA,ib>::ElementType &
+typename TinyConstFullStorageView<T,m,n,ldA,ib>::const_reference
 TinyConstFullStorageView<T,m,n,ldA,ib>::operator()(
                                             IndexType row, IndexType col) const
 {
@@ -66,7 +66,7 @@ TinyConstFullStorageView<T,m,n,ldA,ib>::operator()(
 //-- methods -------------------------------------------------------------------
 
 template  <typename T, int m, int n, int ldA, int ib>
-const typename TinyConstFullStorageView<T,m,n,ldA,ib>::ElementType *
+typename TinyConstFullStorageView<T,m,n,ldA,ib>::const_pointer
 TinyConstFullStorageView<T,m,n,ldA,ib>::data() const
 {
     return reinterpret_cast<const T *>(data_);

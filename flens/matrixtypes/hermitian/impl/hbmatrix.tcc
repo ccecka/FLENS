@@ -211,7 +211,7 @@ HbMatrix<FS>::operator/=(const ElementType &alpha)
 }
 
 template <typename FS>
-const typename HbMatrix<FS>::ElementType &
+typename HbMatrix<FS>::const_reference
 HbMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
@@ -225,7 +225,7 @@ HbMatrix<FS>::operator()(IndexType row, IndexType col) const
 }
 
 template <typename FS>
-typename HbMatrix<FS>::ElementType &
+typename HbMatrix<FS>::reference
 HbMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
@@ -359,14 +359,14 @@ HbMatrix<FS>::numOffDiags() const
 }
 
 template <typename FS>
-const typename HbMatrix<FS>::ElementType *
+typename HbMatrix<FS>::const_pointer
 HbMatrix<FS>::data() const
 {
     return engine_.data();
 }
 
 template <typename FS>
-typename HbMatrix<FS>::ElementType *
+typename HbMatrix<FS>::pointer
 HbMatrix<FS>::data()
 {
     return engine_.data();

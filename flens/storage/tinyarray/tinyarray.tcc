@@ -58,7 +58,7 @@ TinyArray<T,n,ib>::~TinyArray()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, int n, int ib>
-const typename TinyArray<T,n,ib>::ElementType &
+typename TinyArray<T,n,ib>::const_reference
 TinyArray<T,n,ib>::operator()(IndexType index) const
 {
     const T *data = reinterpret_cast<const T *>(data_) - firstIndex;
@@ -66,7 +66,7 @@ TinyArray<T,n,ib>::operator()(IndexType index) const
 }
 
 template <typename T, int n, int ib>
-typename TinyArray<T,n,ib>::ElementType &
+typename TinyArray<T,n,ib>::reference
 TinyArray<T,n,ib>::operator()(IndexType index)
 {
     T *data = reinterpret_cast<T *>(data_) - firstIndex;
@@ -76,14 +76,14 @@ TinyArray<T,n,ib>::operator()(IndexType index)
 //-- methods -------------------------------------------------------------------
 
 template <typename T, int n, int ib>
-const typename TinyArray<T,n,ib>::ElementType *
+typename TinyArray<T,n,ib>::const_pointer
 TinyArray<T,n,ib>::data() const
 {
     return reinterpret_cast<const T *>(data_);
 }
 
 template <typename T, int n, int ib>
-typename TinyArray<T,n,ib>::ElementType *
+typename TinyArray<T,n,ib>::pointer
 TinyArray<T,n,ib>::data()
 {
     return reinterpret_cast<T *>(data_);

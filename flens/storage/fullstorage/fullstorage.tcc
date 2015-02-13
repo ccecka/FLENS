@@ -104,7 +104,7 @@ FullStorage<T, Order, I, A>::~FullStorage()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename FullStorage<T, Order, I, A>::ElementType &
+typename FullStorage<T, Order, I, A>::const_reference
 FullStorage<T, Order, I, A>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
@@ -127,7 +127,7 @@ FullStorage<T, Order, I, A>::operator()(IndexType row, IndexType col) const
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-typename FullStorage<T, Order, I, A>::ElementType &
+typename FullStorage<T, Order, I, A>::reference
 FullStorage<T, Order, I, A>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
@@ -217,14 +217,14 @@ FullStorage<T, Order, I, A>::strideCol() const
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename FullStorage<T, Order, I, A>::ElementType *
+typename FullStorage<T, Order, I, A>::const_pointer
 FullStorage<T, Order, I, A>::data() const
 {
     return &(operator()(firstRow_, firstCol_));
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-typename FullStorage<T, Order, I, A>::ElementType *
+typename FullStorage<T, Order, I, A>::pointer
 FullStorage<T, Order, I, A>::data()
 {
     return &(operator()(firstRow_, firstCol_));

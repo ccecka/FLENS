@@ -155,14 +155,14 @@ GeTinyMatrix<TFS>::operator/=(const ElementType &alpha)
 }
 
 template <typename TFS>
-const typename GeTinyMatrix<TFS>::ElementType &
+typename GeTinyMatrix<TFS>::const_reference
 GeTinyMatrix<TFS>::operator()(IndexType row, IndexType col) const
 {
     return engine_(row, col);
 }
 
 template <typename TFS>
-typename GeTinyMatrix<TFS>::ElementType &
+typename GeTinyMatrix<TFS>::reference
 GeTinyMatrix<TFS>::operator()(IndexType row, IndexType col)
 {
     return engine_(row, col);
@@ -212,14 +212,14 @@ GeTinyMatrix<TFS>::lastCol() const
 }
 
 template <typename TFS>
-const typename GeTinyMatrix<TFS>::ElementType *
+typename GeTinyMatrix<TFS>::const_pointer
 GeTinyMatrix<TFS>::data() const
 {
     return engine_.data();
 }
 
 template <typename TFS>
-typename GeTinyMatrix<TFS>::ElementType *
+typename GeTinyMatrix<TFS>::pointer
 GeTinyMatrix<TFS>::data()
 {
     return engine_.data();

@@ -42,6 +42,14 @@ class TinyConstFullStorageView
         typedef T    ElementType;
         typedef int  IndexType;
 
+        // std:: typedefs
+        typedef IndexType                                 size_type;
+        typedef T                                         value_type;
+        typedef value_type*                               pointer;
+        typedef const value_type*                         const_pointer;
+        typedef value_type&                               reference;
+        typedef const value_type&                         const_reference;
+
         static const int numRows = m;
         static const int numCols = n;
         static const int leadingDimension = ldA;
@@ -56,15 +64,13 @@ class TinyConstFullStorageView
 
         //-- operators ---------------------------------------------------------
 
-        const ElementType &
+        const_reference
         operator()(IndexType row, IndexType col) const;
-
 
         //-- methods -----------------------------------------------------------
 
-        const ElementType *
+        const_pointer
         data() const;
-
 
     private:
         const ElementType *data_;

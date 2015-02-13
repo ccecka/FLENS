@@ -187,7 +187,7 @@ DiagMatrix<FS>::operator/=(const ElementType &alpha)
 }
 
 template <typename FS>
-const typename DiagMatrix<FS>::ElementType &
+typename DiagMatrix<FS>::const_reference
 DiagMatrix<FS>::operator()(IndexType row, IndexType DEBUG_VAR(col)) const
 {
     ASSERT( row==col );
@@ -196,7 +196,7 @@ DiagMatrix<FS>::operator()(IndexType row, IndexType DEBUG_VAR(col)) const
 }
 
 template <typename FS>
-typename DiagMatrix<FS>::ElementType &
+typename DiagMatrix<FS>::reference
 DiagMatrix<FS>::operator()(IndexType row, IndexType DEBUG_VAR(col))
 {
     ASSERT( row==col );
@@ -268,14 +268,14 @@ DiagMatrix<FS>::leadingDimension() const
 }
 
 template <typename FS>
-const typename DiagMatrix<FS>::ElementType *
+typename DiagMatrix<FS>::const_pointer
 DiagMatrix<FS>::data() const
 {
     return engine_.data();
 }
 
 template <typename FS>
-typename DiagMatrix<FS>::ElementType *
+typename DiagMatrix<FS>::pointer
 DiagMatrix<FS>::data()
 {
     return engine_.data();

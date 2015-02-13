@@ -51,14 +51,14 @@ TinyArrayView<T,n,inc,indexBase>::~TinyArrayView()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, int n, int inc, int indexBase>
-const typename TinyArrayView<T,n,inc,indexBase>::ElementType &
+typename TinyArrayView<T,n,inc,indexBase>::const_reference
 TinyArrayView<T,n,inc,indexBase>::operator()(IndexType index) const
 {
     return data_[inc*(index-indexBase)];
 }
 
 template <typename T, int n, int inc, int indexBase>
-typename TinyArrayView<T,n,inc,indexBase>::ElementType &
+typename TinyArrayView<T,n,inc,indexBase>::reference
 TinyArrayView<T,n,inc,indexBase>::operator()(IndexType index)
 {
     return data_[inc*(index-indexBase)];
@@ -67,14 +67,14 @@ TinyArrayView<T,n,inc,indexBase>::operator()(IndexType index)
 //-- methods -------------------------------------------------------------------
 
 template <typename T, int n, int inc, int indexBase>
-const typename TinyArrayView<T,n,inc,indexBase>::ElementType *
+typename TinyArrayView<T,n,inc,indexBase>::const_pointer
 TinyArrayView<T,n,inc,indexBase>::data() const
 {
     return data_;
 }
 
 template <typename T, int n, int inc, int indexBase>
-typename TinyArrayView<T,n,inc,indexBase>::ElementType *
+typename TinyArrayView<T,n,inc,indexBase>::pointer
 TinyArrayView<T,n,inc,indexBase>::data()
 {
     return data_;

@@ -65,6 +65,14 @@ class SbMatrix
         typedef typename Engine::ElementType        ElementType;
         typedef typename Engine::IndexType          IndexType;
 
+        // std:: typedefs
+        typedef typename Engine::size_type        size_type;
+        typedef ElementType                       value_type;
+        typedef typename Engine::pointer          pointer;
+        typedef typename Engine::const_pointer    const_pointer;
+        typedef typename Engine::reference        reference;
+        typedef typename Engine::const_reference  const_reference;
+
         // view types from Engine
         typedef typename Engine::ConstView          EngineConstView;
         typedef typename Engine::View               EngineView;
@@ -145,10 +153,10 @@ class SbMatrix
         SbMatrix &
         operator/=(const ElementType &alpha);
 
-        const ElementType &
+        const_reference
         operator()(IndexType row, IndexType col) const;
 
-        ElementType &
+        reference
         operator()(IndexType row, IndexType col);
 
         // -- views ------------------------------------------------------------
@@ -207,10 +215,10 @@ class SbMatrix
         StorageOrder
         order() const;
 
-        const ElementType *
+        const_pointer
         data() const;
 
-        ElementType *
+        pointer
         data();
 
         template <typename RHS>

@@ -48,6 +48,14 @@ class ElementClosure
         typedef typename Vector::ElementType    ElementType;
         typedef typename Vector::IndexVariable  IndexVariable;
 
+        // std:: typedefs
+        typedef typename Vector::size_type        size_type;
+        typedef ElementType                       value_type;
+        typedef typename Vector::pointer          pointer;
+        typedef typename Vector::const_pointer    const_pointer;
+        typedef typename Vector::reference        reference;
+        typedef typename Vector::const_reference  const_reference;
+
         ElementClosure(Vector &vector, IndexVariable &index);
 
         //void
@@ -61,10 +69,10 @@ class ElementClosure
         void
         operator=(const ElementClosure &rhs);
 
-        const ElementType &
+        const_reference
         value() const;
 
-        ElementType &
+        reference
         value();
 
     private:

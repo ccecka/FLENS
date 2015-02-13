@@ -205,7 +205,7 @@ TbMatrix<FS>::operator/=(const ElementType &alpha)
 }
 
 template <typename FS>
-const typename TbMatrix<FS>::ElementType &
+typename TbMatrix<FS>::const_reference
 TbMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
@@ -220,7 +220,7 @@ TbMatrix<FS>::operator()(IndexType row, IndexType col) const
 }
 
 template <typename FS>
-typename TbMatrix<FS>::ElementType &
+typename TbMatrix<FS>::reference
 TbMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
@@ -378,14 +378,14 @@ TbMatrix<FS>::numSuperDiags() const
 }
 
 template <typename FS>
-const typename TbMatrix<FS>::ElementType *
+typename TbMatrix<FS>::const_pointer
 TbMatrix<FS>::data() const
 {
     return engine_.data();
 }
 
 template <typename FS>
-typename TbMatrix<FS>::ElementType *
+typename TbMatrix<FS>::pointer
 TbMatrix<FS>::data()
 {
     return engine_.data();

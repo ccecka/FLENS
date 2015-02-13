@@ -91,7 +91,7 @@ ConstBandStorageView<T, Order, I, A>::~ConstBandStorageView()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename ConstBandStorageView<T, Order, I, A>::ElementType &
+typename ConstBandStorageView<T, Order, I, A>::const_reference
 ConstBandStorageView<T, Order, I, A>::operator()(IndexType row,
                                                  IndexType col) const
 {
@@ -219,7 +219,7 @@ ConstBandStorageView<T, Order, I, A>::strideCol() const
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename ConstBandStorageView<T, Order, I, A>::ElementType *
+typename ConstBandStorageView<T, Order, I, A>::const_pointer
 ConstBandStorageView<T, Order, I, A>::data() const
 {
     return data_;

@@ -97,7 +97,7 @@ ConstPackedStorageView<T, Order, I, A>::~ConstPackedStorageView()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename ConstPackedStorageView<T, Order, I, A>::ElementType &
+typename ConstPackedStorageView<T, Order, I, A>::const_reference
 ConstPackedStorageView<T, Order, I, A>::operator()(StorageUpLo  upLo,
                                                    IndexType    row,
                                                    IndexType    col) const
@@ -157,7 +157,7 @@ ConstPackedStorageView<T, Order, I, A>::dim() const
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename ConstPackedStorageView<T, Order, I, A>::ElementType *
+typename ConstPackedStorageView<T, Order, I, A>::const_pointer
 ConstPackedStorageView<T, Order, I, A>::data() const
 {
     return data_;

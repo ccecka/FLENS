@@ -175,14 +175,14 @@ GbMatrix<FS>::operator/=(const ElementType &alpha)
 }
 
 template <typename FS>
-const typename GbMatrix<FS>::ElementType &
+typename GbMatrix<FS>::const_reference
 GbMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
     return engine_(row, col);
 }
 
 template <typename FS>
-typename GbMatrix<FS>::ElementType &
+typename GbMatrix<FS>::reference
 GbMatrix<FS>::operator()(IndexType row, IndexType col)
 {
     return engine_(row, col);
@@ -465,14 +465,14 @@ GbMatrix<FS>::order() const
 }
 
 template <typename FS>
-const typename GbMatrix<FS>::ElementType *
+typename GbMatrix<FS>::const_pointer
 GbMatrix<FS>::data() const
 {
     return engine_.data();
 }
 
 template <typename FS>
-typename GbMatrix<FS>::ElementType *
+typename GbMatrix<FS>::pointer
 GbMatrix<FS>::data()
 {
     return engine_.data();

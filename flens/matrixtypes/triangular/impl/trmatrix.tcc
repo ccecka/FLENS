@@ -147,7 +147,7 @@ TrMatrix<FS>::operator-=(const Matrix<RHS> &rhs)
 }
 
 template <typename FS>
-const typename TrMatrix<FS>::ElementType &
+typename TrMatrix<FS>::const_reference
 TrMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
@@ -162,7 +162,7 @@ TrMatrix<FS>::operator()(IndexType row, IndexType col) const
 }
 
 template <typename FS>
-typename TrMatrix<FS>::ElementType &
+typename TrMatrix<FS>::reference
 TrMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
@@ -283,14 +283,14 @@ TrMatrix<FS>::diag()
 }
 
 template <typename FS>
-const typename TrMatrix<FS>::ElementType *
+typename TrMatrix<FS>::const_pointer
 TrMatrix<FS>::data() const
 {
     return engine_.data();
 }
 
 template <typename FS>
-typename TrMatrix<FS>::ElementType *
+typename TrMatrix<FS>::pointer
 TrMatrix<FS>::data()
 {
     return engine_.data();

@@ -119,7 +119,7 @@ TpMatrix<PS>::operator=(const Matrix<RHS> &rhs)
 }
 
 template <typename PS>
-const typename TpMatrix<PS>::ElementType &
+typename TpMatrix<PS>::const_reference
 TpMatrix<PS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
@@ -134,7 +134,7 @@ TpMatrix<PS>::operator()(IndexType row, IndexType col) const
 }
 
 template <typename PS>
-typename TpMatrix<PS>::ElementType &
+typename TpMatrix<PS>::reference
 TpMatrix<PS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
@@ -283,14 +283,14 @@ TpMatrix<PS>::diag()
 }
 
 template <typename PS>
-const typename TpMatrix<PS>::ElementType *
+typename TpMatrix<PS>::const_pointer
 TpMatrix<PS>::data() const
 {
     return engine_.data();
 }
 
 template <typename PS>
-typename TpMatrix<PS>::ElementType *
+typename TpMatrix<PS>::pointer
 TpMatrix<PS>::data()
 {
     return engine_.data();

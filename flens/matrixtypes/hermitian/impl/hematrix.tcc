@@ -151,7 +151,7 @@ HeMatrix<FS>::operator-=(const Matrix<RHS> &rhs)
 }
 
 template <typename FS>
-const typename HeMatrix<FS>::ElementType &
+typename HeMatrix<FS>::const_reference
 HeMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
@@ -165,7 +165,7 @@ HeMatrix<FS>::operator()(IndexType row, IndexType col) const
 }
 
 template <typename FS>
-typename HeMatrix<FS>::ElementType &
+typename HeMatrix<FS>::reference
 HeMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
@@ -341,14 +341,14 @@ HeMatrix<FS>::lastCol() const
 }
 
 template <typename FS>
-const typename HeMatrix<FS>::ElementType *
+typename HeMatrix<FS>::const_pointer
 HeMatrix<FS>::data() const
 {
     return engine_.data();
 }
 
 template <typename FS>
-typename HeMatrix<FS>::ElementType *
+typename HeMatrix<FS>::pointer
 HeMatrix<FS>::data()
 {
     return engine_.data();

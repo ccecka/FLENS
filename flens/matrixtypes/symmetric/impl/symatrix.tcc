@@ -151,7 +151,7 @@ SyMatrix<FS>::operator-=(const Matrix<RHS> &rhs)
 }
 
 template <typename FS>
-const typename SyMatrix<FS>::ElementType &
+typename SyMatrix<FS>::const_reference
 SyMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
@@ -165,7 +165,7 @@ SyMatrix<FS>::operator()(IndexType row, IndexType col) const
 }
 
 template <typename FS>
-typename SyMatrix<FS>::ElementType &
+typename SyMatrix<FS>::reference
 SyMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
@@ -341,14 +341,14 @@ SyMatrix<FS>::lastCol() const
 }
 
 template <typename FS>
-const typename SyMatrix<FS>::ElementType *
+typename SyMatrix<FS>::const_pointer
 SyMatrix<FS>::data() const
 {
     return engine_.data();
 }
 
 template <typename FS>
-typename SyMatrix<FS>::ElementType *
+typename SyMatrix<FS>::pointer
 SyMatrix<FS>::data()
 {
     return engine_.data();

@@ -107,7 +107,7 @@ ConstFullStorageView<T, Order, I, A>::~ConstFullStorageView()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename ConstFullStorageView<T, Order, I, A>::ElementType &
+typename ConstFullStorageView<T, Order, I, A>::const_reference
 ConstFullStorageView<T, Order, I, A>::operator()(IndexType row,
                                                  IndexType col) const
 {
@@ -198,7 +198,7 @@ ConstFullStorageView<T, Order, I, A>::strideCol() const
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename ConstFullStorageView<T, Order, I, A>::ElementType *
+typename ConstFullStorageView<T, Order, I, A>::const_pointer
 ConstFullStorageView<T, Order, I, A>::data() const
 {
     return &(this->operator()(firstRow_, firstCol_));

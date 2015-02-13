@@ -150,14 +150,14 @@ TinyVector<TA>::operator/=(const ElementType &alpha)
 }
 
 template <typename TA>
-const typename TinyVector<TA>::ElementType &
+typename TinyVector<TA>::const_reference
 TinyVector<TA>::operator()(IndexType index) const
 {
     return array_(index);
 }
 
 template <typename TA>
-typename TinyVector<TA>::ElementType &
+typename TinyVector<TA>::reference
 TinyVector<TA>::operator()(IndexType index)
 {
     return array_(index);
@@ -187,14 +187,14 @@ TinyVector<TA>::lastIndex() const
 }
 
 template <typename TA>
-const typename TinyVector<TA>::ElementType *
+typename TinyVector<TA>::const_pointer
 TinyVector<TA>::data() const
 {
     return array_.data();
 }
 
 template <typename TA>
-typename TinyVector<TA>::ElementType *
+typename TinyVector<TA>::pointer
 TinyVector<TA>::data()
 {
     return array_.data();

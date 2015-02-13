@@ -200,7 +200,7 @@ SbMatrix<FS>::operator/=(const ElementType &alpha)
 }
 
 template <typename FS>
-const typename SbMatrix<FS>::ElementType &
+typename SbMatrix<FS>::const_reference
 SbMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
@@ -215,7 +215,7 @@ SbMatrix<FS>::operator()(IndexType row, IndexType col) const
 }
 
 template <typename FS>
-typename SbMatrix<FS>::ElementType &
+typename SbMatrix<FS>::reference
 SbMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
@@ -357,14 +357,14 @@ SbMatrix<FS>::order() const
 }
 
 template <typename FS>
-const typename SbMatrix<FS>::ElementType *
+typename SbMatrix<FS>::const_pointer
 SbMatrix<FS>::data() const
 {
     return engine_.data();
 }
 
 template <typename FS>
-typename SbMatrix<FS>::ElementType *
+typename SbMatrix<FS>::pointer
 SbMatrix<FS>::data()
 {
     return engine_.data();

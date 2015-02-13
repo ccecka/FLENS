@@ -59,6 +59,14 @@ class HpMatrix
         typedef typename Engine::ElementType        ElementType;
         typedef typename Engine::IndexType          IndexType;
 
+        // std:: typedefs
+        typedef typename Engine::size_type        size_type;
+        typedef ElementType                       value_type;
+        typedef typename Engine::pointer          pointer;
+        typedef typename Engine::const_pointer    const_pointer;
+        typedef typename Engine::reference        reference;
+        typedef typename Engine::const_reference  const_reference;
+
         // view types from Engine
         typedef typename Engine::ConstView          EngineConstView;
         typedef typename Engine::View               EngineView;
@@ -122,10 +130,10 @@ class HpMatrix
             HpMatrix &
             operator-=(const Matrix<RHS> &rhs);
 
-        const ElementType &
+        const_reference
         operator()(IndexType row, IndexType col) const;
 
-        ElementType &
+        reference
         operator()(IndexType row, IndexType col);
 
         HpMatrix &
@@ -172,10 +180,10 @@ class HpMatrix
         StorageUpLo &
         upLo();
 
-        const ElementType *
+        const_pointer
         data() const;
 
-        ElementType *
+        pointer
         data();
 
         StorageOrder

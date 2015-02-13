@@ -120,7 +120,7 @@ BandStorage<T, Order, I, A>::~BandStorage()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename BandStorage<T, Order, I, A>::ElementType &
+typename BandStorage<T, Order, I, A>::const_reference
 BandStorage<T, Order, I, A>::operator()(IndexType row, IndexType col) const
 {
 
@@ -146,7 +146,7 @@ BandStorage<T, Order, I, A>::operator()(IndexType row, IndexType col) const
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-typename BandStorage<T, Order, I, A>::ElementType &
+typename BandStorage<T, Order, I, A>::reference
 BandStorage<T, Order, I, A>::operator()(IndexType row, IndexType col)
 {
     using std::max;
@@ -276,7 +276,7 @@ BandStorage<T, Order, I, A>::strideCol() const
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-const typename BandStorage<T, Order, I, A>::ElementType *
+typename BandStorage<T, Order, I, A>::const_pointer
 BandStorage<T, Order, I, A>::data() const
 {
 #   ifndef NDEBUG
@@ -289,7 +289,7 @@ BandStorage<T, Order, I, A>::data() const
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-typename BandStorage<T, Order, I, A>::ElementType *
+typename BandStorage<T, Order, I, A>::pointer
 BandStorage<T, Order, I, A>::data()
 {
 #   ifndef NDEBUG
