@@ -48,22 +48,22 @@ struct ImagArray
 template <typename PT, typename I, typename A>
 struct ImagArray<Array<std::complex<PT>, I, A> >
 {
-    typedef ConstArrayView<PT, I, A>                  ConstView;
-    typedef ArrayView<PT, I, A>                       View;
+    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other> ConstView;
+    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>      View;
 };
 
 template <typename PT, typename I, typename A>
 struct ImagArray<ArrayView<std::complex<PT>, I, A> >
 {
-    typedef ConstArrayView<PT, I, A>                  ConstView;
-    typedef ArrayView<PT, I, A>                       View;
+    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other> ConstView;
+    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>      View;
 };
 
 template <typename PT, typename I, typename A>
 struct ImagArray<ConstArrayView<std::complex<PT>, I, A> >
 {
-    typedef ConstArrayView<PT, I, A>                  ConstView;
-    typedef ArrayView<PT, I, A>                       View;
+    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other> ConstView;
+    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>      View;
 };
 
 } // namespace flens
