@@ -46,14 +46,19 @@ namespace flens {
 
 template <typename T, typename I, typename A>
 Array<T, I, A>::Array()
-    : data_(), length_(0), firstIndex_(1)
+    : data_(),
+      length_(0),
+      firstIndex_(1)
 {
 }
 
 template <typename T, typename I, typename A>
 Array<T, I, A>::Array(IndexType length, IndexType firstIndex,
                       const ElementType &value, const Allocator &allocator)
-    : data_(), allocator_(allocator), length_(length), firstIndex_(firstIndex)
+    : data_(),
+      length_(length),
+      firstIndex_(firstIndex),
+      allocator_(allocator)
 {
     ASSERT(length_>=0);
 
@@ -62,8 +67,10 @@ Array<T, I, A>::Array(IndexType length, IndexType firstIndex,
 
 template <typename T, typename I, typename A>
 Array<T, I, A>::Array(const Array &rhs)
-    : data_(), allocator_(rhs.allocator()),
-      length_(rhs.length()), firstIndex_(rhs.firstIndex())
+    : data_(),
+      length_(rhs.length()),
+      firstIndex_(rhs.firstIndex()),
+      allocator_(rhs.allocator())
 {
     ASSERT(length_>=0);
 
@@ -76,8 +83,10 @@ Array<T, I, A>::Array(const Array &rhs)
 template <typename T, typename I, typename A>
 template <typename RHS>
 Array<T, I, A>::Array(const RHS &rhs)
-    : data_(), allocator_(rhs.allocator()),
-      length_(rhs.length()), firstIndex_(rhs.firstIndex())
+    : data_(),
+      length_(rhs.length()),
+      firstIndex_(rhs.firstIndex()),
+      allocator_(rhs.allocator())
 {
     if (length()>0) {
         raw_allocate_();

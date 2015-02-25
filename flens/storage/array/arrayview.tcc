@@ -47,10 +47,10 @@ ArrayView<T, I, A>::ArrayView(IndexType length, pointer data,
                               IndexType stride, IndexType firstIndex,
                               const Allocator &allocator)
     : data_(data),
-      allocator_(allocator),
       length_(length),
       stride_(stride),
-      firstIndex_(firstIndex)
+      firstIndex_(firstIndex),
+      allocator_(allocator)
 {
     ASSERT(length_>=0);
     ASSERT(stride_>0);
@@ -59,10 +59,10 @@ ArrayView<T, I, A>::ArrayView(IndexType length, pointer data,
 template <typename T, typename I, typename A>
 ArrayView<T, I, A>::ArrayView(const ArrayView &rhs)
     : data_(rhs.data_),
-      allocator_(rhs.allocator()),
       length_(rhs.length()),
       stride_(rhs.stride()),
-      firstIndex_(rhs.firstIndex())
+      firstIndex_(rhs.firstIndex()),
+      allocator_(rhs.allocator())
 {
     ASSERT(stride_>0);
 }
@@ -71,10 +71,10 @@ template <typename T, typename I, typename A>
 template <typename RHS>
 ArrayView<T, I, A>::ArrayView(RHS &rhs)
     : data_(rhs.data()),
-      allocator_(rhs.allocator()),
       length_(rhs.length()),
       stride_(rhs.stride()),
-      firstIndex_(rhs.firstIndex())
+      firstIndex_(rhs.firstIndex()),
+      allocator_(rhs.allocator())
 {
     ASSERT(stride_>0);
 }

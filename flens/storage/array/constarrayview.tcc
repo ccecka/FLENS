@@ -48,10 +48,10 @@ ConstArrayView<T, I, A>::ConstArrayView(IndexType length,
                                         IndexType firstIndex,
                                         const Allocator &allocator)
     : data_(data),
-      allocator_(allocator),
       length_(length),
       stride_(stride),
-      firstIndex_(firstIndex)
+      firstIndex_(firstIndex),
+      allocator_(allocator)
 {
     ASSERT(length_>=0);
     ASSERT(stride_>0);
@@ -60,10 +60,10 @@ ConstArrayView<T, I, A>::ConstArrayView(IndexType length,
 template <typename T, typename I, typename A>
 ConstArrayView<T, I, A>::ConstArrayView(const ConstArrayView &rhs)
     : data_(rhs.data_),
-      allocator_(rhs.allocator()),
       length_(rhs.length_),
       stride_(rhs.stride_),
-      firstIndex_(rhs.firstIndex_)
+      firstIndex_(rhs.firstIndex_),
+      allocator_(rhs.allocator())
 {
     ASSERT(stride_>0);
 }
@@ -72,10 +72,10 @@ template <typename T, typename I, typename A>
 template <typename RHS>
 ConstArrayView<T, I, A>::ConstArrayView(const RHS &rhs)
     : data_(rhs.data()),
-      allocator_(rhs.allocator()),
       length_(rhs.length()),
       stride_(rhs.stride()),
-      firstIndex_(rhs.firstIndex())
+      firstIndex_(rhs.firstIndex()),
+      allocator_(rhs.allocator())
 {
     ASSERT(stride_>0);
 }
