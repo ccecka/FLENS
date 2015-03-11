@@ -106,6 +106,9 @@ class DenseVector
             DenseVector(DenseVector<RHS> &rhs);
 
         template <typename RHS>
+            DenseVector(DenseVector<RHS> &&rhs);
+
+        template <typename RHS>
             DenseVector(const Vector<RHS> &rhs);
 
         // -- operators --------------------------------------------------------
