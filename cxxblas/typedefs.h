@@ -63,7 +63,12 @@ enum Side {
     Right = 'R'
 };
 
-enum Transpose {NoTrans=0, Conj=1, Trans=2, ConjTrans=3};
+enum Transpose {
+    NoTrans   = 0,
+    Conj      = 1,
+    Trans     = 2,
+    ConjTrans = 3
+};
 
 } // namespace cxxblas
 
