@@ -74,6 +74,8 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL3_HERK_H

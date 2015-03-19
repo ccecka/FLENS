@@ -148,6 +148,67 @@ spmv(StorageOrder order, StorageUpLo upLo,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// cspmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+spmv(StorageOrder order, StorageUpLo upLo,
+      IndexType n,
+      const ComplexFloat &alpha,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+      const ComplexFloat &beta,
+      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasSspmv");
+    
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+    }
+      
+    cublasStatus_t status = cublasSspmv(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo), 
+                                        n,
+                                        &alpha,
+                                        A.get(),
+                                        x.get(), incX,
+                                        &beta,
+                                        y.get(), incY);
+    
+    flens::checkStatus(status);
+}
+
+// zspmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+spmv(StorageOrder order, StorageUpLo upLo,
+      IndexType n,
+      const double &alpha,
+      const flens::device_ptr<const double, flens::StorageType::CUDA> A,
+      const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+      const double &beta,
+      flens::device_ptr<double, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasDspmv");
+    
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+    }
+    
+    cublasStatus_t status = cublasDspmv(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo), 
+                                        n,
+                                        &alpha,
+                                        A.get(),
+                                        x.get(), incX,
+                                        &beta,
+                                        y.get(), incY);
+    
+    flens::checkStatus(status);
+    
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_SPMV_TCC

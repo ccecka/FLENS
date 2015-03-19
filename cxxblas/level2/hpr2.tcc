@@ -176,6 +176,58 @@ hpr2(StorageOrder order, StorageUpLo upLo,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// chpr2
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    hpr2(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         float alpha,
+         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> y, IndexType incY,
+         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> A)
+{
+    CXXBLAS_DEBUG_OUT("cublasChpr2");
+    
+    ASSERT (order==ColMajor);
+
+    cublasStatus_t status = cublasChpr2(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                        n, 
+                                        reinterpret_cast<const cuFloatComplex*>(&alpha),
+                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                                        reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
+                                        reinterpret_cast<cuFloatComplex*>(A.get()));
+    
+    flens::checkStatus(status);
+}
+
+// zhpr2
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hpr2(StorageOrder order, StorageUpLo upLo,
+      IndexType n,
+      double alpha,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> y, IndexType incY,
+      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> A)
+{
+    CXXBLAS_DEBUG_OUT("cublasZhpr2");
+      
+    ASSERT (order==ColMajor);
+
+    cublasStatus_t status = cublasZhpr2(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                        n, 
+                                        reinterpret_cast<const cuDoubleComplex*>(&alpha),
+                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                                        reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
+                                        reinterpret_cast<cuDoubleComplex*>(A.get()));
+    
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_HPR2_TCC

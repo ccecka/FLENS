@@ -78,6 +78,32 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+    
+// sgbmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    sbmv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, IndexType k,
+         float alpha,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+         float beta,
+         flens::device_ptr<float, flens::StorageType::CUDA> y, IndexType incY);
+
+// dgbmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    sbmv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, IndexType k,
+         double alpha,
+         const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
+         const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+         double beta,
+         flens::device_ptr<double, flens::StorageType::CUDA> y, IndexType incY);
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_SBMV_H

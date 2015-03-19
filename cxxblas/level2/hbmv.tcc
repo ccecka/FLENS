@@ -213,6 +213,65 @@ hbmv(StorageOrder order, Transpose trans,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// chbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hbmv(StorageOrder order, StorageUpLo upLo,
+      IndexType n, IndexType k,
+      const ComplexFloat &alpha,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+      const ComplexFloat &beta,
+      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasChbmv");
+      
+    ASSERT(order==ColMajor);
+    
+    cublasStatus_t status = cublasChbmv(flens::CudaEnv::getHandle(), 
+                                        CUBLAS::getCublasType(upLo),
+                                        n, k,
+                                        reinterpret_cast<const cuFloatComplex*>(&alpha),
+                                        reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
+                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                                        reinterpret_cast<const cuFloatComplex*>(&beta),
+                                        reinterpret_cast<cuFloatComplex*>(y.get()), incY);
+    
+    flens::checkStatus(status);
+}
+
+// zhbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hbmv(StorageOrder order, StorageUpLo upLo,
+      IndexType n, IndexType k,
+      const ComplexDouble &alpha,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+      const ComplexDouble &beta,
+      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasZhbmv");
+    
+    ASSERT(order==ColMajor);
+    
+    cublasStatus_t status = cublasZhbmv(flens::CudaEnv::getHandle(), 
+                                        CUBLAS::getCublasType(upLo),
+                                        n, k,
+                                        reinterpret_cast<const cuDoubleComplex*>(&alpha),
+                                        reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
+                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                                        reinterpret_cast<const cuDoubleComplex*>(&beta),
+                                        reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
+    
+    flens::checkStatus(status);
+  
+}
+
+#endif // HAVE_CUBLAS
+
 
 } // namespace cxxblas
 

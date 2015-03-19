@@ -115,6 +115,8 @@ swap(IndexType n,
 
 #endif // HAVE_CBLAS
 
+
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_SWAP_TCC

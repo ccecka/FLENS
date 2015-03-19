@@ -158,6 +158,80 @@ her2k(StorageOrder order, StorageUpLo upLo,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// cher2k
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+her2k(StorageOrder order, StorageUpLo upLo,
+      Transpose trans,
+      IndexType n, IndexType k,
+      const ComplexFloat &alpha,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> B, IndexType ldB,
+      float beta,
+      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasZher2k");
+      
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+        trans = Transpose(trans^ConjTrans);
+        her2k(ColMajor, upLo, trans, n, k,
+              conjugate(alpha), A, ldA, B, ldB,
+              beta, C, ldC);
+        return;
+    }
+   
+      
+    cublasStatus_t status = cublasZher2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                         CUBLAS::getCublasType(trans), n, k,
+                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
+                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
+                                         reinterpret_cast<const cuFloatComplex*>(B.get()), ldB,
+                                         &beta,
+                                         reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
+    
+    flens::checkStatus(status);
+}
+
+// zher2k
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+her2k(StorageOrder order, StorageUpLo upLo,
+      Transpose trans,
+      IndexType n, IndexType k,
+      const ComplexDouble &alpha,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> B, IndexType ldB,
+      double beta,
+      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasZher2k");
+      
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+        trans = Transpose(trans^ConjTrans);
+        her2k(ColMajor, upLo, trans, n, k,
+              conjugate(alpha), A, ldA, B, ldB,
+              beta, C, ldC);
+        return;
+    }
+   
+      
+    cublasStatus_t status = cublasZher2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                         CUBLAS::getCublasType(trans), n, k,
+                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
+                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
+                                         reinterpret_cast<const cuDoubleComplex*>(B.get()), ldB,
+                                         &beta,
+                                         reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
+    
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL3_HER2K_TCC

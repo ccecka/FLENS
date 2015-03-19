@@ -118,6 +118,74 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// sdot
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    dot(IndexType n,
+        const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+        const flens::device_ptr<const float, flens::StorageType::CUDA> y, IndexType incY,
+        float &result);
+    
+// sdotu
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    dotu(IndexType n,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> y, IndexType incY,
+         float &result);
+    
+// ddot
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    dot(IndexType n,
+        const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+        const flens::device_ptr<const double, flens::StorageType::CUDA> y, IndexType incY,
+        double &result);
+
+// ddotu
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    dotu(IndexType n,
+         const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+         const flens::device_ptr<const double, flens::StorageType::CUDA> y, IndexType incY,
+         double &result);
+    
+// cdot
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    dot(IndexType n,
+        const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+        const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> y, IndexType incY, 
+        ComplexFloat &result);
+    
+// cdotu
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    dotu(IndexType n,
+         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> y, IndexType incY, 
+         ComplexFloat &result);
+    
+// zdot
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    dot(IndexType n,
+        const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+        const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> y, IndexType incY,
+        ComplexDouble &result);
+
+// zdotu
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    dotu(IndexType n,
+         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> y, IndexType incY,
+         ComplexDouble &result);
+    
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_DOT_H

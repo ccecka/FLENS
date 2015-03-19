@@ -80,6 +80,46 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// sscal
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, float alpha,
+         flens::device_ptr<float, flens::StorageType::CUDA> x, IndexType incX);
+
+// dscal
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, double alpha,
+         flens::device_ptr<double, flens::StorageType::CUDA> x, IndexType incX);
+
+// csscal
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, float alpha,
+         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> x, IndexType incX);
+    
+// cscal
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, ComplexFloat alpha,
+         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> x, IndexType incX);
+
+// zdscal
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, double alpha, 
+         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> x, IndexType incX);
+    
+// zscal
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, ComplexDouble alpha, 
+         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> x, IndexType incX);
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_SCAL_H

@@ -147,6 +147,54 @@ her(StorageOrder order,   StorageUpLo upLo,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// cher
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    her(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         float alpha,
+         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("cublasCher");
+    
+    ASSERT (order==ColMajor);
+
+    cublasStatus_t status = cublasCher(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                        n, 
+                                        &alpha,
+                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                                        reinterpret_cast<cuFloatComplex*>(A.get()), ldA);
+    
+    flens::checkStatus(status);
+}
+
+// zher
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+her(StorageOrder order, StorageUpLo upLo,
+      IndexType n,
+      double alpha,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("cublasZher");
+      
+    ASSERT (order==ColMajor);
+
+    cublasStatus_t status = cublasZher(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                        n, 
+                                        &alpha,
+                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                                        reinterpret_cast<cuDoubleComplex*>(A.get()), ldA);
+    
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_HER_TCC

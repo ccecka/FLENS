@@ -106,6 +106,87 @@ asum(IndexType n, const ComplexDouble *x, IndexType incX, double &absSum)
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// scopy
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+asum(IndexType n,
+    const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+    float &result)
+{
+    CXXBLAS_DEBUG_OUT(" cublasSasum");
+
+    cublasStatus_t status = cublasSasum(flens::CudaEnv::getHandle(), n, x, incX, &result);
+    
+    flens::checkStatus(status);
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+}
+
+
+// dasum
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+asum(IndexType n,
+    const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+    double &result)
+{
+    CXXBLAS_DEBUG_OUT("cublasDasum");
+
+    cublasStatus_t status = cublasDasum(flens::CudaEnv::getHandle(), n, 
+                                        x.get(), incX, 
+                                        &result);
+    
+    flens::checkStatus(status);
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+}
+
+
+// casum
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+asum(IndexType n,
+     const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+     float &result)
+{
+    CXXBLAS_DEBUG_OUT("cublasCasum");
+    
+    cublasStatus_t status = cublasScasum(flens::CudaEnv::getHandle(), n, 
+                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
+                                         &result);
+    
+    flens::checkStatus(status);
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+}
+
+// zasum
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+asum(IndexType n,
+    const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+    double &result)
+{
+    CXXBLAS_DEBUG_OUT("cublasDzasum");
+ 
+    cublasStatus_t status = cublasDzasum(flens::CudaEnv::getHandle(), n, 
+                                      reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
+                                      &result);
+    
+    flens::checkStatus(status);
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+  
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_ASUM_TCC

@@ -69,6 +69,28 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// chpr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    hpr(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         float alpha,
+         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> A);
+
+// zhpr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    hpr(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         double alpha,
+         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> A);
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_HPR_H

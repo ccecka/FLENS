@@ -88,6 +88,46 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// strmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmv(StorageOrder order, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType n,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
+         flens::device_ptr<float, flens::StorageType::CUDA> x, IndexType incX);
+
+// dtrmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmv(StorageOrder order, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType n,
+         const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
+         flens::device_ptr<double, flens::StorageType::CUDA> x, IndexType incX);
+
+// ctrmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmv(StorageOrder order, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType n,
+         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
+         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> x, IndexType incX);
+
+// ztrmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmv(StorageOrder order, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType n,
+         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
+         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> x, IndexType incX);
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_TRMV_H

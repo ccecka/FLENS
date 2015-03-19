@@ -183,6 +183,121 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// strsm
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+trsm(StorageOrder order, Side side, StorageUpLo upLo,
+     Transpose transA, Diag diag,
+     IndexType m, IndexType n, const float &alpha,
+     const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
+     flens::device_ptr<float, flens::StorageType::CUDA> B, IndexType ldB)
+{
+    CXXBLAS_DEBUG_OUT("cublasStrsm");
+    
+    if (order==RowMajor) {
+        side = (side==Left) ? Right : Left;
+        upLo = (upLo==Upper) ? Lower : Upper;
+        trsm(ColMajor, side, upLo, transA, diag, n, m,
+             alpha, A, ldA, B, ldB);
+        return;
+    }
+    cublasStatus_t status = cublasStrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+                                        CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
+                                        CUBLAS::getCublasType(diag),
+                                        m, n, &alpha,
+                                        A.get(), ldA,
+                                        B.get(), ldB);
+    
+    flens::checkStatus(status);
+}
+
+// dtrsm
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+trsm(StorageOrder order, Side side, StorageUpLo upLo,
+     Transpose transA, Diag diag,
+     IndexType m, IndexType n, const double &alpha,
+     const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
+     flens::device_ptr<double, flens::StorageType::CUDA> B, IndexType ldB)
+{
+    CXXBLAS_DEBUG_OUT("cublasDtrsm");
+    
+    if (order==RowMajor) {
+        side = (side==Left) ? Right : Left;
+        upLo = (upLo==Upper) ? Lower : Upper;
+        trsm(ColMajor, side, upLo, transA, diag, n, m,
+             alpha, A, ldA, B, ldB);
+        return;
+    }
+    cublasStatus_t status = cublasDtrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+                                        CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
+                                        CUBLAS::getCublasType(diag),
+                                        m, n, &alpha,
+                                        A.get(), ldA,
+                                        B.get(), ldB);
+    
+    flens::checkStatus(status);
+}
+// ctrsm
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+trsm(StorageOrder order, Side side, StorageUpLo upLo,
+     Transpose transA, Diag diag,
+     IndexType m, IndexType n, const ComplexFloat &alpha,
+     const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
+     flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> B, IndexType ldB)
+{
+    CXXBLAS_DEBUG_OUT("cublasCtrsm");
+    
+    if (order==RowMajor) {
+        side = (side==Left) ? Right : Left;
+        upLo = (upLo==Upper) ? Lower : Upper;
+        trsm(ColMajor, side, upLo, transA, diag, n, m,
+             alpha, A, ldA, B, ldB);
+        return;
+    }
+    cublasStatus_t status = cublasCtrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+                                        CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
+                                        CUBLAS::getCublasType(diag),
+                                        m, n, reinterpret_cast<const cuFloatComplex*>(&alpha),
+                                        reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
+                                        reinterpret_cast<cuFloatComplex*>(B.get()), ldB);
+    
+    flens::checkStatus(status);
+}
+
+// ztrsm
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+trsm(StorageOrder order, Side side, StorageUpLo upLo,
+     Transpose transA, Diag diag,
+     IndexType m, IndexType n, const ComplexDouble &alpha,
+     const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
+     flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> B, IndexType ldB)
+{
+    CXXBLAS_DEBUG_OUT("cublasZtrsm");
+    
+    if (order==RowMajor) {
+        side = (side==Left) ? Right : Left;
+        upLo = (upLo==Upper) ? Lower : Upper;
+        trsm(ColMajor, side, upLo, transA, diag, n, m,
+             alpha, A, ldA, B, ldB);
+        return;
+    }
+    cublasStatus_t status = cublasZtrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+                                        CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
+                                        CUBLAS::getCublasType(diag),
+                                        m, n, reinterpret_cast<const cuDoubleComplex*>(&alpha),
+                                        reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
+                                        reinterpret_cast<cuDoubleComplex*>(B.get()), ldB);
+    
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL3_TRSM_TCC

@@ -170,6 +170,75 @@ sbmv(StorageOrder order, StorageUpLo upLo,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// csbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+sbmv(StorageOrder order, StorageUpLo upLo,
+      IndexType n, IndexType k,
+      float alpha,
+      const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+      float beta,
+      flens::device_ptr<float, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasSsbmv");
+    
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+        sbmv(ColMajor, upLo, n, k, alpha, A, ldA,
+             x, incX, beta, y, incY);
+        return;
+    }
+    
+    cublasStatus_t status = cublasSsbmv(flens::CudaEnv::getHandle(), 
+                                        CUBLAS::getCublasType(upLo),
+                                        n, k,
+                                        &alpha,
+                                        A.get(), ldA,
+                                        x.get(), incX,
+                                        &beta,
+                                        y.get(), incY);
+    
+    flens::checkStatus(status);
+}
+
+// zsbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+sbmv(StorageOrder order, StorageUpLo upLo,
+      IndexType n, IndexType k,
+      double alpha,
+      const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+      double beta,
+      flens::device_ptr<double, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasDsbmv");
+    
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+        sbmv(ColMajor, upLo, n, k, alpha, A, ldA,
+             x, incX, beta, y, incY);
+        return;
+    }
+    
+    cublasStatus_t status = cublasDsbmv(flens::CudaEnv::getHandle(), 
+                                        CUBLAS::getCublasType(upLo),
+                                        n, k,
+                                        &alpha,
+                                        A.get(), ldA,
+                                        x.get(), incX,
+                                        &beta,
+                                        y.get(), incY);
+    
+    flens::checkStatus(status);
+  
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_SBMV_TCC

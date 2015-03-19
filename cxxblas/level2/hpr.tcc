@@ -150,6 +150,54 @@ hpr(StorageOrder order,   StorageUpLo upLo,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// chpr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hpr(StorageOrder order, StorageUpLo upLo,
+    IndexType n,
+    float alpha,
+    const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+    flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> A)
+{
+    CXXBLAS_DEBUG_OUT("cublasChpr");
+    
+    ASSERT (order==ColMajor);
+
+    cublasStatus_t status = cublasChpr(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                       n, 
+                                       &alpha,
+                                       reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                                       reinterpret_cast<cuFloatComplex*>(A.get()));
+    
+    flens::checkStatus(status);
+}
+
+// zhpr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hpr(StorageOrder order, StorageUpLo upLo,
+    IndexType n,
+    double alpha,
+    const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+    flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> A)
+{
+    CXXBLAS_DEBUG_OUT("cublasZhpr");
+      
+    ASSERT (order==ColMajor);
+
+    cublasStatus_t status = cublasZhpr(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                       n, 
+                                       &alpha,
+                                       reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                                       reinterpret_cast<cuDoubleComplex*>(A.get()));
+    
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_HPR_TCC

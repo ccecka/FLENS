@@ -71,6 +71,41 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// snrm2
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    nrm2(IndexType n,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+         float &result);
+
+    
+// dnrm2
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger    
+    nrm2(IndexType n,
+         const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+         double &result);
+
+    
+// cnrm2
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    nrm2(IndexType n,
+         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+         float &result);
+        
+// znrm2
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    nrm2(IndexType n,
+         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+         double &result);
+
+    
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_NRM2_H

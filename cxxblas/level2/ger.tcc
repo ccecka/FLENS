@@ -276,6 +276,175 @@ gerc(StorageOrder order,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// sger
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    ger(StorageOrder order,
+        IndexType m, IndexType n,
+        const float &alpha,
+        const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+        const flens::device_ptr<const float, flens::StorageType::CUDA> y, IndexType incY,
+        flens::device_ptr<float, flens::StorageType::CUDA> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("cublasSger");
+      
+    if (order==RowMajor) {
+        ger(ColMajor, n, m,
+            alpha, y, incY, x, incX,
+            A, ldA);
+        return;
+    } 
+    
+    cublasStatus_t status = cublasSger(flens::CudaEnv::getHandle(), 
+                                        m, n,
+                                        &alpha,
+                                        x.get(), incX,
+                                        y.get(), incY,
+                                        A.get(), ldA);
+    
+    flens::checkStatus(status);      
+}
+
+// dger
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    ger(StorageOrder order,
+        IndexType m, IndexType n,
+        const double &alpha,
+        const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+        const flens::device_ptr<const double, flens::StorageType::CUDA> y, IndexType incY,
+        flens::device_ptr<double, flens::StorageType::CUDA> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("cublasDger");
+      
+    if (order==RowMajor) {
+        ger(ColMajor, n, m,
+            alpha, y, incY, x, incX,
+            A, ldA);
+        return;
+    } 
+    
+    cublasStatus_t status = cublasDger(flens::CudaEnv::getHandle(), 
+                                        m, n,
+                                        &alpha,
+                                        x.get(), incX,
+                                        y.get(), incY,
+                                        A.get(), ldA);
+    
+    flens::checkStatus(status);      
+}
+
+// cgeru
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+ger(StorageOrder order,
+    IndexType m, IndexType n,
+    const ComplexFloat &alpha,
+    const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+    const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> y, IndexType incY,
+    flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("cublasCgeru");
+    
+    if (order==RowMajor) {
+        ger(ColMajor, n, m,
+            alpha, y, incY, x, incX,
+            A, ldA);
+        return;
+    } 
+    
+    cublasStatus_t status = cublasCgeru(flens::CudaEnv::getHandle(), 
+                                        m, n,
+                                        reinterpret_cast<const cuFloatComplex*>(&alpha),
+                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                                        reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
+                                        reinterpret_cast<cuFloatComplex*>(A.get()), ldA);
+    
+    flens::checkStatus(status);      
+}
+// zgeru
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+ger(StorageOrder order,
+    IndexType m, IndexType n,
+    const ComplexDouble &alpha,
+    const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+    const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> y, IndexType incY,
+    flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("cublasZgeru");
+    
+    if (order==RowMajor) {
+        ger(ColMajor, n, m,
+            alpha, y, incY, x, incX,
+            A, ldA);
+        return;
+    } 
+    
+    cublasStatus_t status = cublasZgeru(flens::CudaEnv::getHandle(), 
+                                        m, n,
+                                        reinterpret_cast<const cuDoubleComplex*>(&alpha),
+                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                                        reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
+                                        reinterpret_cast<cuDoubleComplex*>(A.get()), ldA);
+    
+    flens::checkStatus(status);
+    
+}
+      
+
+// cgerc
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gerc(StorageOrder order,
+     IndexType m, IndexType n,
+     const ComplexFloat &alpha,
+     const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+     const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> y, IndexType incY,
+     flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("cublasCgerc");
+    
+    ASSERT (order==ColMajor);
+
+    cublasStatus_t status = cublasCgerc(flens::CudaEnv::getHandle(), 
+                                        m, n,
+                                        reinterpret_cast<const cuFloatComplex*>(&alpha),
+                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                                        reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
+                                        reinterpret_cast<cuFloatComplex*>(A.get()), ldA);
+    
+    flens::checkStatus(status);
+}
+
+// zgerc
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gerc(StorageOrder order,
+     IndexType m, IndexType n,
+     const ComplexDouble &alpha,
+     const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+     const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> y, IndexType incY,
+     flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("cublasZgerc");
+    
+    ASSERT (order==ColMajor);
+
+    cublasStatus_t status = cublasZgerc(flens::CudaEnv::getHandle(), 
+                                        m, n,
+                                        reinterpret_cast<const cuDoubleComplex*>(&alpha),
+                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                                        reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
+                                        reinterpret_cast<cuDoubleComplex*>(A.get()), ldA);
+    
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_GER_TCC

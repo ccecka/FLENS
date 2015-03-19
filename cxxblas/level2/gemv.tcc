@@ -283,6 +283,138 @@ gemv(StorageOrder order, Transpose trans,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// sgemv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gemv(StorageOrder order, Transpose trans,
+      IndexType m, IndexType n,
+      float alpha,
+      const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+      float beta,
+      flens::device_ptr<float, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasSgemv");
+    
+    if (order==RowMajor) {
+        trans = Transpose(trans^Trans);
+        gemv(ColMajor, trans, n, m, alpha, A, ldA,
+             x, incX, beta, y, incY);
+        return;
+    }
+
+    cublasStatus_t status = cublasSgemv(flens::CudaEnv::getHandle(), 
+                                        CUBLAS::getCublasType(trans),
+                                        m,  n,
+                                        &alpha,
+                                        A.get(), ldA,
+                                        x.get(), incX,
+                                        &beta,
+                                        y.get(), incY);
+    
+    flens::checkStatus(status);
+}
+
+// dgemv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gemv(StorageOrder order, Transpose trans,
+      IndexType m, IndexType n,
+      double alpha,
+      const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+      double beta,
+      flens::device_ptr<double, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasDgemv");
+    
+    if (order==RowMajor) {
+        trans = Transpose(trans^Trans);
+        gemv(ColMajor, trans, n, m, alpha, A, ldA,
+             x, incX, beta, y, incY);
+        return;
+    }
+
+    cublasStatus_t status = cublasDgemv(flens::CudaEnv::getHandle(), 
+                                        CUBLAS::getCublasType(trans),
+                                        m,  n,
+                                        &alpha,
+                                        A.get(), ldA,
+                                        x.get(), incX,
+                                        &beta,
+                                        y.get(), incY);
+    
+    flens::checkStatus(status);
+}
+
+// cgemv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gemv(StorageOrder order, Transpose trans,
+      IndexType m, IndexType n,
+      const ComplexFloat &alpha,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+      const ComplexFloat &beta,
+      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasCgemv");
+    
+    if (order==RowMajor) {
+        trans = Transpose(trans^Trans);
+        gemv(ColMajor, trans, n, m, alpha, A, ldA,
+             x, incX, beta, y, incY);
+        return;
+    }
+
+    cublasStatus_t status = cublasCgemv(flens::CudaEnv::getHandle(), 
+                                        CUBLAS::getCublasType(trans),
+                                        m,  n,
+                                        reinterpret_cast<const cuFloatComplex*>(&alpha),
+                                        reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
+                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                                        reinterpret_cast<const cuFloatComplex*>(&beta),
+                                        reinterpret_cast<cuFloatComplex*>(y.get()), incY);
+    
+    flens::checkStatus(status);
+}
+
+// zgemv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gemv(StorageOrder order, Transpose trans,
+      IndexType m, IndexType n,
+      const ComplexDouble &alpha,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+      const ComplexDouble &beta,
+      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasZgemv");
+    
+    if (order==RowMajor) {
+        trans = Transpose(trans^Trans);
+        gemv(ColMajor, trans, n, m, alpha, A, ldA,
+             x, incX, beta, y, incY);
+        return;
+    }
+
+    cublasStatus_t status = cublasZgemv(flens::CudaEnv::getHandle(), 
+                                        CUBLAS::getCublasType(trans),
+                                        m,  n,
+                                        reinterpret_cast<const cuDoubleComplex*>(&alpha),
+                                        reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
+                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                                        reinterpret_cast<const cuDoubleComplex*>(&beta),
+                                        reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
+    
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_GEMV_TCC

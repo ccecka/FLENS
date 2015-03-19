@@ -209,6 +209,149 @@ syr2k(StorageOrder order, StorageUpLo upLo,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// csyr2k
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+syr2k(StorageOrder order, StorageUpLo upLo,
+      Transpose trans,
+      IndexType n, IndexType k,
+      const float &alpha,
+      const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const float, flens::StorageType::CUDA> B, IndexType ldB,
+      const float &beta,
+      flens::device_ptr<float, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasSsyr2k");
+      
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+        trans = Transpose(trans^ConjTrans);
+        syr2k(ColMajor, upLo, trans, n, k,
+              conjugate(alpha), A, ldA, 
+              beta, C, ldC);
+        return;
+    }
+   
+      
+    cublasStatus_t status = cublasSsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                        CUBLAS::getCublasType(trans), n, k,
+                                        &alpha,
+                                        A.get(), ldA, 
+                                        B.get(), ldB,
+                                        &beta,
+                                        C.get(), ldC);
+    
+    flens::checkStatus(status);
+}
+
+// zsyr2k
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+syr2k(StorageOrder order, StorageUpLo upLo,
+      Transpose trans,
+      IndexType n, IndexType k,
+      const double &alpha,
+      const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const double, flens::StorageType::CUDA> B, IndexType ldB,
+      const double &beta,
+      flens::device_ptr<double, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasDsyr2k");
+      
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+        trans = Transpose(trans^ConjTrans);
+        syr2k(ColMajor, upLo, trans, n, k,
+              conjugate(alpha), A, ldA, B, ldB,
+              beta, C, ldC);
+        return;
+    }
+   
+      
+    cublasStatus_t status = cublasDsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                        CUBLAS::getCublasType(trans), n, k,
+                                        &alpha,
+                                        A.get(), ldA,
+                                        B.get(), ldB,
+                                        &beta,
+                                        C.get(), ldC);
+    
+    flens::checkStatus(status);
+}
+
+// csyrk
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+syr2k(StorageOrder order, StorageUpLo upLo,
+      Transpose trans,
+      IndexType n, IndexType k,
+      const ComplexFloat &alpha,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> B, IndexType ldB,
+      const ComplexFloat &beta,
+      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasCsyrk");
+      
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+        trans = Transpose(trans^ConjTrans);
+        syr2k(ColMajor, upLo, trans, n, k,
+              conjugate(alpha), A, ldA, B, ldB,
+              beta, C, ldC);
+        return;
+    }
+   
+      
+    cublasStatus_t status = cublasCsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                         CUBLAS::getCublasType(trans), n, k,
+                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
+                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
+                                         reinterpret_cast<const cuFloatComplex*>(B.get()), ldB,
+                                         reinterpret_cast<const cuFloatComplex*>(&beta),
+                                         reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
+    
+    flens::checkStatus(status);
+}
+
+// zsyrk
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+syr2k(StorageOrder order, StorageUpLo upLo,
+      Transpose trans,
+      IndexType n, IndexType k,
+      const ComplexDouble &alpha,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> B, IndexType ldB,
+      const ComplexDouble &beta,
+      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasZsyr2k");
+      
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+        trans = Transpose(trans^ConjTrans);
+        syr2k(ColMajor, upLo, trans, n, k,
+              conjugate(alpha), A, ldA, B, ldB,
+              beta, C, ldC);
+        return;
+    }
+   
+      
+    cublasStatus_t status = cublasZsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                         CUBLAS::getCublasType(trans), n, k,
+                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
+                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
+                                         reinterpret_cast<const cuDoubleComplex*>(B.get()), ldB,
+                                         reinterpret_cast<const cuDoubleComplex*>(&beta),
+                                         reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
+    
+    flens::checkStatus(status);
+}
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL3_SYR2K_TCC

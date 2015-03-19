@@ -110,6 +110,127 @@ copy(IndexType n, const ComplexDouble *x, IndexType incX,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+template <typename IndexType, typename T>
+typename If<IndexType>::isBlasCompatibleInteger
+copy(IndexType n, 
+     const T *x, IndexType incX, 
+     flens::device_ptr<T, flens::StorageType::CUDA> y, IndexType incY)
+{
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+    
+        CXXBLAS_DEBUG_OUT("cublasSetVector [sync]");      
+        cublasStatus_t status = cublasSetVector(n, sizeof(T), x, incX, y.get(), incY);
+        flens::checkStatus(status); 
+
+    } else {
+      
+        CXXBLAS_DEBUG_OUT("cublasSetVector [async]");   
+        cublasStatus_t status = cublasSetVectorAsync(n, sizeof(T), x, incX, y.get(), incY, flens::CudaEnv::getStream());
+        flens::checkStatus(status);  
+
+    }  
+}
+
+template <typename IndexType, typename T>
+typename If<IndexType>::isBlasCompatibleInteger
+copy(IndexType n, 
+     const flens::device_ptr<const T, flens::StorageType::CUDA> x, IndexType incX, 
+     T *y, IndexType incY)
+{
+
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+      
+        CXXBLAS_DEBUG_OUT("cublasGetVector [sync]");
+        cublasStatus_t status = cublasGetVector(n, sizeof(T), x.get(), incX, y, incY);
+        flens::checkStatus(status);   
+	
+    } else {
+      
+        CXXBLAS_DEBUG_OUT("cublasGetVector [async]");
+        cublasStatus_t status = cublasGetVectorAsync(n, sizeof(T), x.get(), incX, y, incY, flens::CudaEnv::getStream());
+        flens::checkStatus(status); 
+	
+    }
+}
+
+// scopy
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+copy(IndexType n, 
+     const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX, 
+     flens::device_ptr<float, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasScopy");
+   
+    ASSERT(x.getDeviceID()==y.getDeviceID());
+
+    cublasStatus_t status = cublasScopy(flens::CudaEnv::getHandle(), n, 
+                                        x.get(), incX, 
+                                        y.get(), incY);
+    
+    flens::checkStatus(status);
+}
+
+// dcopy
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+copy(IndexType n, 
+     const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+     flens::device_ptr<double, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasDcopy");
+    
+    ASSERT(x.getDeviceID()==y.getDeviceID());  
+
+    cublasStatus_t status = cublasDcopy(flens::CudaEnv::getHandle(), n, 
+                                        x.get(), incX, 
+                                        y.get(), incY);
+    
+    flens::checkStatus(status);
+  
+}
+
+// ccopy
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+copy(IndexType n, 
+     const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+     flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasCcopy");
+    
+    ASSERT(x.getDeviceID()==y.getDeviceID());
+    
+    cublasStatus_t status = cublasCcopy(flens::CudaEnv::getHandle(), n, 
+                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
+                                        reinterpret_cast<cuFloatComplex*>(y.get()), incY);
+
+    
+    flens::checkStatus(status);
+}
+
+// zcopy
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+copy(IndexType n, 
+     const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+     flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasZcopy");
+    
+    ASSERT(x.getDeviceID()==y.getDeviceID());
+    
+    cublasStatus_t status = cublasZcopy(flens::CudaEnv::getHandle(), n, 
+                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
+                                        reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
+    
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_COPY_TCC

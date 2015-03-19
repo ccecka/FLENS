@@ -178,6 +178,88 @@ nrm2(IndexType n, const ComplexDouble *x, IndexType incX, double &norm)
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// scopy
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+nrm2(IndexType n,
+    const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+    float &result)
+{
+    CXXBLAS_DEBUG_OUT(" cublasSnrm2");
+
+    cublasStatus_t status = cublasSnrm2(flens::CudaEnv::getHandle(), n, 
+                                        x.get(), incX, &result);
+    
+    flens::checkStatus(status);
+    
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+}
+
+
+// dnrm2
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+nrm2(IndexType n,
+    const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+    double &result)
+{
+    CXXBLAS_DEBUG_OUT("cublasDnrm2");
+
+    cublasStatus_t status = cublasDnrm2(flens::CudaEnv::getHandle(), n, 
+                                        x.get(), incX, &result);
+    
+    flens::checkStatus(status);
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+}
+
+
+// cnrm2
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+nrm2(IndexType n,
+     const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+     float &result)
+{
+    CXXBLAS_DEBUG_OUT("cublasCnrm2");
+    
+    cublasStatus_t status = cublasScnrm2(flens::CudaEnv::getHandle(), n, 
+                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
+                                         &result);
+
+    
+    flens::checkStatus(status);
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+}
+
+// znrm2
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+nrm2(IndexType n,
+    const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+    double &result)
+{
+    CXXBLAS_DEBUG_OUT("cublasDznrm2");
+    
+    cublasStatus_t status = cublasDznrm2(flens::CudaEnv::getHandle(), n, 
+                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
+                                         &result);
+    
+    flens::checkStatus(status);
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_NRM2_TCC

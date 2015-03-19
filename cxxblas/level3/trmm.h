@@ -93,6 +93,50 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// strmm
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         const float &alpha,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
+         flens::device_ptr<float, flens::StorageType::CUDA> B, IndexType ldB);
+
+// dtrmm
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         const double &alpha,
+         const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
+         flens::device_ptr<double, flens::StorageType::CUDA> B, IndexType ldB);
+
+// ctrmm
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         const ComplexFloat &alpha,
+         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
+         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> B, IndexType ldB);
+
+// ztrmm
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         const ComplexDouble &alpha,
+         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
+         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> B, IndexType ldB);
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL3_TRMM_H

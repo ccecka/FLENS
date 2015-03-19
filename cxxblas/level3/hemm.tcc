@@ -140,6 +140,72 @@ hemm(StorageOrder order,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// chemm
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hemm(StorageOrder order, Side side, StorageUpLo upLo,
+      IndexType m, IndexType n,
+      const ComplexFloat &alpha,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> B, IndexType ldB,
+      const ComplexFloat &beta,
+      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasChemm");
+    
+    if (order==RowMajor) {
+        side = (side==Left) ? Right : Left;
+        upLo = (upLo==Upper) ? Lower : Upper;
+        hemm(ColMajor, side, upLo, n, m,
+             alpha, A, ldA, B, ldB, beta, C, ldC);
+        return;
+    }
+    cublasStatus_t status = cublasChemm(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(side),
+                                        CUBLAS::getCublasType(upLo),
+                                        m, n, reinterpret_cast<const cuFloatComplex*>(&alpha),
+                                        reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
+                                        reinterpret_cast<const cuFloatComplex*>(B.get()), ldB,
+                                        reinterpret_cast<const cuFloatComplex*>(&beta),
+                                        reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
+                                        
+    flens::checkStatus(status);
+}
+
+// zhemm
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hemm(StorageOrder order, Side side, StorageUpLo upLo,
+      IndexType m, IndexType n,
+      const ComplexDouble &alpha,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> B, IndexType ldB,
+      const ComplexDouble &beta,
+      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasZhemm");
+    
+    if (order==RowMajor) {
+        side = (side==Left) ? Right : Left;
+        upLo = (upLo==Upper) ? Lower : Upper;
+        hemm(ColMajor, side, upLo, n, m,
+             alpha, A, ldA, B, ldB, beta, C, ldC);
+        return;
+    }
+    cublasStatus_t status = cublasZhemm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+                                        CUBLAS::getCublasType(upLo), 
+                                        m, n, reinterpret_cast<const cuDoubleComplex*>(&alpha),
+                                        reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
+                                        reinterpret_cast<const cuDoubleComplex*>(B.get()), ldB,
+                                        reinterpret_cast<const cuDoubleComplex*>(&beta),
+                                        reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
+    
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL3_HEMM_TCC

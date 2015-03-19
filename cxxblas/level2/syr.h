@@ -69,6 +69,45 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+// ssyr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    syr(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         float alpha,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<float, flens::StorageType::CUDA> A, IndexType ldA);
+
+// dsyr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    syr(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         double alpha,
+         const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<double, flens::StorageType::CUDA> A, IndexType ldA);
+    
+// csyr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    syr(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         ComplexFloat alpha,
+         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA);
+
+// zsyr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    syr(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         ComplexDouble alpha,
+         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA);
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_SYR_H

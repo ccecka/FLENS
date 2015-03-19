@@ -75,6 +75,38 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// sswap
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    swap(IndexType n,
+         flens::device_ptr<float, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<float, flens::StorageType::CUDA> y, IndexType incY);
+
+// dswap
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    swap(IndexType n,
+         flens::device_ptr<double, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<double, flens::StorageType::CUDA> y, IndexType incY);
+
+// cswap
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    swap(IndexType n,
+         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> y, IndexType incY);
+
+// zswap
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    swap(IndexType n,
+         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> y, IndexType incY);
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_SWAP_H

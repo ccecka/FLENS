@@ -71,6 +71,41 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// sasum
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    asum(IndexType n,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+         float &result);
+
+    
+// dasum
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    asum(IndexType n,
+         const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+         double &result);
+
+    
+// casum
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    asum(IndexType n,
+         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+         float &result);
+        
+// zasum
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    asum(IndexType n,
+         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+         double &result);
+
+    
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_ASUM_H

@@ -125,6 +125,54 @@ spr(StorageOrder order,   StorageUpLo upLo,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// sspr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    spr(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         float alpha,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+         flens::device_ptr<float, flens::StorageType::CUDA> A)
+{
+    CXXBLAS_DEBUG_OUT("cublasSspr");
+    
+    ASSERT (order==ColMajor);
+
+    cublasStatus_t status = cublasSspr(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                       n, 
+                                       &alpha,
+                                       x.get(), incX,
+                                       A.get());
+    
+    flens::checkStatus(status);
+}
+
+// dspr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+spr(StorageOrder order, StorageUpLo upLo,
+      IndexType n,
+      double alpha,
+      const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+      flens::device_ptr<double, flens::StorageType::CUDA> A)
+{
+    CXXBLAS_DEBUG_OUT("cublasDspr");
+      
+    ASSERT (order==ColMajor);
+
+    cublasStatus_t status = cublasDspr(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+                                       n, 
+                                       &alpha,
+                                       x.get(), incX,
+                                       A.get());
+    
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_SPR_TCC

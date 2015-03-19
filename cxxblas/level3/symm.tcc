@@ -184,6 +184,129 @@ symm(StorageOrder order, Side side, StorageUpLo upLo,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// ssymm
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+symm(StorageOrder order, Side side, StorageUpLo upLo,
+      IndexType m, IndexType n,
+      const float &alpha,
+      const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const float, flens::StorageType::CUDA> B, IndexType ldB,
+      const float &beta,
+      flens::device_ptr<float, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasSsymm");
+    
+    if (order==RowMajor) {
+        side = (side==Left) ? Right : Left;
+        upLo = (upLo==Upper) ? Lower : Upper;
+        symm(ColMajor, side, upLo, n, m,
+             alpha, A, ldA, B, ldB, beta, C, ldC);
+        return;
+    }
+    cublasStatus_t status = cublasSsymm(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(side),
+                                        CUBLAS::getCublasType(upLo), 
+                                        m, n, &alpha,
+                                        A.get(), ldA,
+                                        B.get(), ldB,
+                                        &beta, C.get(), ldC);
+    flens::checkStatus(status);
+}
+
+// dsymm
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+symm(StorageOrder order, Side side, StorageUpLo upLo,
+      IndexType m, IndexType n,
+      const double &alpha,
+      const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const double, flens::StorageType::CUDA> B, IndexType ldB,
+      const double &beta,
+      flens::device_ptr<double, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasDsymm");
+    
+    if (order==RowMajor) {
+        side = (side==Left) ? Right : Left;
+        upLo = (upLo==Upper) ? Lower : Upper;
+        symm(ColMajor, side, upLo, n, m,
+             alpha, A, ldA, B, ldB, beta, C, ldC);
+        return;
+    }
+    cublasStatus_t status = cublasDsymm(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(side),
+                                        CUBLAS::getCublasType(upLo), 
+                                        m, n, &alpha,
+                                        A.get(), ldA,
+                                        B.get(), ldB,
+                                        &beta, C.get(), ldC);  
+    flens::checkStatus(status);
+}
+// csymm
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+symm(StorageOrder order, Side side, StorageUpLo upLo,
+      IndexType m, IndexType n,
+      const ComplexFloat &alpha,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> B, IndexType ldB,
+      const ComplexFloat &beta,
+      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasCsymm");
+    
+    if (order==RowMajor) {
+        side = (side==Left) ? Right : Left;
+        upLo = (upLo==Upper) ? Lower : Upper;
+        symm(ColMajor, side, upLo, n, m,
+             alpha, A, ldA, B, ldB, beta, C, ldC);
+        return;
+    }
+    cublasStatus_t status = cublasCsymm(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(side),
+                                        CUBLAS::getCublasType(upLo),
+                                        m, n, reinterpret_cast<const cuFloatComplex*>(&alpha),
+                                        reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
+                                        reinterpret_cast<const cuFloatComplex*>(B.get()), ldB,
+                                        reinterpret_cast<const cuFloatComplex*>(&beta),
+                                        reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
+                                        
+    flens::checkStatus(status);
+}
+
+// zsymm
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+symm(StorageOrder order, Side side, StorageUpLo upLo,
+      IndexType m, IndexType n,
+      const ComplexDouble &alpha,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
+      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> B, IndexType ldB,
+      const ComplexDouble &beta,
+      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> C, IndexType ldC)
+{
+    CXXBLAS_DEBUG_OUT("cublasZsymm");
+    
+    if (order==RowMajor) {
+        side = (side==Left) ? Right : Left;
+        upLo = (upLo==Upper) ? Lower : Upper;
+        symm(ColMajor, side, upLo, n, m,
+             alpha, A, ldA, B, ldB, beta, C, ldC);
+        return;
+    }
+    cublasStatus_t status = cublasZsymm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+                                        CUBLAS::getCublasType(upLo), 
+                                        m, n, reinterpret_cast<const cuDoubleComplex*>(&alpha),
+                                        reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
+                                        reinterpret_cast<const cuDoubleComplex*>(B.get()), ldB,
+                                        reinterpret_cast<const cuDoubleComplex*>(&beta),
+                                        reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
+    
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL3_SYMM_TCC

@@ -124,6 +124,8 @@ scal(IndexType n, double alpha, ComplexDouble *x, IndexType incX)
 
 #endif // HAVE_CBLAS
 
+
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_SCAL_TCC

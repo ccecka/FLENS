@@ -71,6 +71,30 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+// sspr2
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    spr2(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         float alpha,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+         const flens::device_ptr<const float, flens::StorageType::CUDA> y, IndexType incY,
+         flens::device_ptr<float, flens::StorageType::CUDA> A);
+
+// dspr2
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    spr2(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         double alpha,
+         const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+         const flens::device_ptr<const double, flens::StorageType::CUDA> y, IndexType incY,
+         flens::device_ptr<double, flens::StorageType::CUDA> A);
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_SPR2_H
