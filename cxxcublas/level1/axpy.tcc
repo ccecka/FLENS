@@ -124,7 +124,6 @@ axpy(IndexType n, float alpha,
 {
     CXXBLAS_DEBUG_OUT(" cublasSaxpy");
     
-    ASSERT(x.getDeviceID()==y.getDeviceID());
 
     cublasStatus_t status = cublasSaxpy(flens::CudaEnv::getHandle(), 
                                         n, &alpha, 
@@ -144,7 +143,6 @@ axpy(IndexType n, double alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasDaxpy");
     
-    ASSERT(x.getDeviceID()==y.getDeviceID());
 
     cublasStatus_t status = cublasDaxpy(flens::CudaEnv::getHandle(), 
                                         n, &alpha, 
@@ -164,7 +162,6 @@ axpy(IndexType n, ComplexFloat alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasCaxpy");
 
-    ASSERT(x.getDeviceID()==y.getDeviceID());
 
     cublasStatus_t status = cublasCaxpy(flens::CudaEnv::getHandle(), n, reinterpret_cast<cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
@@ -183,7 +180,6 @@ axpy(IndexType n, ComplexDouble alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasZaxpy");
 
-    ASSERT(x.getDeviceID()==y.getDeviceID());
     
     cublasStatus_t status = cublasZaxpy(flens::CudaEnv::getHandle(), n, reinterpret_cast<cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 

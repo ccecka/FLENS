@@ -35,6 +35,7 @@
 
 #include <cxxblas/auxiliary/complex.h>
 #include <cxxblas/auxiliary/complextrait.h>
+#include <cxxblas/auxiliary/cuda.h>
 #include <cxxblas/auxiliary/debugmacro.h>
 #include <cxxblas/auxiliary/fakeuse.h>
 #include <cxxblas/auxiliary/iscomplex.h>

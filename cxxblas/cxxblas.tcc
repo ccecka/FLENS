@@ -33,8 +33,9 @@
 #ifndef CXXBLAS_CXXBLAS_TCC
 #define CXXBLAS_CXXBLAS_TCC 1
 
-#include <cxxblas/auxiliary/auxiliary.tcc>
 #include <cxxblas/drivers/drivers.tcc>
+
+#include <cxxblas/auxiliary/auxiliary.tcc>
 
 #include <cxxblas/level1/level1.tcc>
 #include <cxxblas/level1extensions/level1extensions.tcc>

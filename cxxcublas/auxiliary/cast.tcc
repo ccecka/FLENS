@@ -85,7 +85,6 @@ template <typename T>
 flens::device_ptr<T, flens::StorageType::CUDA>
 cast_ptr_to_real(flens::device_ptr<std::complex<T>, flens::StorageType::CUDA> x)
 {
-    flens::device_ptr<T, flens::StorageType::CUDA> ptr(reinterpret_cast<T*>(x.get()), x.getDeviceID());
     return ptr; 
 }
 
@@ -101,7 +100,6 @@ template <typename T>
 flens::device_ptr<T, flens::StorageType::CUDA>
 cast_ptr_to_imag(flens::device_ptr<std::complex<T>, flens::StorageType::CUDA> x)
 {
-    flens::device_ptr<T, flens::StorageType::CUDA> ptr(reinterpret_cast<T*>(x.get())+1, x.getDeviceID());
     return ptr; 
 }
 

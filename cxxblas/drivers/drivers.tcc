@@ -193,6 +193,63 @@ getCblasType(ENUM diag)
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+namespace CUBLAS {
+
+//TODO: rename these to getCblasEnum
+
+template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,Transpose>::value, cublasOperation_t>::Type
+getCublasType(ENUM trans)
+{
+    if (trans==NoTrans) {
+        return CUBLAS_OP_N;
+    }
+    if (trans==Conj) {
+        ASSERT(0);
+//         return CUBLAS_OP_R;
+    }
+    if (trans==Trans) {
+        return CUBLAS_OP_T;
+    }
+    return CUBLAS_OP_C;
+}
+
+template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,StorageUpLo>::value, cublasFillMode_t>::Type
+getCublasType(ENUM upLo)
+{
+    if (upLo==Upper) {
+        return CUBLAS_FILL_MODE_UPPER;
+    }
+    return CUBLAS_FILL_MODE_LOWER;
+}
+
+template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,Side>::value, cublasSideMode_t>::Type
+getCublasType(ENUM side)
+{
+    if (side==Left) {
+        return CUBLAS_SIDE_LEFT;
+    }
+    return CUBLAS_SIDE_RIGHT;
+}
+
+template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,Diag>::value, cublasDiagType_t>::Type
+getCublasType(ENUM diag)
+{
+    if (diag==Unit) {
+        return CUBLAS_DIAG_UNIT;
+    }
+    return CUBLAS_DIAG_NON_UNIT;
+}
+
+} // namespace CUBLAS
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_DRIVERS_DRIVERS_TCC

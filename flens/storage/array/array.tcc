@@ -76,7 +76,7 @@ Array<T, I, A>::Array(const Array &rhs)
 
     if (length()>0) {
         raw_allocate_();
-        cxxblas::copy(length(), raw_pointer_cast(rhs.data()), rhs.stride(), raw_pointer_cast(data()), stride());
+        cxxblas::copy(length(), rhs.data(), rhs.stride(), data(), stride());
     }
 }
 
@@ -90,7 +90,7 @@ Array<T, I, A>::Array(const RHS &rhs)
 {
     if (length()>0) {
         raw_allocate_();
-        cxxblas::copy(length(), raw_pointer_cast(rhs.data()), rhs.stride(), raw_pointer_cast(data()), stride());
+        cxxblas::copy(length(), rhs.data(), rhs.stride(), data(), stride());
     }
 }
 

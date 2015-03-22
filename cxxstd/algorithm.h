@@ -15,7 +15,6 @@ namespace alg {
   using thrust::uninitialized_fill;
   using thrust::uninitialized_fill_n;
 }
-  using thrust::raw_pointer_cast;
 }
 
 #else
@@ -27,12 +26,6 @@ namespace alg {
   using std::uninitialized_fill;
   using std::uninitialized_fill_n;
 }
-  template <typename T>
-  inline T* raw_pointer_cast(T* t)
-  { return t; }
-  template <typename T>
-  inline const T* raw_pointer_cast(const T* t)
-  { return t; }
 }
 
 #endif

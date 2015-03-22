@@ -164,7 +164,6 @@ copy(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasScopy");
    
-    ASSERT(x.getDeviceID()==y.getDeviceID());
 
     cublasStatus_t status = cublasScopy(flens::CudaEnv::getHandle(), n, 
                                         x.get(), incX, 
@@ -182,7 +181,6 @@ copy(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasDcopy");
     
-    ASSERT(x.getDeviceID()==y.getDeviceID());  
 
     cublasStatus_t status = cublasDcopy(flens::CudaEnv::getHandle(), n, 
                                         x.get(), incX, 
@@ -201,7 +199,6 @@ copy(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasCcopy");
     
-    ASSERT(x.getDeviceID()==y.getDeviceID());
     
     cublasStatus_t status = cublasCcopy(flens::CudaEnv::getHandle(), n, 
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
@@ -220,7 +217,6 @@ copy(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasZcopy");
     
-    ASSERT(x.getDeviceID()==y.getDeviceID());
     
     cublasStatus_t status = cublasZcopy(flens::CudaEnv::getHandle(), n, 
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 

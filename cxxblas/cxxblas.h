@@ -33,9 +33,11 @@
 #ifndef CXXBLAS_CXXBLAS_H
 #define CXXBLAS_CXXBLAS_H 1
 
-#include <cxxblas/auxiliary/auxiliary.h>
+// Drivers include first
 #include <cxxblas/drivers/drivers.h>
+
 #include <cxxblas/typedefs.h>
+#include <cxxblas/auxiliary/auxiliary.h>
 
 #include <cxxblas/level1/level1.h>
 #include <cxxblas/level1extensions/level1extensions.h>

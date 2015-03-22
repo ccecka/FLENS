@@ -123,7 +123,6 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasSswap");
     
-    ASSERT(x.getDeviceID()==y.getDeviceID());
 
     cublasStatus_t status = cublasSswap(flens::CudaEnv::getHandle(), n,
                                         x.get(), incX, 
@@ -141,7 +140,6 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasDswap");
     
-    ASSERT(x.getDeviceID()==y.getDeviceID());
 
     cublasStatus_t status = cublasDswap(flens::CudaEnv::getHandle(), n,
                                         x.get(), incX, 
@@ -159,7 +157,6 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasCswap");
     
-    ASSERT(x.getDeviceID()==y.getDeviceID());
     
     cublasStatus_t status = cublasCswap(flens::CudaEnv::getHandle(), n, 
                                         reinterpret_cast<cuFloatComplex*>(x.get()), incX, 
@@ -178,7 +175,6 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasZswap");
     
-    ASSERT(x.getDeviceID()==y.getDeviceID());
     
     cublasStatus_t status = cublasZswap(flens::CudaEnv::getHandle(), n, 
                                         reinterpret_cast<cuDoubleComplex*>(x.get()), incX, 

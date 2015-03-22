@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include <thrust/device_allocator.h>
+#include <thrust/device_malloc_allocator.h>
 
 #include "flens/flens.cxx"
 
@@ -10,13 +10,15 @@ using namespace flens;
 using namespace std;
 
 template <typename T, typename I = IndexOptions<> >
-using ThrustArray = Array<T,I,thrust::device_allocator<T> >;
+using ThrustArray = Array<T,I,thrust::device_malloc_allocator<T> >;
 
 
 int main() {
   typedef DenseVector<ThrustArray<double> >   DenseVector;
 
   typedef DenseVector::IndexType        IndexType;
+
+  flens::CudaEnv::init();
 
   DenseVector x(4);
 

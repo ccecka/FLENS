@@ -49,20 +49,14 @@
 #   include <cxxblas/drivers/mklblas.h>
 #elif defined (WITH_REFBLAS)
 #   include <cxxblas/drivers/refblas.h>
-#elif defined (WITH_NVBLAS)
-#   include <cxxblas/drivers/nvblas.h>
-#elif defined (WITH_CUBLAS)
-#   include <cxxblas/drivers/cublas_driver.h>
 #endif
 
+#if defined (WITH_CUBLAS)
+#   include <cxxblas/drivers/cublas.h>
+#endif
 
 #ifdef HAVE_CBLAS
 #include <cxxblas/drivers/cblas.h>
-#endif
-
-// XXX: Hack. CUBLAS defines its own CBLAS forwards
-#if defined (WITH_CUBLAS)
-#define HAVE_CBLAS 1
 #endif
 
 #ifdef HAVE_SPARSEBLAS
@@ -152,6 +146,32 @@ template <typename ENUM>
 } // namespace CBLAS
 
 #endif // HAVE_CBLAS
+
+#ifdef HAVE_CUBLAS
+
+namespace CUBLAS {
+
+//TODO: rename these to getCublasEnum
+
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,Transpose>::value, cublasOperation_t>::Type
+    getCublasType(ENUM trans);
+
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,StorageUpLo>::value, cublasFillMode_t>::Type
+    getCublasType(ENUM upLo);
+
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,Side>::value, cublasSideMode_t>::Type
+    getCublasType(ENUM side);
+
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,Diag>::value, cublasDiagType_t>::Type
+    getCublasType(ENUM diag);
+
+} // namespace CUBLAS
+
+#endif // HAVE_CUBLAS
 
 } // namespace cxxblas
 
