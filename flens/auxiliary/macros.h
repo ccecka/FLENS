@@ -37,8 +37,7 @@ namespace flens {
 
 template <typename T>
 const T* raw_pointer_cast(const T* x) {
-  using flens::raw_pointer_cast;
-  return raw_pointer_cast(x);
+  return x;
 }
 
 template <typename T>
