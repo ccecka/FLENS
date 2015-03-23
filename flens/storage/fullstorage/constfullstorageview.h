@@ -87,7 +87,7 @@ class ConstFullStorageView
         typedef flens::Array<T, I, A>                 Array;
 
         ConstFullStorageView(IndexType numRows, IndexType numCols,
-                             const ElementType *data,
+                             const_pointer data,
                              IndexType leadingDimension,
                              IndexType firstRow = I::defaultIndexBase,
                              IndexType firstCol = I::defaultIndexBase,
@@ -196,7 +196,7 @@ class ConstFullStorageView
                      IndexType firstViewIndex = I::defaultIndexBase) const;
 
     private:
-        const ElementType    *data_;
+        const_pointer        data_;
         Allocator            allocator_;
         IndexType            numRows_, numCols_;
         IndexType            leadingDimension_;

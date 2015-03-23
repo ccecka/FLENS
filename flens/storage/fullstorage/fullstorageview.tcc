@@ -43,7 +43,7 @@ namespace flens {
 template <typename T, StorageOrder Order, typename I, typename A>
 FullStorageView<T, Order, I, A>::FullStorageView(IndexType numRows,
                                                  IndexType numCols,
-                                                 ElementType *data,
+                                                 pointer data,
                                                  IndexType leadingDimension,
                                                  IndexType firstRow,
                                                  IndexType firstCol,

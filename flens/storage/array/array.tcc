@@ -262,12 +262,12 @@ template <typename T, typename I, typename A>
 void
 Array<T, I, A>::raw_allocate_()
 {
-    ASSERT(data_ == pointer());
+    ASSERT(data_==pointer());
     ASSERT(length()>=0);
 
     if (length()>0) {
         data_ = allocator_.allocate(length_);
-        ASSERT(data_ != pointer());
+        ASSERT(data_!=pointer());
     }
 }
 
@@ -291,7 +291,7 @@ Array<T, I, A>::release_()
         allocator_.deallocate(data(), length());
         data_ = pointer();
     }
-    ASSERT(data_ == pointer());
+    ASSERT(data_==pointer());
 }
 
 //-- Array specific functions --------------------------------------------------

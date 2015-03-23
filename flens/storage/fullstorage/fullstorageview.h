@@ -86,7 +86,7 @@ class FullStorageView
         typedef flens::Array<T, I, A>                 Array;
 
         FullStorageView(IndexType numRows, IndexType numCols,
-                        ElementType *data,
+                        pointer data,
                         IndexType leadingDimension,
                         IndexType firstRow = I::defaultIndexBase,
                         IndexType firstCol = I::defaultIndexBase,
@@ -256,7 +256,7 @@ class FullStorageView
                      IndexType firstViewIndex = I::defaultIndexBase);
 
     private:
-        ElementType  *data_;
+        pointer      data_;
         Allocator    allocator_;
         IndexType    numRows_, numCols_;
         IndexType    leadingDimension_;

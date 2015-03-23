@@ -33,11 +33,36 @@
 #ifndef FLENS_AUXILIARY_MACROS_H
 #define FLENS_AUXILIARY_MACROS_H 1
 
+namespace flens {
+
+template <typename T>
+const T* raw_pointer_cast(const T* x) {
+  using flens::raw_pointer_cast;
+  return raw_pointer_cast(x);
+}
+
+template <typename T>
+const void* RAWPOINTER(T x) {
+  using flens::raw_pointer_cast;   // Allow for ADL lookup on pointer types
+  return reinterpret_cast<const void*>(raw_pointer_cast(x));
+}
+
+template <typename T>
+const void* ADDRESS(const T& x) {
+  // std::addressof clone
+  return reinterpret_cast<const void*>(
+            &const_cast<char&>(
+                reinterpret_cast<const volatile char&>(x)));
+}
+
+}
+
+
 //-- ADDRESS -------------------------------------------------------------------
-#define ADDRESS(x) reinterpret_cast<const void *>(&x)
+//#define ADDRESS(x) reinterpret_cast<const void*>(x)
 
 //-- RAWPOINTER ----------------------------------------------------------------
-#define RAWPOINTER(x) reinterpret_cast<const void *>(x)
+//#define RAWPOINTER(x) reinterpret_cast<const void *>(x)
 
 //-- ASSERT -------------------------------------------------------------------
 #include <cxxstd/cassert.h>

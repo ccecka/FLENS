@@ -45,7 +45,7 @@ namespace flens {
 
 template <typename T, StorageOrder Order, typename I, typename A>
 FullStorage<T, Order, I, A>::FullStorage()
-    :  data_(0),
+    :  data_(),
        numRows_(0), numCols_(0),
        firstRow_(I::defaultIndexBase), firstCol_(I::defaultIndexBase)
 {
@@ -56,7 +56,7 @@ FullStorage<T, Order, I, A>::FullStorage(IndexType numRows, IndexType numCols,
                                          IndexType firstRow, IndexType firstCol,
                                          const ElementType &value,
                                          const Allocator &allocator)
-    : data_(0), allocator_(allocator),
+    : data_(), allocator_(allocator),
       numRows_(numRows), numCols_(numCols),
       firstRow_(firstRow), firstCol_(firstCol)
 {
@@ -68,7 +68,7 @@ FullStorage<T, Order, I, A>::FullStorage(IndexType numRows, IndexType numCols,
 
 template <typename T, StorageOrder Order, typename I, typename A>
 FullStorage<T, Order, I, A>::FullStorage(const FullStorage &rhs)
-    : data_(0), allocator_(rhs.allocator()),
+    : data_(), allocator_(rhs.allocator()),
       numRows_(rhs.numRows()), numCols_(rhs.numCols()),
       firstRow_(rhs.firstRow()), firstCol_(rhs.firstCol())
 {
@@ -83,7 +83,7 @@ FullStorage<T, Order, I, A>::FullStorage(const FullStorage &rhs)
 template <typename T, StorageOrder Order, typename I, typename A>
 template <typename RHS>
 FullStorage<T, Order, I, A>::FullStorage(const RHS &rhs)
-    : data_(0), allocator_(rhs.allocator()),
+    : data_(), allocator_(rhs.allocator()),
       numRows_(rhs.numRows()), numCols_(rhs.numCols()),
       firstRow_(rhs.firstRow()), firstCol_(rhs.firstCol())
 {
@@ -113,7 +113,7 @@ FullStorage<T, Order, I, A>::operator()(IndexType row, IndexType col) const
         ASSERT(row<firstRow_+numRows_);
         ASSERT(col>=firstCol_);
         ASSERT(col<firstCol_+numCols_);
-        ASSERT(data_);
+        ASSERT(data_!=pointer());
     } else {
         ASSERT(row==firstRow_);
         ASSERT(col==firstCol_);
@@ -122,8 +122,9 @@ FullStorage<T, Order, I, A>::operator()(IndexType row, IndexType col) const
 
     if (Order==ColMajor) {
         return data_[col*numRows_+row];
+    } else {
+        return data_[row*numCols_+col];
     }
-    return data_[row*numCols_+col];
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -136,7 +137,7 @@ FullStorage<T, Order, I, A>::operator()(IndexType row, IndexType col)
         ASSERT(row<firstRow_+numRows_);
         ASSERT(col>=firstCol_);
         ASSERT(col<firstCol_+numCols_);
-        ASSERT(data_);
+        ASSERT(data_!=pointer());
     } else {
         ASSERT(row==firstRow_);
         ASSERT(col==firstCol_);
@@ -145,8 +146,9 @@ FullStorage<T, Order, I, A>::operator()(IndexType row, IndexType col)
 
     if (Order==ColMajor) {
         return data_[col*numRows_+row];
-    }
-    return data_[row*numCols_+col];
+    } else {
+        return data_[row*numCols_+col];
+		}
 }
 
 //-- Methods -------------------------------------------------------------------
@@ -289,7 +291,7 @@ template <typename T, StorageOrder Order, typename I, typename A>
 bool
 FullStorage<T, Order, I, A>::fill(const ElementType &value)
 {
-    ASSERT(data_);
+    ASSERT(data_!=pointer());
     std::fill_n(data(), numRows()*numCols(), value);
     return true;
 }
@@ -299,7 +301,7 @@ bool
 FullStorage<T, Order, I, A>::fill(StorageUpLo  upLo,
                                   const ElementType &value)
 {
-    ASSERT(data_);
+    ASSERT(data_!=pointer());
 
     trapezoidalFill(order, upLo, value,
                     numRows(), numCols(),
@@ -742,16 +744,16 @@ template <typename T, StorageOrder Order, typename I, typename A>
 void
 FullStorage<T, Order, I, A>::raw_allocate_()
 {
-    ASSERT(!data_);
+    ASSERT(data_ == pointer());
     ASSERT(numRows_>0);
     ASSERT(numCols_>0);
 
     data_ = allocator_.allocate(numRows_*numCols_);
 #ifndef NDEBUG
-    ElementType *p = data_;
+    pointer p = data_;
 #endif
     setIndexBase_(firstRow_, firstCol_);
-    ASSERT(data_);
+    ASSERT(data_!=pointer());
 #ifndef NDEBUG
     ASSERT(p==data());
 #endif
@@ -768,25 +770,22 @@ FullStorage<T, Order, I, A>::allocate_(const ElementType &value)
     }
 
     raw_allocate_();
-    T *p = data();
-    for (IndexType i=0; i<numElements; ++i, ++p) {
-        allocator_.construct(p, value);
-    }
+    flens::alg::uninitialized_fill_n(data(), numElements, value);
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 void
 FullStorage<T, Order, I, A>::release_()
 {
-    if (data_) {
-        T *p = data();
-        for (IndexType i=0; i<numRows()*numCols(); ++i, ++p) {
-            allocator_.destroy(p);
-        }
+    if (data_ != pointer()) {
+        pointer p = data();
+        //for (IndexType i=0; i<numRows()*numCols(); ++i, ++p) {
+        //    allocator_.destroy(p);
+        //}
         allocator_.deallocate(data(), numRows()*numCols());
-        data_ = 0;
+        data_ = pointer();
     }
-    ASSERT(data_==0);
+    ASSERT(data_==pointer());
 }
 
 
@@ -800,11 +799,11 @@ template <typename T, StorageOrder Order, typename I, typename Allocator>
 bool
 fillRandom(FullStorage<T, Order, I, Allocator> &A)
 {
-    typedef typename FullStorage<T,Order,I,Allocator>::ElementType  ElementType;
+    typedef typename FullStorage<T,Order,I,Allocator>::pointer      pointer;
     typedef typename FullStorage<T,Order,I,Allocator>::IndexType    IndexType;
 
-    ElementType *data = A.data();
-    ASSERT(data);
+    pointer data = A.data();
+    ASSERT(data!=pointer());
     for (IndexType i=0; i<A.numRows()*A.numCols(); ++i) {
         data[i] = randomValue<T>();
     }

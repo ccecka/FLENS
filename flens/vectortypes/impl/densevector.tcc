@@ -79,7 +79,7 @@ DenseVector<A>::DenseVector(const Engine &engine, bool reverse)
 
 template <typename A>
 DenseVector<A>::DenseVector(const DenseVector &rhs)
-    : Vector<DenseVector>(), array_(rhs.array_), stride_(rhs.stride_)
+    : array_(rhs.array_), stride_(rhs.stride_)
 {
 }
 

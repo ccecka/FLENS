@@ -268,7 +268,7 @@ class FullStorage
         void
         release_();
 
-        ElementType  *data_;
+        pointer      data_;
         Allocator    allocator_;
         IndexType    numRows_, numCols_;
         IndexType    firstRow_, firstCol_;

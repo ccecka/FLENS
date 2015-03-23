@@ -41,7 +41,7 @@ namespace flens {
 template <typename T, StorageOrder Order, typename I, typename A>
 ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(
                                         IndexType numRows, IndexType numCols,
-                                        const ElementType *data,
+                                        const_pointer data,
                                         IndexType leadingDimension,
                                         IndexType firstRow,
                                         IndexType firstCol,
@@ -126,8 +126,9 @@ ConstFullStorageView<T, Order, I, A>::operator()(IndexType row,
 
     if (Order==ColMajor) {
         return data_[col*leadingDimension_+row];
-    }
-    return data_[row*leadingDimension_+col];
+    } else {
+        return data_[row*leadingDimension_+col];
+		}
 }
 
 //-- methods -------------------------------------------------------------------
