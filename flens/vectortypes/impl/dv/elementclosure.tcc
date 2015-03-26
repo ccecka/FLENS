@@ -48,7 +48,7 @@ template <typename V>
 int
 ElementClosure<V>::operator=(const ElementType &rhs)
 {
-    typename IndexVariable::reference i = index_.value();
+    typename IndexVariable::ElementType &i = index_.value();
 
     for (i=vector_.firstIndex(); i<=vector_.lastIndex(); ++i) {
         value() = rhs;
@@ -61,7 +61,7 @@ template <typename S>
 void
 ElementClosure<V>::operator=(const Scalar<S> &rhs)
 {
-    typename IndexVariable::reference i = index_.value();
+    typename IndexVariable::ElementType &i = index_.value();
 
     for (i=vector_.firstIndex(); i<=vector_.lastIndex(); ++i) {
         value() = rhs.impl().value();
@@ -72,7 +72,7 @@ template <typename V>
 void
 ElementClosure<V>::operator=(const ElementClosure &rhs)
 {
-    typename IndexVariable::reference i = index_.value();
+    typename IndexVariable::ElementType &i = index_.value();
 
     for (i=vector_.firstIndex(); i<=vector_.lastIndex(); ++i) {
         value() = rhs.impl().value();

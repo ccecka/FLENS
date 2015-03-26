@@ -304,7 +304,6 @@ template <typename T, typename I, typename A>
 bool
 fillRandom(Array<T, I, A> &x)
 {
-    typedef typename Array<T,I,A>::ElementType  ElementType;
     typedef typename Array<T,I,A>::IndexType    IndexType;
 
     for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {

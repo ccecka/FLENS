@@ -49,25 +49,25 @@ struct RealArray
 template <typename T, typename I, typename A>
 struct RealArray<Array<T, I, A> >
 {
-    typedef typename ComplexTrait<T>::PrimitiveType   PT;
-    typedef ConstArrayView<PT, I, A>                  ConstView;
-    typedef ArrayView<PT, I, A>                       View;
+    typedef typename ComplexTrait<T>::PrimitiveType                        PT;
+    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other>  ConstView;
+    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>       View;
 };
 
 template <typename T, typename I, typename A>
 struct RealArray<ArrayView<T, I, A> >
 {
-    typedef typename ComplexTrait<T>::PrimitiveType   PT;
-    typedef ConstArrayView<PT, I, A>                  ConstView;
-    typedef ArrayView<PT, I, A>                       View;
+    typedef typename ComplexTrait<T>::PrimitiveType                        PT;
+    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other>  ConstView;
+    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>       View;
 };
 
 template <typename T, typename I, typename A>
 struct RealArray<ConstArrayView<T, I, A> >
 {
-    typedef typename ComplexTrait<T>::PrimitiveType   PT;
-    typedef ConstArrayView<PT, I, A>                  ConstView;
-    typedef ArrayView<PT, I, A>                       View;
+    typedef typename ComplexTrait<T>::PrimitiveType                        PT;
+    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other>  ConstView;
+    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>       View;
 };
 
 } // namespace flens

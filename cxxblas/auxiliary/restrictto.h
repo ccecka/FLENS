@@ -39,7 +39,7 @@
 
 namespace cxxblas {
 
-template <bool b, typename T>
+template <bool b, typename T = void>
 struct RestrictTo
 {
 };

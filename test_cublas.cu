@@ -50,6 +50,8 @@ int main() {
   cout << "y = " << y << endl;
   cout << "z = " << z << endl;
 
+  Vector z2 = 2*x;
+
   Matrix A(8,8);
 
   A = 0;
