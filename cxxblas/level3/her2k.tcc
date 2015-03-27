@@ -167,10 +167,10 @@ her2k(StorageOrder order, StorageUpLo upLo,
       Transpose trans,
       IndexType n, IndexType k,
       const ComplexFloat &alpha,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> B, IndexType ldB,
+      const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
+      const thrust::device_ptr<const ComplexFloat> B, IndexType ldB,
       float beta,
-      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<ComplexFloat> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZher2k");
       
@@ -202,10 +202,10 @@ her2k(StorageOrder order, StorageUpLo upLo,
       Transpose trans,
       IndexType n, IndexType k,
       const ComplexDouble &alpha,
-      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> B, IndexType ldB,
+      const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
+      const thrust::device_ptr<const ComplexDouble> B, IndexType ldB,
       double beta,
-      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<ComplexDouble> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZher2k");
       

@@ -78,8 +78,8 @@ typename If<IndexType>::isBlasCompatibleInteger
     her(StorageOrder order, StorageUpLo upLo,
          IndexType n,
          float alpha,
-         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
-         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA);
+         const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
+         thrust::device_ptr<ComplexFloat> A, IndexType ldA);
 
 // zher
 template <typename IndexType>
@@ -87,8 +87,8 @@ typename If<IndexType>::isBlasCompatibleInteger
     her(StorageOrder order, StorageUpLo upLo,
          IndexType n,
          double alpha,
-         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
-         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA);
+         const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
+         thrust::device_ptr<ComplexDouble> A, IndexType ldA);
 
 #endif // HAVE_CUBLAS
 

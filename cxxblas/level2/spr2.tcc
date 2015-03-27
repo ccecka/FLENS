@@ -146,9 +146,9 @@ typename If<IndexType>::isBlasCompatibleInteger
     spr2(StorageOrder order, StorageUpLo upLo,
          IndexType n,
          float alpha,
-         const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
-         const flens::device_ptr<const float, flens::StorageType::CUDA> y, IndexType incY,
-         flens::device_ptr<float, flens::StorageType::CUDA> A)
+         const thrust::device_ptr<const float> x, IndexType incX,
+         const thrust::device_ptr<const float> y, IndexType incY,
+         thrust::device_ptr<float> A)
 {
     CXXBLAS_DEBUG_OUT("cublasSspr2");
     
@@ -170,9 +170,9 @@ typename If<IndexType>::isBlasCompatibleInteger
 spr2(StorageOrder order, StorageUpLo upLo,
       IndexType n,
       double alpha,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> y, IndexType incY,
-      flens::device_ptr<double, flens::StorageType::CUDA> A)
+      const thrust::device_ptr<const double> x, IndexType incX,
+      const thrust::device_ptr<const double> y, IndexType incY,
+      thrust::device_ptr<double> A)
 {
     CXXBLAS_DEBUG_OUT("cublasDspr2");
       

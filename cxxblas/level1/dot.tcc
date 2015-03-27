@@ -221,8 +221,8 @@ dot(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 dot(IndexType n,
-    const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
-    const flens::device_ptr<const float, flens::StorageType::CUDA> y, IndexType incY,
+    const thrust::device_ptr<const float> x, IndexType incX,
+    const thrust::device_ptr<const float> y, IndexType incY,
     float &result)
 {
     CXXBLAS_DEBUG_OUT(" cublasSdot");
@@ -243,8 +243,8 @@ dot(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 dotu(IndexType n,
-     const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
-     const flens::device_ptr<const float, flens::StorageType::CUDA> y, IndexType incY,
+     const thrust::device_ptr<const float> x, IndexType incX,
+     const thrust::device_ptr<const float> y, IndexType incY,
      float &result)
 {
     dot(n, x, incX, y, incY, result);
@@ -254,8 +254,8 @@ dotu(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 dot(IndexType n,
-    const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
-    const flens::device_ptr<const double, flens::StorageType::CUDA> y, IndexType incY,
+    const thrust::device_ptr<const double> x, IndexType incX,
+    const thrust::device_ptr<const double> y, IndexType incY,
     double &result)
 {
     CXXBLAS_DEBUG_OUT("cublasDdot");
@@ -275,8 +275,8 @@ dot(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 dotu(IndexType n,
-    const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
-    const flens::device_ptr<const double, flens::StorageType::CUDA> y, IndexType incY,
+    const thrust::device_ptr<const double> x, IndexType incX,
+    const thrust::device_ptr<const double> y, IndexType incY,
     double &result)
 {
     dot(n, x, incX, y, incY, result);
@@ -286,8 +286,8 @@ dotu(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 dot(IndexType n,
-    const flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
-    const flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> y, IndexType incY, 
+    const thrust::device_ptr<ComplexFloat> x, IndexType incX,
+    const thrust::device_ptr<ComplexFloat> y, IndexType incY, 
     ComplexFloat &result)
 {
     CXXBLAS_DEBUG_OUT("cublasCdotc");
@@ -309,8 +309,8 @@ dot(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 dotu(IndexType n,
-     const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
-     const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> y, IndexType incY, 
+     const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
+     const thrust::device_ptr<const ComplexFloat> y, IndexType incY, 
      ComplexFloat &result)
 {
     CXXBLAS_DEBUG_OUT("cublasCdotu");
@@ -332,8 +332,8 @@ dotu(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 dot(IndexType n,
-    const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
-    const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> y, IndexType incY,
+    const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
+    const thrust::device_ptr<const ComplexDouble> y, IndexType incY,
     ComplexDouble &result)
 {
     CXXBLAS_DEBUG_OUT("cublasZdot");
@@ -354,8 +354,8 @@ dot(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 dotu(IndexType n,
-     const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
-     const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> y, IndexType incY,
+     const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
+     const thrust::device_ptr<const ComplexDouble> y, IndexType incY,
      ComplexDouble &result)
 {
     CXXBLAS_DEBUG_OUT("cublasZdotu");

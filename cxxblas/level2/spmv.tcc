@@ -156,10 +156,10 @@ typename If<IndexType>::isBlasCompatibleInteger
 spmv(StorageOrder order, StorageUpLo upLo,
       IndexType n,
       const ComplexFloat &alpha,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const ComplexFloat> A,
+      const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
       const ComplexFloat &beta,
-      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> y, IndexType incY)
+      thrust::device_ptr<ComplexFloat> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasSspmv");
     
@@ -184,10 +184,10 @@ typename If<IndexType>::isBlasCompatibleInteger
 spmv(StorageOrder order, StorageUpLo upLo,
       IndexType n,
       const double &alpha,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> A,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const double> A,
+      const thrust::device_ptr<const double> x, IndexType incX,
       const double &beta,
-      flens::device_ptr<double, flens::StorageType::CUDA> y, IndexType incY)
+      thrust::device_ptr<double> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasDspmv");
     

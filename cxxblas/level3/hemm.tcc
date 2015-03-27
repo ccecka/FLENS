@@ -148,10 +148,10 @@ typename If<IndexType>::isBlasCompatibleInteger
 hemm(StorageOrder order, Side side, StorageUpLo upLo,
       IndexType m, IndexType n,
       const ComplexFloat &alpha,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> B, IndexType ldB,
+      const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
+      const thrust::device_ptr<const ComplexFloat> B, IndexType ldB,
       const ComplexFloat &beta,
-      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<ComplexFloat> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasChemm");
     
@@ -179,10 +179,10 @@ typename If<IndexType>::isBlasCompatibleInteger
 hemm(StorageOrder order, Side side, StorageUpLo upLo,
       IndexType m, IndexType n,
       const ComplexDouble &alpha,
-      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> B, IndexType ldB,
+      const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
+      const thrust::device_ptr<const ComplexDouble> B, IndexType ldB,
       const ComplexDouble &beta,
-      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<ComplexDouble> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZhemm");
     

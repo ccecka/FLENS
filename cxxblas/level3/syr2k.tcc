@@ -218,10 +218,10 @@ syr2k(StorageOrder order, StorageUpLo upLo,
       Transpose trans,
       IndexType n, IndexType k,
       const float &alpha,
-      const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const float, flens::StorageType::CUDA> B, IndexType ldB,
+      const thrust::device_ptr<const float> A, IndexType ldA,
+      const thrust::device_ptr<const float> B, IndexType ldB,
       const float &beta,
-      flens::device_ptr<float, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<float> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasSsyr2k");
       
@@ -253,10 +253,10 @@ syr2k(StorageOrder order, StorageUpLo upLo,
       Transpose trans,
       IndexType n, IndexType k,
       const double &alpha,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> B, IndexType ldB,
+      const thrust::device_ptr<const double> A, IndexType ldA,
+      const thrust::device_ptr<const double> B, IndexType ldB,
       const double &beta,
-      flens::device_ptr<double, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<double> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasDsyr2k");
       
@@ -288,10 +288,10 @@ syr2k(StorageOrder order, StorageUpLo upLo,
       Transpose trans,
       IndexType n, IndexType k,
       const ComplexFloat &alpha,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> B, IndexType ldB,
+      const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
+      const thrust::device_ptr<const ComplexFloat> B, IndexType ldB,
       const ComplexFloat &beta,
-      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<ComplexFloat> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasCsyrk");
       
@@ -323,10 +323,10 @@ syr2k(StorageOrder order, StorageUpLo upLo,
       Transpose trans,
       IndexType n, IndexType k,
       const ComplexDouble &alpha,
-      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> B, IndexType ldB,
+      const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
+      const thrust::device_ptr<const ComplexDouble> B, IndexType ldB,
       const ComplexDouble &beta,
-      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<ComplexDouble> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZsyr2k");
       

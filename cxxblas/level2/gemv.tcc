@@ -291,10 +291,10 @@ typename If<IndexType>::isBlasCompatibleInteger
 gemv(StorageOrder order, Transpose trans,
       IndexType m, IndexType n,
       float alpha,
-      const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const float> A, IndexType ldA,
+      const thrust::device_ptr<const float> x, IndexType incX,
       float beta,
-      flens::device_ptr<float, flens::StorageType::CUDA> y, IndexType incY)
+      thrust::device_ptr<float> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasSgemv");
     
@@ -323,10 +323,10 @@ typename If<IndexType>::isBlasCompatibleInteger
 gemv(StorageOrder order, Transpose trans,
       IndexType m, IndexType n,
       double alpha,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const double> A, IndexType ldA,
+      const thrust::device_ptr<const double> x, IndexType incX,
       double beta,
-      flens::device_ptr<double, flens::StorageType::CUDA> y, IndexType incY)
+      thrust::device_ptr<double> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasDgemv");
     
@@ -355,10 +355,10 @@ typename If<IndexType>::isBlasCompatibleInteger
 gemv(StorageOrder order, Transpose trans,
       IndexType m, IndexType n,
       const ComplexFloat &alpha,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
+      const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
       const ComplexFloat &beta,
-      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> y, IndexType incY)
+      thrust::device_ptr<ComplexFloat> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasCgemv");
     
@@ -387,10 +387,10 @@ typename If<IndexType>::isBlasCompatibleInteger
 gemv(StorageOrder order, Transpose trans,
       IndexType m, IndexType n,
       const ComplexDouble &alpha,
-      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
+      const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
       const ComplexDouble &beta,
-      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> y, IndexType incY)
+      thrust::device_ptr<ComplexDouble> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasZgemv");
     

@@ -303,8 +303,8 @@ typename If<IndexType>::isBlasCompatibleInteger
 tpsv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n,
-     const flens::device_ptr<const float, flens::StorageType::CUDA> A,
-     flens::device_ptr<float, flens::StorageType::CUDA> x, IndexType incX)
+     const thrust::device_ptr<const float> A,
+     thrust::device_ptr<float> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasStpsv");
     
@@ -330,8 +330,8 @@ typename If<IndexType>::isBlasCompatibleInteger
 tpsv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n,
-     const flens::device_ptr<const double, flens::StorageType::CUDA> A,
-      flens::device_ptr<double, flens::StorageType::CUDA> x, IndexType incX)
+     const thrust::device_ptr<const double> A,
+      thrust::device_ptr<double> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasDtpsv");
     
@@ -356,8 +356,8 @@ typename If<IndexType>::isBlasCompatibleInteger
 tpsv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n,
-     const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A,
-     flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> x, IndexType incX)
+     const thrust::device_ptr<const ComplexFloat> A,
+     thrust::device_ptr<ComplexFloat> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasCtpsv");
     
@@ -383,8 +383,8 @@ typename If<IndexType>::isBlasCompatibleInteger
 tpsv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n,
-     const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A,
-     flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> x, IndexType incX)
+     const thrust::device_ptr<const ComplexDouble> A,
+     thrust::device_ptr<ComplexDouble> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasZtpsv");
     

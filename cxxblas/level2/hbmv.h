@@ -85,10 +85,10 @@ template <typename IndexType>
     hbmv(StorageOrder order, StorageUpLo upLo,
          IndexType n, IndexType k,
          const ComplexFloat &alpha,
-         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
-         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+         const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
+         const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
          const ComplexFloat &beta,
-         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> y, IndexType incY);
+         thrust::device_ptr<ComplexFloat> y, IndexType incY);
 
 // zgbmv
 template <typename IndexType>
@@ -96,10 +96,10 @@ template <typename IndexType>
     hbmv(StorageOrder order, StorageUpLo upLo,
          IndexType n, IndexType k,
          const ComplexDouble &alpha,
-         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
-         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+         const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
+         const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
          const ComplexDouble &beta,
-         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> y, IndexType incY);
+         thrust::device_ptr<ComplexDouble> y, IndexType incY);
 
 #endif // HAVE_CUBLAS
 

@@ -150,7 +150,7 @@ iamax(IndexType n, const ComplexDouble *x, IndexType incX, IndexType &i)
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 iamax(IndexType n,
-      const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const float> x, IndexType incX,
       IndexType &result)
 {
     CXXBLAS_DEBUG_OUT("cublasIsamax");
@@ -174,7 +174,7 @@ iamax(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 iamax(IndexType n,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const double> x, IndexType incX,
       IndexType &result)
 {
     CXXBLAS_DEBUG_OUT("cublasIdamax");
@@ -197,7 +197,7 @@ iamax(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 iamax(IndexType n,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
       IndexType &result)
 {
     CXXBLAS_DEBUG_OUT("cublasIcamax");
@@ -220,7 +220,7 @@ iamax(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 iamax(IndexType n,
-      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
       IndexType &result)
 {
     CXXBLAS_DEBUG_OUT("cublasIzamax");

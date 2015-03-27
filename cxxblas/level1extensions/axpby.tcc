@@ -93,7 +93,7 @@ template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 axpby(IndexType n, const ComplexDouble &alpha,
       const ComplexDouble *x, IndexType incX,
-       const ComplexDouble &beta, ComplexDouble *y, IndexType incY)
+      const ComplexDouble &beta, ComplexDouble *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zaxpby");
 
@@ -104,6 +104,25 @@ axpby(IndexType n, const ComplexDouble &alpha,
 }
 
 #endif // HAVE_CBLAS_AXPBY
+
+#ifdef HAVE_CUBLAS
+
+template <typename IndexType, typename ALPHA, typename X,
+          typename BETA, typename Y>
+void
+axpby(IndexType n,
+      const ALPHA &alpha, const thrust::device_ptr<X> x, IndexType incX,
+      const BETA &beta, thrust::device_ptr<Y> y, IndexType incY) {
+    CXXBLAS_DEBUG_OUT("axpby_generic [cuda]");
+
+    flens::StridedRange<thrust::device_ptr<X> > xr(x, x+n, incX);
+    flens::StridedRange<thrust::device_ptr<Y> > yr(y, y+n, incY);
+
+    thrust::transform(xr.begin(), xr.end(), yr.begin(), yr.begin(),
+                      alpha * thrust::placeholders::_1 + beta * thrust::placeholders::_2);
+}
+
+#endif // end HAVE_CUBLAS
 
 } // namespace cxxblas
 

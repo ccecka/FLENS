@@ -112,7 +112,7 @@ asum(IndexType n, const ComplexDouble *x, IndexType incX, double &absSum)
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 asum(IndexType n,
-    const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+    const thrust::device_ptr<const float> x, IndexType incX,
     float &result)
 {
     CXXBLAS_DEBUG_OUT(" cublasSasum");
@@ -130,7 +130,7 @@ asum(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 asum(IndexType n,
-    const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+    const thrust::device_ptr<const double> x, IndexType incX,
     double &result)
 {
     CXXBLAS_DEBUG_OUT("cublasDasum");
@@ -150,7 +150,7 @@ asum(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 asum(IndexType n,
-     const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+     const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
      float &result)
 {
     CXXBLAS_DEBUG_OUT("cublasCasum");
@@ -169,7 +169,7 @@ asum(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 asum(IndexType n,
-    const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+    const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
     double &result)
 {
     CXXBLAS_DEBUG_OUT("cublasDzasum");

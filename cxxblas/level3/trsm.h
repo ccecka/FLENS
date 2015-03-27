@@ -102,8 +102,8 @@ template <typename IndexType>
          Transpose transA, Diag diag,
          IndexType m, IndexType n,
          const float &alpha,
-         const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
-         flens::device_ptr<float, flens::StorageType::CUDA> B, IndexType ldB);
+         const thrust::device_ptr<const float> A, IndexType ldA,
+         thrust::device_ptr<float> B, IndexType ldB);
 
 // dtrsm
 template <typename IndexType>
@@ -112,8 +112,8 @@ template <typename IndexType>
          Transpose transA, Diag diag,
          IndexType m, IndexType n,
          const double &alpha,
-         const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
-         flens::device_ptr<double, flens::StorageType::CUDA> B, IndexType ldB);
+         const thrust::device_ptr<const double> A, IndexType ldA,
+         thrust::device_ptr<double> B, IndexType ldB);
 
 // ctrsm
 template <typename IndexType>
@@ -122,8 +122,8 @@ template <typename IndexType>
          Transpose transA, Diag diag,
          IndexType m, IndexType n,
          const ComplexFloat &alpha,
-         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
-         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> B, IndexType ldB);
+         const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
+         thrust::device_ptr<ComplexFloat> B, IndexType ldB);
 
 // ztrsm
 template <typename IndexType>
@@ -132,8 +132,8 @@ template <typename IndexType>
          Transpose transA, Diag diag,
          IndexType m, IndexType n,
          const ComplexDouble &alpha,
-         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
-         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> B, IndexType ldB);
+         const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
+         thrust::device_ptr<ComplexDouble> B, IndexType ldB);
 
 #endif // HAVE_CUBLAS
 

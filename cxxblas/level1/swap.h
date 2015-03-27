@@ -81,29 +81,29 @@ template <typename IndexType>
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     swap(IndexType n,
-         flens::device_ptr<float, flens::StorageType::CUDA> x, IndexType incX,
-         flens::device_ptr<float, flens::StorageType::CUDA> y, IndexType incY);
+         thrust::device_ptr<float> x, IndexType incX,
+         thrust::device_ptr<float> y, IndexType incY);
 
 // dswap
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     swap(IndexType n,
-         flens::device_ptr<double, flens::StorageType::CUDA> x, IndexType incX,
-         flens::device_ptr<double, flens::StorageType::CUDA> y, IndexType incY);
+         thrust::device_ptr<double> x, IndexType incX,
+         thrust::device_ptr<double> y, IndexType incY);
 
 // cswap
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     swap(IndexType n,
-         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
-         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> y, IndexType incY);
+         thrust::device_ptr<ComplexFloat> x, IndexType incX,
+         thrust::device_ptr<ComplexFloat> y, IndexType incY);
 
 // zswap
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     swap(IndexType n,
-         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
-         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> y, IndexType incY);
+         thrust::device_ptr<ComplexDouble> x, IndexType incX,
+         thrust::device_ptr<ComplexDouble> y, IndexType incY);
 
 #endif // HAVE_CUBLAS
 

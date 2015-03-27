@@ -198,9 +198,9 @@ syrk(StorageOrder order, StorageUpLo upLo,
       Transpose trans,
       IndexType n, IndexType k,
       const float &alpha,
-      const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
+      const thrust::device_ptr<const float> A, IndexType ldA,
       const float &beta,
-      flens::device_ptr<float, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<float> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasSsyrk");
       
@@ -231,9 +231,9 @@ syrk(StorageOrder order, StorageUpLo upLo,
       Transpose trans,
       IndexType n, IndexType k,
       const double &alpha,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
+      const thrust::device_ptr<const double> A, IndexType ldA,
       const double &beta,
-      flens::device_ptr<double, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<double> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasDsyrk");
       
@@ -264,9 +264,9 @@ syrk(StorageOrder order, StorageUpLo upLo,
       Transpose trans,
       IndexType n, IndexType k,
       const ComplexFloat &alpha,
-      const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
+      const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
       const ComplexFloat &beta,
-      flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<ComplexFloat> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasCsyrk");
       
@@ -297,9 +297,9 @@ syrk(StorageOrder order, StorageUpLo upLo,
       Transpose trans,
       IndexType n, IndexType k,
       const ComplexDouble &alpha,
-      const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
+      const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
       const ComplexDouble &beta,
-      flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> C, IndexType ldC)
+      thrust::device_ptr<ComplexDouble> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZsyrk");
       

@@ -80,6 +80,17 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS_AXPBY
 
+#ifdef HAVE_CUBLAS
+
+template <typename IndexType, typename ALPHA, typename X,
+          typename BETA, typename Y>
+    void
+    axpby(IndexType n,
+          const ALPHA &alpha, const thrust::device_ptr<X> x, IndexType incX,
+          const BETA &beta, thrust::device_ptr<Y> y, IndexType incY);
+
+#endif // end HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_AXPBY_H

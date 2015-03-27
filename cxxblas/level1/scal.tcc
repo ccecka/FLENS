@@ -124,7 +124,91 @@ scal(IndexType n, double alpha, ComplexDouble *x, IndexType incX)
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
 
+// sscal
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+scal(IndexType n, float alpha,
+     thrust::device_ptr<float> x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("cublasSscal");
+
+    cublasStatus_t status = cublasSscal(flens::CudaEnv::getHandle(), n, &alpha, x.get(), incX);
+
+    flens::checkStatus(status);
+}
+
+// dscal
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+scal(IndexType n, double alpha,
+     thrust::device_ptr<double> x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("cublasDscal");
+
+    cublasStatus_t status = cublasDscal(flens::CudaEnv::getHandle(), n, &alpha, x.get(), incX);
+
+    flens::checkStatus(status);
+}
+
+// csscal
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+scal(IndexType n, float alpha,
+     thrust::device_ptr<ComplexFloat> x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("cublasCsscal");
+
+    cublasStatus_t status = cublasCsscal(flens::CudaEnv::getHandle(), n, &alpha,
+                                         reinterpret_cast<cuFloatComplex*>(x.get()), incX);
+
+    flens::checkStatus(status);
+}
+
+// csscal
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+scal(IndexType n, ComplexFloat alpha,
+     thrust::device_ptr<ComplexFloat> x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("cublasCscal");
+
+    cublasStatus_t status = cublasCscal(flens::CudaEnv::getHandle(), n, (reinterpret_cast<cuFloatComplex*>(&alpha)),
+                                        reinterpret_cast<cuFloatComplex*>(x.get()), incX);
+
+    flens::checkStatus(status);
+}
+
+// zdscal
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+scal(IndexType n, double alpha,
+     thrust::device_ptr<ComplexDouble> x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("cublasZdscal");
+
+    cublasStatus_t status = cublasZdscal(flens::CudaEnv::getHandle(), n, &alpha,
+                                         reinterpret_cast<cuDoubleComplex*>(x.get()), incX);
+
+    flens::checkStatus(status);
+}
+
+// zscal
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+scal(IndexType n, ComplexDouble alpha,
+     thrust::device_ptr<ComplexDouble> x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("cublasZdscal");
+
+    cublasStatus_t status = cublasZscal(flens::CudaEnv::getHandle(), n, (reinterpret_cast<cuDoubleComplex*>(&alpha)),
+                                        reinterpret_cast<cuDoubleComplex*>(x.get()), incX);
+
+    flens::checkStatus(status);
+}
+
+#endif // HAVE_CUBLAS
 
 } // namespace cxxblas
 

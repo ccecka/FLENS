@@ -52,6 +52,8 @@ int main() {
 
   Vector z2 = 2*x;
 
+  cout << "z2 = " << z2 << endl;
+
   Matrix A(8,8);
 
   A = 0;

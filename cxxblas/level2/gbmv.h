@@ -113,10 +113,10 @@ template <typename IndexType>
          IndexType m, IndexType n,
          IndexType kl, IndexType ku,
          float alpha,
-         const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
-         const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+         const thrust::device_ptr<const float> A, IndexType ldA,
+         const thrust::device_ptr<const float> x, IndexType incX,
          float beta,
-         flens::device_ptr<float, flens::StorageType::CUDA> y, IndexType incY);
+         thrust::device_ptr<float> y, IndexType incY);
 
 // dgbmv
 template <typename IndexType>
@@ -125,10 +125,10 @@ template <typename IndexType>
          IndexType m, IndexType n,
          IndexType kl, IndexType ku,
          double alpha,
-         const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
-         const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+         const thrust::device_ptr<const double> A, IndexType ldA,
+         const thrust::device_ptr<const double> x, IndexType incX,
          double beta,
-         flens::device_ptr<double, flens::StorageType::CUDA> y, IndexType incY);
+         thrust::device_ptr<double> y, IndexType incY);
 
 // cgbmv
 template <typename IndexType>
@@ -137,10 +137,10 @@ template <typename IndexType>
          IndexType m, IndexType n,
          IndexType kl, IndexType ku,
          const ComplexFloat &alpha,
-         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> A, IndexType ldA,
-         const flens::device_ptr<const ComplexFloat, flens::StorageType::CUDA> x, IndexType incX,
+         const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
+         const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
          const ComplexFloat &beta,
-         flens::device_ptr<ComplexFloat, flens::StorageType::CUDA> y, IndexType incY);
+         thrust::device_ptr<ComplexFloat> y, IndexType incY);
 
 // zgbmv
 template <typename IndexType>
@@ -149,10 +149,10 @@ template <typename IndexType>
          IndexType m, IndexType n,
          IndexType kl, IndexType ku,
          const ComplexDouble &alpha,
-         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> A, IndexType ldA,
-         const flens::device_ptr<const ComplexDouble, flens::StorageType::CUDA> x, IndexType incX,
+         const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
+         const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
          const ComplexDouble &beta,
-         flens::device_ptr<ComplexDouble, flens::StorageType::CUDA> y, IndexType incY);
+         thrust::device_ptr<ComplexDouble> y, IndexType incY);
 
 #endif // HAVE_CUBLAS
 } // namespace cxxblas

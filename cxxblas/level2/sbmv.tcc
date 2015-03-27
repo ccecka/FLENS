@@ -178,10 +178,10 @@ typename If<IndexType>::isBlasCompatibleInteger
 sbmv(StorageOrder order, StorageUpLo upLo,
       IndexType n, IndexType k,
       float alpha,
-      const flens::device_ptr<const float, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const float, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const float> A, IndexType ldA,
+      const thrust::device_ptr<const float> x, IndexType incX,
       float beta,
-      flens::device_ptr<float, flens::StorageType::CUDA> y, IndexType incY)
+      thrust::device_ptr<float> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasSsbmv");
     
@@ -210,10 +210,10 @@ typename If<IndexType>::isBlasCompatibleInteger
 sbmv(StorageOrder order, StorageUpLo upLo,
       IndexType n, IndexType k,
       double alpha,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> A, IndexType ldA,
-      const flens::device_ptr<const double, flens::StorageType::CUDA> x, IndexType incX,
+      const thrust::device_ptr<const double> A, IndexType ldA,
+      const thrust::device_ptr<const double> x, IndexType incX,
       double beta,
-      flens::device_ptr<double, flens::StorageType::CUDA> y, IndexType incY)
+      thrust::device_ptr<double> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasDsbmv");
     
