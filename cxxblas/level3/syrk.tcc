@@ -203,24 +203,23 @@ syrk(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<float> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasSsyrk");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
         syrk(ColMajor, upLo, trans, n, k,
-              conjugate(alpha), A, ldA, 
+              conjugate(alpha), A, ldA,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasSsyrk(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
                                         A.get(), ldA,
                                         &beta,
                                         C.get(), ldC);
-    
+
     flens::checkStatus(status);
 }
 
@@ -236,7 +235,7 @@ syrk(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<double> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasDsyrk");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
@@ -245,15 +244,14 @@ syrk(StorageOrder order, StorageUpLo upLo,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasDsyrk(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
                                         A.get(), ldA,
                                         &beta,
                                         C.get(), ldC);
-    
+
     flens::checkStatus(status);
 }
 
@@ -269,24 +267,23 @@ syrk(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<ComplexFloat> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasCsyrk");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
         syrk(ColMajor, upLo, trans, n, k,
-              conjugate(alpha), A, ldA, 
+              conjugate(alpha), A, ldA,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasCsyrk(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
                                         reinterpret_cast<const cuFloatComplex*>(&beta),
                                         reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
-    
+
     flens::checkStatus(status);
 }
 
@@ -302,7 +299,7 @@ syrk(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<ComplexDouble> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZsyrk");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
@@ -311,15 +308,14 @@ syrk(StorageOrder order, StorageUpLo upLo,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasZsyrk(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
                                         reinterpret_cast<const cuDoubleComplex*>(&beta),
                                         reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
-    
+
     flens::checkStatus(status);
 }
 

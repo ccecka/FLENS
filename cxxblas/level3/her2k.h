@@ -80,7 +80,33 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
 
+// cher2k
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    her2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          const ComplexFloat &alpha,
+          const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
+          const thrust::device_ptr<const ComplexFloat> B, IndexType ldB,
+          float beta,
+          thrust::device_ptr<ComplexFloat> C, IndexType ldC);
+
+// zher2k
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    her2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          const ComplexDouble &alpha,
+          const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
+          const thrust::device_ptr<const ComplexDouble> B, IndexType ldB,
+          double beta,
+          thrust::device_ptr<ComplexDouble> C, IndexType ldC);
+
+#endif // HAVE_CUBLAS
 
 } // namespace cxxblas
 

@@ -133,6 +133,7 @@ template <typename IndexType>
          std::complex<double> *y, IndexType incY);
 
 #endif
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2EXTENSIONS_GEMV_H

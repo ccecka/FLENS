@@ -99,7 +99,53 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
 
+// ssyrk
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syrk(StorageOrder order, StorageUpLo upLo,
+         Transpose trans,
+         IndexType n, IndexType k,
+         const float &alpha,
+         const thrust::device_ptr<const float> A, IndexType ldA,
+         const float &beta,
+         thrust::device_ptr<float> C, IndexType ldC);
+
+// dsyrk
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syrk(StorageOrder order, StorageUpLo upLo,
+         Transpose trans,
+         IndexType n, IndexType k,
+         const double &alpha,
+         const thrust::device_ptr<const double> A, IndexType ldA,
+         const double &beta,
+         thrust::device_ptr<double> C, IndexType ldC);
+
+// csyrk
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syrk(StorageOrder order, StorageUpLo upLo,
+         Transpose trans,
+         IndexType n, IndexType k,
+         const ComplexFloat &alpha,
+         const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
+         const ComplexFloat &beta,
+         thrust::device_ptr<ComplexFloat> C, IndexType ldC);
+
+// zsyrk
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syrk(StorageOrder order, StorageUpLo upLo,
+         Transpose trans,
+         IndexType n, IndexType k,
+         const ComplexDouble &alpha,
+         const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
+         const ComplexDouble &beta,
+         thrust::device_ptr<ComplexDouble> C, IndexType ldC);
+
+#endif // HAVE_CUBLAS
 
 } // namespace cxxblas
 

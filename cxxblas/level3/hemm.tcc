@@ -154,7 +154,7 @@ hemm(StorageOrder order, Side side, StorageUpLo upLo,
       thrust::device_ptr<ComplexFloat> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasChemm");
-    
+
     if (order==RowMajor) {
         side = (side==Left) ? Right : Left;
         upLo = (upLo==Upper) ? Lower : Upper;
@@ -162,6 +162,7 @@ hemm(StorageOrder order, Side side, StorageUpLo upLo,
              alpha, A, ldA, B, ldB, beta, C, ldC);
         return;
     }
+
     cublasStatus_t status = cublasChemm(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo),
                                         m, n, reinterpret_cast<const cuFloatComplex*>(&alpha),
@@ -169,7 +170,7 @@ hemm(StorageOrder order, Side side, StorageUpLo upLo,
                                         reinterpret_cast<const cuFloatComplex*>(B.get()), ldB,
                                         reinterpret_cast<const cuFloatComplex*>(&beta),
                                         reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
-                                        
+
     flens::checkStatus(status);
 }
 
@@ -185,7 +186,7 @@ hemm(StorageOrder order, Side side, StorageUpLo upLo,
       thrust::device_ptr<ComplexDouble> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZhemm");
-    
+
     if (order==RowMajor) {
         side = (side==Left) ? Right : Left;
         upLo = (upLo==Upper) ? Lower : Upper;
@@ -193,14 +194,15 @@ hemm(StorageOrder order, Side side, StorageUpLo upLo,
              alpha, A, ldA, B, ldB, beta, C, ldC);
         return;
     }
+
     cublasStatus_t status = cublasZhemm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
-                                        CUBLAS::getCublasType(upLo), 
+                                        CUBLAS::getCublasType(upLo),
                                         m, n, reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
                                         reinterpret_cast<const cuDoubleComplex*>(B.get()), ldB,
                                         reinterpret_cast<const cuDoubleComplex*>(&beta),
                                         reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
-    
+
     flens::checkStatus(status);
 }
 

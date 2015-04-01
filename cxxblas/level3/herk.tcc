@@ -151,24 +151,23 @@ herk(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<ComplexFloat> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZherk");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
         herk(ColMajor, upLo, trans, n, k,
-              conjugate(alpha), A, ldA, 
+              conjugate(alpha), A, ldA,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasZherk(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
                                         &beta,
                                         reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
-    
+
     flens::checkStatus(status);
 }
 
@@ -184,7 +183,7 @@ herk(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<ComplexDouble> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZherk");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
@@ -193,15 +192,14 @@ herk(StorageOrder order, StorageUpLo upLo,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasZherk(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
                                         &beta,
                                         reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
-    
+
     flens::checkStatus(status);
 }
 

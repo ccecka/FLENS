@@ -133,7 +133,6 @@ template <typename IndexType>
          const thrust::device_ptr<const ComplexFloat> B, IndexType ldB,
          const ComplexFloat &beta,
 	 thrust::device_ptr<ComplexFloat> C, IndexType ldC);
-	 
 
 // zsymm
 template <typename IndexType>

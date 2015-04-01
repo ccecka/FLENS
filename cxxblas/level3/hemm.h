@@ -89,8 +89,8 @@ template <typename IndexType>
          const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
          const thrust::device_ptr<const ComplexFloat> B, IndexType ldB,
          const ComplexFloat &beta,
-	 thrust::device_ptr<ComplexFloat> C, IndexType ldC);
-	 
+         thrust::device_ptr<ComplexFloat> C, IndexType ldC);
+
 
 // zhemm
 template <typename IndexType>
@@ -101,7 +101,7 @@ template <typename IndexType>
          const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
          const thrust::device_ptr<const ComplexDouble> B, IndexType ldB,
          const ComplexDouble &beta,
-	 thrust::device_ptr<ComplexDouble> C, IndexType ldC);
+         thrust::device_ptr<ComplexDouble> C, IndexType ldC);
 
 #endif // HAVE_CUBLAS
 

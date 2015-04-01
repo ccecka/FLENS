@@ -173,7 +173,7 @@ her2k(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<ComplexFloat> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZher2k");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
@@ -182,8 +182,7 @@ her2k(StorageOrder order, StorageUpLo upLo,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasZher2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                          CUBLAS::getCublasType(trans), n, k,
                                          reinterpret_cast<const cuFloatComplex*>(&alpha),
@@ -191,7 +190,7 @@ her2k(StorageOrder order, StorageUpLo upLo,
                                          reinterpret_cast<const cuFloatComplex*>(B.get()), ldB,
                                          &beta,
                                          reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
-    
+
     flens::checkStatus(status);
 }
 
@@ -208,7 +207,7 @@ her2k(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<ComplexDouble> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZher2k");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
@@ -217,8 +216,7 @@ her2k(StorageOrder order, StorageUpLo upLo,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasZher2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                          CUBLAS::getCublasType(trans), n, k,
                                          reinterpret_cast<const cuDoubleComplex*>(&alpha),
@@ -226,7 +224,7 @@ her2k(StorageOrder order, StorageUpLo upLo,
                                          reinterpret_cast<const cuDoubleComplex*>(B.get()), ldB,
                                          &beta,
                                          reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
-    
+
     flens::checkStatus(status);
 }
 
@@ -235,4 +233,3 @@ her2k(StorageOrder order, StorageUpLo upLo,
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL3_HER2K_TCC
-

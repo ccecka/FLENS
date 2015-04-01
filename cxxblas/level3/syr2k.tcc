@@ -224,25 +224,24 @@ syr2k(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<float> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasSsyr2k");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
         syr2k(ColMajor, upLo, trans, n, k,
-              conjugate(alpha), A, ldA, 
+              conjugate(alpha), A, ldA,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasSsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
-                                        A.get(), ldA, 
+                                        A.get(), ldA,
                                         B.get(), ldB,
                                         &beta,
                                         C.get(), ldC);
-    
+
     flens::checkStatus(status);
 }
 
@@ -259,7 +258,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<double> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasDsyr2k");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
@@ -268,8 +267,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasDsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
@@ -277,7 +275,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
                                         B.get(), ldB,
                                         &beta,
                                         C.get(), ldC);
-    
+
     flens::checkStatus(status);
 }
 
@@ -294,7 +292,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<ComplexFloat> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasCsyrk");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
@@ -303,8 +301,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasCsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                          CUBLAS::getCublasType(trans), n, k,
                                          reinterpret_cast<const cuFloatComplex*>(&alpha),
@@ -312,7 +309,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
                                          reinterpret_cast<const cuFloatComplex*>(B.get()), ldB,
                                          reinterpret_cast<const cuFloatComplex*>(&beta),
                                          reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
-    
+
     flens::checkStatus(status);
 }
 
@@ -329,7 +326,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<ComplexDouble> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZsyr2k");
-      
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         trans = Transpose(trans^ConjTrans);
@@ -338,8 +335,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
               beta, C, ldC);
         return;
     }
-   
-      
+
     cublasStatus_t status = cublasZsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                          CUBLAS::getCublasType(trans), n, k,
                                          reinterpret_cast<const cuDoubleComplex*>(&alpha),
@@ -347,12 +343,12 @@ syr2k(StorageOrder order, StorageUpLo upLo,
                                          reinterpret_cast<const cuDoubleComplex*>(B.get()), ldB,
                                          reinterpret_cast<const cuDoubleComplex*>(&beta),
                                          reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
-    
+
     flens::checkStatus(status);
 }
+
 #endif // HAVE_CUBLAS
 
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL3_SYR2K_TCC
-

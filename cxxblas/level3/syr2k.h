@@ -104,7 +104,57 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
 
+// csyr2k
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syr2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          const float &alpha,
+          const thrust::device_ptr<const float> A, IndexType ldA,
+          const thrust::device_ptr<const float> B, IndexType ldB,
+          const float &beta,
+          thrust::device_ptr<float> C, IndexType ldC);
+
+// zsyr2k
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syr2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          const double &alpha,
+          const thrust::device_ptr<const double> A, IndexType ldA,
+          const thrust::device_ptr<const double> B, IndexType ldB,
+          const double &beta,
+          thrust::device_ptr<double> C, IndexType ldC);
+
+// csyrk
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syr2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          const ComplexFloat &alpha,
+          const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
+          const thrust::device_ptr<const ComplexFloat> B, IndexType ldB,
+          const ComplexFloat &beta,
+          thrust::device_ptr<ComplexFloat> C, IndexType ldC);
+
+// zsyrk
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syr2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          const ComplexDouble &alpha,
+          const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
+          const thrust::device_ptr<const ComplexDouble> B, IndexType ldB,
+          const ComplexDouble &beta,
+          thrust::device_ptr<ComplexDouble> C, IndexType ldC);
+
+#endif // HAVE_CUBLAS
 
 } // namespace cxxblas
 

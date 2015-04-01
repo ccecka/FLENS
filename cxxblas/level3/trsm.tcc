@@ -195,7 +195,7 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
      thrust::device_ptr<float> B, IndexType ldB)
 {
     CXXBLAS_DEBUG_OUT("cublasStrsm");
-    
+
     if (order==RowMajor) {
         side = (side==Left) ? Right : Left;
         upLo = (upLo==Upper) ? Lower : Upper;
@@ -203,13 +203,14 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
              alpha, A, ldA, B, ldB);
         return;
     }
+
     cublasStatus_t status = cublasStrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         m, n, &alpha,
                                         A.get(), ldA,
                                         B.get(), ldB);
-    
+
     flens::checkStatus(status);
 }
 
@@ -223,7 +224,7 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
      thrust::device_ptr<double> B, IndexType ldB)
 {
     CXXBLAS_DEBUG_OUT("cublasDtrsm");
-    
+
     if (order==RowMajor) {
         side = (side==Left) ? Right : Left;
         upLo = (upLo==Upper) ? Lower : Upper;
@@ -231,15 +232,17 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
              alpha, A, ldA, B, ldB);
         return;
     }
+
     cublasStatus_t status = cublasDtrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         m, n, &alpha,
                                         A.get(), ldA,
                                         B.get(), ldB);
-    
+
     flens::checkStatus(status);
 }
+
 // ctrsm
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
@@ -250,7 +253,7 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
      thrust::device_ptr<ComplexFloat> B, IndexType ldB)
 {
     CXXBLAS_DEBUG_OUT("cublasCtrsm");
-    
+
     if (order==RowMajor) {
         side = (side==Left) ? Right : Left;
         upLo = (upLo==Upper) ? Lower : Upper;
@@ -258,13 +261,14 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
              alpha, A, ldA, B, ldB);
         return;
     }
+
     cublasStatus_t status = cublasCtrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         m, n, reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
                                         reinterpret_cast<cuFloatComplex*>(B.get()), ldB);
-    
+
     flens::checkStatus(status);
 }
 
@@ -278,7 +282,7 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
      thrust::device_ptr<ComplexDouble> B, IndexType ldB)
 {
     CXXBLAS_DEBUG_OUT("cublasZtrsm");
-    
+
     if (order==RowMajor) {
         side = (side==Left) ? Right : Left;
         upLo = (upLo==Upper) ? Lower : Upper;
@@ -286,13 +290,14 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
              alpha, A, ldA, B, ldB);
         return;
     }
+
     cublasStatus_t status = cublasZtrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         m, n, reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
                                         reinterpret_cast<cuDoubleComplex*>(B.get()), ldB);
-    
+
     flens::checkStatus(status);
 }
 
@@ -301,4 +306,3 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL3_TRSM_TCC
-
