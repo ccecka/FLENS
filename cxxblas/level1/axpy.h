@@ -46,6 +46,7 @@ template <typename IndexType, typename ALPHA, typename X, typename Y>
          Y *y, IndexType incY);
 
 #ifdef HAVE_CBLAS
+
 // saxpy
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -102,10 +103,10 @@ template <typename IndexType>
 // zaxpy
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
-    axpy(IndexType n, ComplexDouble alpha, 
+    axpy(IndexType n, ComplexDouble alpha,
          const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
          thrust::device_ptr<ComplexDouble> y, IndexType incY);
-    
+
 #endif // HAVE_CUBLAS
 
 } // namespace cxxblas

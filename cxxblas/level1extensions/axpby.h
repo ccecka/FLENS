@@ -46,6 +46,7 @@ template <typename IndexType, typename ALPHA, typename X,
                        const BETA &beta, Y *y, IndexType incY);
 
 #ifdef HAVE_CBLAS_AXPBY
+
 // saxpy
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger

@@ -39,6 +39,7 @@
 namespace cxxblas {
 
 #ifdef HAVE_CBLAS
+
 // srotm
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger

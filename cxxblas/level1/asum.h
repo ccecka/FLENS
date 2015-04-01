@@ -45,6 +45,7 @@ template <typename IndexType, typename X, typename T>
     asum(IndexType n, const X *x, IndexType incX, T &absSum);
 
 #ifdef HAVE_CBLAS
+
 // sasum
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -80,7 +81,6 @@ template <typename IndexType>
          const thrust::device_ptr<const float> x, IndexType incX,
          float &result);
 
-    
 // dasum
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -88,14 +88,13 @@ template <typename IndexType>
          const thrust::device_ptr<const double> x, IndexType incX,
          double &result);
 
-    
 // casum
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     asum(IndexType n,
          const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
          float &result);
-        
+
 // zasum
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -103,7 +102,6 @@ template <typename IndexType>
          const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
          double &result);
 
-    
 #endif // HAVE_CUBLAS
 
 } // namespace cxxblas

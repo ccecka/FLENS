@@ -65,6 +65,7 @@ axpy(IndexType n, const ALPHA &alpha, const X *x,
 }
 
 #ifdef HAVE_CBLAS
+
 // saxpy
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
@@ -117,7 +118,89 @@ axpy(IndexType n, const ComplexDouble &alpha,
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
 
+// saxpy
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+axpy(IndexType n, float alpha,
+     const thrust::device_ptr<const float> x, IndexType incX,
+     thrust::device_ptr<float> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasSaxpy");
+
+    cublasStatus_t status = cublasSaxpy(flens::CudaEnv::getHandle(),
+                                        n, &alpha,
+                                        x.get(), incX,
+                                        y.get(), incY);
+
+    flens::checkStatus(status);
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+}
+
+// daxpy
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+axpy(IndexType n, double alpha,
+     const thrust::device_ptr<const double> x, IndexType incX,
+     thrust::device_ptr<double> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasDaxpy");
+
+    cublasStatus_t status = cublasDaxpy(flens::CudaEnv::getHandle(),
+                                        n, &alpha,
+                                        x.get(), incX,
+                                        y.get(), incY);
+
+    flens::checkStatus(status);
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+}
+
+// caxpy
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+axpy(IndexType n, ComplexFloat alpha,
+     const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
+     thrust::device_ptr<ComplexFloat> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasCaxpy");
+
+    cublasStatus_t status = cublasCaxpy(flens::CudaEnv::getHandle(),
+                                        n, reinterpret_cast<cuFloatComplex*>(&alpha),
+                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                                        reinterpret_cast<cuFloatComplex*>(y.get()), incY);
+
+    flens::checkStatus(status);
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+}
+
+// zaxpy
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+axpy(IndexType n, ComplexDouble alpha,
+     const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
+     thrust::device_ptr<ComplexDouble> y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("cublasZaxpy");
+
+    cublasStatus_t status = cublasZaxpy(flens::CudaEnv::getHandle(),
+                                        n, reinterpret_cast<cuDoubleComplex*>(&alpha),
+                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                                        reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
+
+    flens::checkStatus(status);
+    if (flens::CudaEnv::isSyncCopyEnabled()) {
+        flens::syncStream();
+    }
+}
+
+#endif // HAVE_CUBLAS
 
 } // namespace cxxblas
 

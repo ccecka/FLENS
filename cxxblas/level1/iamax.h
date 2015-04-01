@@ -50,6 +50,7 @@ template <typename IndexType, typename X>
     iamax(IndexType n, const X *x, IndexType incX);
 
 #ifdef HAVE_CBLAS
+
 // isamax
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -74,37 +75,34 @@ template <typename IndexType>
 
 #ifdef HAVE_CUBLAS
 
-// siamax
+// isamax
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     iamax(IndexType n,
           const thrust::device_ptr<const float> x, IndexType incX,
           IndexType &result);
 
-    
-// diamax
+// idamax
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     iamax(IndexType n,
           const thrust::device_ptr<const double> x, IndexType incX,
           IndexType &result);
 
-    
-// ciamax
+// icamax
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     iamax(IndexType n,
           const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
           IndexType &result);
-        
-// ziamax
+
+// izamax
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     iamax(IndexType n,
           const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
           IndexType &result);
 
-    
 #endif // HAVE_CUBLAS
 
 } // namespace cxxblas

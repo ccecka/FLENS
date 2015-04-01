@@ -139,7 +139,6 @@ copy(IndexType n,
      const thrust::device_ptr<const T> x, IndexType incX,
      T *y, IndexType incY)
 {
-
     if (flens::CudaEnv::isSyncCopyEnabled()) {
 
         CXXBLAS_DEBUG_OUT("cublasGetVector [sync]");
@@ -164,7 +163,6 @@ copy(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasScopy");
 
-
     cublasStatus_t status = cublasScopy(flens::CudaEnv::getHandle(), n,
                                         x.get(), incX,
                                         y.get(), incY);
@@ -180,7 +178,6 @@ copy(IndexType n,
      thrust::device_ptr<double> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasDcopy");
-
 
     cublasStatus_t status = cublasDcopy(flens::CudaEnv::getHandle(), n,
                                         x.get(), incX,
@@ -198,7 +195,6 @@ copy(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasCcopy");
 
-
     cublasStatus_t status = cublasCcopy(flens::CudaEnv::getHandle(), n,
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                         reinterpret_cast<cuFloatComplex*>(y.get()), incY);
@@ -215,7 +211,6 @@ copy(IndexType n,
      thrust::device_ptr<ComplexDouble> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasZcopy");
-
 
     cublasStatus_t status = cublasZcopy(flens::CudaEnv::getHandle(), n,
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,

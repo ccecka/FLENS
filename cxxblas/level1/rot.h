@@ -72,6 +72,7 @@ template <typename IndexType, typename X, typename Y, typename T>
 
 
 #ifdef HAVE_CBLAS
+
 // srot
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger

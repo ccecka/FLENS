@@ -51,6 +51,7 @@ axpby(IndexType n, const ALPHA &alpha, const X *x, IndexType incX,
 }
 
 #ifdef HAVE_CBLAS_AXPBY
+
 // saxpby
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger

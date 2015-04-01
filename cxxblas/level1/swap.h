@@ -45,6 +45,7 @@ template <typename IndexType, typename X, typename Y>
     swap(IndexType n, X *x, IndexType incX, Y *y, IndexType incY);
 
 #ifdef HAVE_CBLAS
+
 // sswap
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger

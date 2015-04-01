@@ -45,6 +45,7 @@ template <typename IndexType, typename X, typename T>
     nrm2(IndexType n, const X *x, IndexType incX, T &norm);
 
 #ifdef HAVE_CBLAS
+
 // snrm2
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -80,22 +81,20 @@ template <typename IndexType>
          const thrust::device_ptr<const float> x, IndexType incX,
          float &result);
 
-    
 // dnrm2
 template <typename IndexType>
-    typename If<IndexType>::isBlasCompatibleInteger    
+    typename If<IndexType>::isBlasCompatibleInteger
     nrm2(IndexType n,
          const thrust::device_ptr<const double> x, IndexType incX,
          double &result);
 
-    
 // cnrm2
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     nrm2(IndexType n,
          const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
          float &result);
-        
+
 // znrm2
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -103,7 +102,7 @@ template <typename IndexType>
          const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
          double &result);
 
-    
+
 #endif // HAVE_CUBLAS
 
 } // namespace cxxblas

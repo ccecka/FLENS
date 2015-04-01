@@ -102,6 +102,7 @@ iamax(IndexType n, const X *x, IndexType incX)
 }
 
 #ifdef HAVE_CBLAS
+
 // isamax
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
@@ -146,7 +147,7 @@ iamax(IndexType n, const ComplexDouble *x, IndexType incX, IndexType &i)
 
 #ifdef HAVE_CUBLAS
 
-// siamax
+// isamax
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 iamax(IndexType n,
@@ -155,22 +156,20 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIsamax");
 
-    cublasStatus_t status = cublasIsamax(flens::CudaEnv::getHandle(), n, 
+    cublasStatus_t status = cublasIsamax(flens::CudaEnv::getHandle(), n,
                                          x.get(), incX, &result);
-    
+
     flens::checkStatus(status);
     flens::syncStream();
-    
+
     // We have to correct the result -> only syncModed allowed
     ASSERT(flens::CudaEnv::isSyncCopyEnabled());
-    
     // Correct Indexing
-    result--; // cuBLAS is one-based, cblas is zero-based
-  
+    --result; // cuBLAS is one-based, cblas is zero-based
 }
 
 
-// diamax
+// idamax
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 iamax(IndexType n,
@@ -179,21 +178,20 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIdamax");
 
-    cublasStatus_t status = cublasIdamax(flens::CudaEnv::getHandle(), n,  
+    cublasStatus_t status = cublasIdamax(flens::CudaEnv::getHandle(), n,
                                          x.get(), incX, &result);
-    
+
     flens::checkStatus(status);
     flens::syncStream();
-    
+
     // We have to correct the result -> only syncModed allowed
     ASSERT(flens::CudaEnv::isSyncCopyEnabled());
-
     // Correct Indexing
-    result--; // cuBLAS is one-based, cblas is zero-based
+    --result; // cuBLAS is one-based, cblas is zero-based
 }
 
 
-// ciamax
+// icamax
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 iamax(IndexType n,
@@ -201,22 +199,22 @@ iamax(IndexType n,
       IndexType &result)
 {
     CXXBLAS_DEBUG_OUT("cublasIcamax");
-    
-    cublasStatus_t status = cublasIcamax(flens::CudaEnv::getHandle(), n, 
-                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
+
+    cublasStatus_t status = cublasIcamax(flens::CudaEnv::getHandle(), n,
+                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                          &result);
 
-    
+
     flens::checkStatus(status);
     flens::syncStream();
-    
+
     // We have to correct the result -> only syncModed allowed
     ASSERT(flens::CudaEnv::isSyncCopyEnabled());
     // Correct Indexing
-    result--; // cuBLAS is one-based, cblas is zero-based
+    --result; // cuBLAS is one-based, cblas is zero-based
 }
 
-// ziamax
+// izamax
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 iamax(IndexType n,
@@ -225,17 +223,17 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIzamax");
 
-    cublasStatus_t status = cublasIzamax(flens::CudaEnv::getHandle(), n, 
-                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
+    cublasStatus_t status = cublasIzamax(flens::CudaEnv::getHandle(), n,
+                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                          &result);
-    
+
     flens::checkStatus(status);
     flens::checkStatus(status);
     flens::syncStream();
-    
+
     // We have to correct the result -> only syncModed allowed
     ASSERT(flens::CudaEnv::isSyncCopyEnabled());
-    result--; // cuBLAS is one-based, cblas is zero-based
+    --result; // cuBLAS is one-based, cblas is zero-based
 }
 
 #endif // HAVE_CUBLAS
@@ -243,4 +241,3 @@ iamax(IndexType n,
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1_IAMAX_TCC
-
