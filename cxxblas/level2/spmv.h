@@ -77,7 +77,31 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
 
+// cspmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    spmv(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         const ComplexFloat &alpha,
+         const thrust::device_ptr<const ComplexFloat> A,
+         const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
+         const ComplexFloat &beta,
+         thrust::device_ptr<ComplexFloat> y, IndexType incY);
+
+// zspmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    spmv(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         const double &alpha,
+         const thrust::device_ptr<const double> A,
+         const thrust::device_ptr<const double> x, IndexType incX,
+         const double &beta,
+         thrust::device_ptr<double> y, IndexType incY);
+
+#endif // HAVE_CUBLAS
 
 } // namespace cxxblas
 

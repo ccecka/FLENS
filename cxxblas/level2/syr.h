@@ -49,6 +49,7 @@ template <typename IndexType, typename ALPHA, typename VX, typename MA>
         MA *A, IndexType ldA);
 
 #ifdef HAVE_CBLAS
+
 // ssyr
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -70,6 +71,7 @@ template <typename IndexType>
 #endif // HAVE_CBLAS
 
 #ifdef HAVE_CUBLAS
+
 // ssyr
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
@@ -87,7 +89,7 @@ typename If<IndexType>::isBlasCompatibleInteger
          double alpha,
          const thrust::device_ptr<const double> x, IndexType incX,
          thrust::device_ptr<double> A, IndexType ldA);
-    
+
 // csyr
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger

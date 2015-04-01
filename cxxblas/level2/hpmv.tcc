@@ -192,17 +192,17 @@ hpmv(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<ComplexFloat> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasCgemv");
-      
+
     ASSERT(order==ColMajor);
-    
-    cublasStatus_t status = cublasChpmv(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(upLo), 
+
+    cublasStatus_t status = cublasChpmv(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(upLo),
                                         n,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(A.get()),
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                         reinterpret_cast<const cuFloatComplex*>(&beta),
                                         reinterpret_cast<cuFloatComplex*>(y.get()), incY);
-    
+
     flens::checkStatus(status);
 }
 
@@ -218,23 +218,21 @@ hpmv(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<ComplexDouble> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasZgemv");
-      
+
     ASSERT(order==ColMajor);
-    
-    cublasStatus_t status = cublasZhpmv(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(upLo), 
+
+    cublasStatus_t status = cublasZhpmv(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(upLo),
                                         n,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()),
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                         reinterpret_cast<const cuDoubleComplex*>(&beta),
                                         reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
-    
+
     flens::checkStatus(status);
-    
 }
 
 #endif // HAVE_CUBLAS
-
 
 } // namespace cxxblas
 

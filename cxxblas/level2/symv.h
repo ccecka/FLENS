@@ -115,7 +115,6 @@ template <typename IndexType>
          const float &beta,
          thrust::device_ptr<float> y, IndexType incY);
 
-
 // zsymv
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -126,7 +125,7 @@ template <typename IndexType>
          const thrust::device_ptr<const double> x, IndexType incX,
          const double &beta,
          thrust::device_ptr<double> y, IndexType incY);
-    
+
 // csymv
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -138,7 +137,6 @@ template <typename IndexType>
          const ComplexFloat &beta,
          thrust::device_ptr<ComplexFloat> y, IndexType incY);
 
-
 // zsymv
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -149,7 +147,7 @@ template <typename IndexType>
          const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
          const ComplexDouble &beta,
          thrust::device_ptr<ComplexDouble> y, IndexType incY);
-    
+
 #endif // HAVE_CUBLAS
 
 } // namespace cxxblas

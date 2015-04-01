@@ -49,23 +49,24 @@ template <typename IndexType, typename ALPHA, typename VX, typename MA>
         MA *A);
 
 #ifdef HAVE_CBLAS
+
 // sspr
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     spr(StorageOrder order,   StorageUpLo upLo,
-         IndexType n,
-         float alpha,
-         const float *x, IndexType incX,
-         float *A);
+        IndexType n,
+        float alpha,
+        const float *x, IndexType incX,
+        float *A);
 
 // dspr
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     spr(StorageOrder order,   StorageUpLo upLo,
-         IndexType n,
-         double alpha,
-         const double *x, IndexType incX,
-         double *A);
+        IndexType n,
+        double alpha,
+        const double *x, IndexType incX,
+        double *A);
 
 #endif // HAVE_CBLAS
 
@@ -73,21 +74,21 @@ template <typename IndexType>
 
 // cspr
 template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
+    typename If<IndexType>::isBlasCompatibleInteger
     spr(StorageOrder order, StorageUpLo upLo,
-         IndexType n,
-         float alpha,
-         const thrust::device_ptr<const float> x, IndexType incX,
-         thrust::device_ptr<float> A);
+        IndexType n,
+        float alpha,
+        const thrust::device_ptr<const float> x, IndexType incX,
+        thrust::device_ptr<float> A);
 
 // zspr
 template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
+    typename If<IndexType>::isBlasCompatibleInteger
     spr(StorageOrder order, StorageUpLo upLo,
-         IndexType n,
-         double alpha,
-         const thrust::device_ptr<const double> x, IndexType incX,
-         thrust::device_ptr<double> A);
+        IndexType n,
+        double alpha,
+        const thrust::device_ptr<const double> x, IndexType incX,
+        thrust::device_ptr<double> A);
 
 #endif // HAVE_CUBLAS
 

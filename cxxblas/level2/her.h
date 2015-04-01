@@ -50,6 +50,7 @@ template <typename IndexType, typename ALPHA, typename VX, typename MA>
 
 
 #ifdef HAVE_CBLAS
+
 // cher
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger

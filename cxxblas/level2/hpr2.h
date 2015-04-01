@@ -50,6 +50,7 @@ hpr2(StorageOrder order, StorageUpLo upLo,
 
 
 #ifdef HAVE_CBLAS
+
 // cher
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger

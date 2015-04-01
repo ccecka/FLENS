@@ -49,6 +49,7 @@ spr2(StorageOrder order, StorageUpLo upLo,
      MA *A);
 
 #ifdef HAVE_CBLAS
+
 // sspr2
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -75,7 +76,7 @@ template <typename IndexType>
 
 // sspr2
 template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
+    typename If<IndexType>::isBlasCompatibleInteger
     spr2(StorageOrder order, StorageUpLo upLo,
          IndexType n,
          float alpha,
@@ -85,7 +86,7 @@ typename If<IndexType>::isBlasCompatibleInteger
 
 // dspr2
 template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
+    typename If<IndexType>::isBlasCompatibleInteger
     spr2(StorageOrder order, StorageUpLo upLo,
          IndexType n,
          double alpha,

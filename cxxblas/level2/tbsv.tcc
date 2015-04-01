@@ -374,20 +374,20 @@ tbsv(StorageOrder order, StorageUpLo upLo,
      thrust::device_ptr<float> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasStbsv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tbsv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasStbsv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasStbsv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,
                                         A.get(), ldA,
                                         x.get(), incX);
-    
+
     flens::checkStatus(status);
 }
 
@@ -401,22 +401,23 @@ tbsv(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<double> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasDtbsv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tbsv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasDtbsv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasDtbsv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,
                                         A.get(), ldA,
                                         x.get(), incX);
-    
+
     flens::checkStatus(status);
 }
+
 // ctbsv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
@@ -427,20 +428,20 @@ tbsv(StorageOrder order, StorageUpLo upLo,
      thrust::device_ptr<ComplexFloat> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasCtbsv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tbsv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasCtbsv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasCtbsv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,
                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
                                         reinterpret_cast<cuFloatComplex*>(x.get()), incX);
-    
+
     flens::checkStatus(status);
 }
 
@@ -454,20 +455,20 @@ tbsv(StorageOrder order, StorageUpLo upLo,
      thrust::device_ptr<ComplexDouble> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasZtbsv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tbsv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasZtbsv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasZtbsv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
                                         reinterpret_cast<cuDoubleComplex*>(x.get()), incX);
-    
+
     flens::checkStatus(status);
 }
 

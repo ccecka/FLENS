@@ -155,6 +155,7 @@ template <typename IndexType>
          thrust::device_ptr<ComplexDouble> y, IndexType incY);
 
 #endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_GBMV_H

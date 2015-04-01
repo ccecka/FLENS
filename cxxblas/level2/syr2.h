@@ -51,6 +51,7 @@ template <typename IndexType, typename ALPHA, typename VX, typename VY,
         MA *A, IndexType ldA);
 
 #ifdef HAVE_CBLAS
+
 // ssyr2
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -77,7 +78,7 @@ template <typename IndexType>
 
 // csyr2
 template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
+    typename If<IndexType>::isBlasCompatibleInteger
     syr2(StorageOrder order, StorageUpLo upLo,
          IndexType n,
          float alpha,
@@ -87,31 +88,31 @@ typename If<IndexType>::isBlasCompatibleInteger
 
 // zsyr2
 template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
+    typename If<IndexType>::isBlasCompatibleInteger
     syr2(StorageOrder order, StorageUpLo upLo,
          IndexType n,
          double alpha,
          const thrust::device_ptr<const double> x, IndexType incX,
          const thrust::device_ptr<const double> y, IndexType incY,
          thrust::device_ptr<double> A, IndexType ldA);
-    
+
 template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
+    typename If<IndexType>::isBlasCompatibleInteger
     syr2(StorageOrder order, StorageUpLo upLo,
-	  IndexType n,
-	  const ComplexFloat &alpha,
-	  const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
-	  const thrust::device_ptr<const ComplexFloat> y, IndexType incY,
-	  thrust::device_ptr<ComplexFloat> A, IndexType ldA);
-    
+         IndexType n,
+         const ComplexFloat &alpha,
+         const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
+         const thrust::device_ptr<const ComplexFloat> y, IndexType incY,
+         thrust::device_ptr<ComplexFloat> A, IndexType ldA);
+
 template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
+    typename If<IndexType>::isBlasCompatibleInteger
     syr2(StorageOrder order, StorageUpLo upLo,
-	  IndexType n,
-	  const ComplexDouble &alpha,
-	  const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
-	  const thrust::device_ptr<const ComplexDouble> y, IndexType incY,
-	  thrust::device_ptr<ComplexDouble> A, IndexType ldA);
+         IndexType n,
+         const ComplexDouble &alpha,
+         const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
+         const thrust::device_ptr<const ComplexDouble> y, IndexType incY,
+         thrust::device_ptr<ComplexDouble> A, IndexType ldA);
 
 #endif // HAVE_CUBLAS
 

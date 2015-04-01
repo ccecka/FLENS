@@ -234,7 +234,6 @@ hemv(StorageOrder order, StorageUpLo upLo,
                                         reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
 
     flens::checkStatus(status);
-
 }
 
 #endif // HAVE_CUBLAS

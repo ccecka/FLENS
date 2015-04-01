@@ -49,6 +49,7 @@ template <typename IndexType, typename ALPHA, typename VX, typename MA>
         MA *A);
 
 #ifdef HAVE_CBLAS
+
 // chpr
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger

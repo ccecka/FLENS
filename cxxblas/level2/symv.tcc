@@ -261,7 +261,6 @@ symv(StorageOrder order, StorageUpLo upLo,
                                         y.get(), incY);
 
     flens::checkStatus(status);
-
 }
 
 // csymv
@@ -320,7 +319,6 @@ symv(StorageOrder order, StorageUpLo upLo,
                                         reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
 
     flens::checkStatus(status);
-
 }
 
 #endif // HAVE_CUBLAS

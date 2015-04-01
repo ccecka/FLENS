@@ -199,7 +199,6 @@ typename If<IndexType>::isBlasCompatibleInteger
 
 #endif // HAVE_CUBLAS
 
-
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_GER_H

@@ -293,6 +293,7 @@ tpsv(StorageOrder order, StorageUpLo upLo,
                 reinterpret_cast<const double *>(A),
                 reinterpret_cast<double *>(x), incX);
 }
+
 #endif // HAVE_CBLAS
 
 #ifdef HAVE_CUBLAS
@@ -307,20 +308,20 @@ tpsv(StorageOrder order, StorageUpLo upLo,
      thrust::device_ptr<float> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasStpsv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tpsv(ColMajor, upLo, transA, diag, n, A, x, incX);
         return;
     }
-    cublasStatus_t status = cublasStpsv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasStpsv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,
                                         A.get(),
                                         x.get(), incX);
-    
+
     flens::checkStatus(status);
 }
 
@@ -334,22 +335,23 @@ tpsv(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<double> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasDtpsv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tpsv(ColMajor, upLo, transA, diag, n, A, x, incX);
         return;
     }
-    cublasStatus_t status = cublasDtpsv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasDtpsv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,
                                         A.get(),
                                         x.get(), incX);
-    
+
     flens::checkStatus(status);
 }
+
 // ctpsv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
@@ -360,20 +362,20 @@ tpsv(StorageOrder order, StorageUpLo upLo,
      thrust::device_ptr<ComplexFloat> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasCtpsv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tpsv(ColMajor, upLo, transA, diag, n, A, x, incX);
         return;
     }
-    cublasStatus_t status = cublasCtpsv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasCtpsv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,
                                         reinterpret_cast<const cuFloatComplex*>(A.get()),
                                         reinterpret_cast<cuFloatComplex*>(x.get()), incX);
-    
+
     flens::checkStatus(status);
 }
 
@@ -387,20 +389,20 @@ tpsv(StorageOrder order, StorageUpLo upLo,
      thrust::device_ptr<ComplexDouble> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasZtpsv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tpsv(ColMajor, upLo, transA, diag, n, A, x, incX);
         return;
     }
-    cublasStatus_t status = cublasZtpsv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasZtpsv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()),
                                         reinterpret_cast<cuDoubleComplex*>(x.get()), incX);
-    
+
     flens::checkStatus(status);
 }
 
@@ -409,4 +411,3 @@ tpsv(StorageOrder order, StorageUpLo upLo,
 } // namespace flens
 
 #endif // CXXBLAS_LEVEL2_TPSV_TCC
-

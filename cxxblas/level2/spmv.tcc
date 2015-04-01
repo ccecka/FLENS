@@ -162,19 +162,19 @@ spmv(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<ComplexFloat> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasSspmv");
-    
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
     }
-      
-    cublasStatus_t status = cublasSspmv(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo), 
+
+    cublasStatus_t status = cublasSspmv(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                         n,
                                         &alpha,
                                         A.get(),
                                         x.get(), incX,
                                         &beta,
                                         y.get(), incY);
-    
+
     flens::checkStatus(status);
 }
 
@@ -190,21 +190,20 @@ spmv(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<double> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("cublasDspmv");
-    
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
     }
-    
-    cublasStatus_t status = cublasDspmv(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo), 
+
+    cublasStatus_t status = cublasDspmv(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
                                         n,
                                         &alpha,
                                         A.get(),
                                         x.get(), incX,
                                         &beta,
                                         y.get(), incY);
-    
+
     flens::checkStatus(status);
-    
 }
 
 #endif // HAVE_CUBLAS

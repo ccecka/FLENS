@@ -286,6 +286,7 @@ tpmv(StorageOrder order, StorageUpLo upLo,
                 reinterpret_cast<const double *>(A),
                 reinterpret_cast<double *>(x), incX);
 }
+
 #endif // HAVE_CBLAS
 
 #ifdef HAVE_CUBLAS
@@ -300,20 +301,20 @@ tpmv(StorageOrder order, StorageUpLo upLo,
      thrust::device_ptr<float> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasStpmv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tpmv(ColMajor, upLo, transA, diag, n, A, x, incX);
         return;
     }
-    cublasStatus_t status = cublasStpmv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasStpmv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,
                                         A.get(),
                                         x.get(), incX);
-    
+
     flens::checkStatus(status);
 }
 
@@ -327,22 +328,23 @@ tpmv(StorageOrder order, StorageUpLo upLo,
       thrust::device_ptr<double> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasDtpmv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tpmv(ColMajor, upLo, transA, diag, n, A, x, incX);
         return;
     }
-    cublasStatus_t status = cublasDtpmv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasDtpmv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,
                                         A.get(),
                                         x.get(), incX);
-    
+
     flens::checkStatus(status);
 }
+
 // ctpmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
@@ -353,20 +355,20 @@ tpmv(StorageOrder order, StorageUpLo upLo,
      thrust::device_ptr<ComplexFloat> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasCtpmv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tpmv(ColMajor, upLo, transA, diag, n, A, x, incX);
         return;
     }
-    cublasStatus_t status = cublasCtpmv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasCtpmv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,
                                         reinterpret_cast<const cuFloatComplex*>(A.get()),
                                         reinterpret_cast<cuFloatComplex*>(x.get()), incX);
-    
+
     flens::checkStatus(status);
 }
 
@@ -380,20 +382,20 @@ tpmv(StorageOrder order, StorageUpLo upLo,
      thrust::device_ptr<ComplexDouble> x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("cublasZtpmv");
-    
+
     if (order==RowMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         tpmv(ColMajor, upLo, transA, diag, n, A, x, incX);
         return;
     }
-    cublasStatus_t status = cublasZtpmv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasZtpmv(flens::CudaEnv::getHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()),
                                         reinterpret_cast<cuDoubleComplex*>(x.get()), incX);
-    
+
     flens::checkStatus(status);
 }
 
@@ -402,4 +404,3 @@ tpmv(StorageOrder order, StorageUpLo upLo,
 } // namespace flens
 
 #endif // CXXBLAS_LEVEL2_TPMV_TCC
-

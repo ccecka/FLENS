@@ -90,7 +90,6 @@ template <typename IndexType>
          const ComplexFloat &beta,
          thrust::device_ptr<ComplexFloat> y, IndexType incY);
 
-
 // zhemv
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
