@@ -133,7 +133,7 @@ class GeTinyMatrix
         leadingDimension() const;
 
         void
-        fill(const ElementType &value = ElementType(0));
+        fill(const ElementType &value = ElementType());
 
         // -- implementation ---------------------------------------------------
         const Engine &

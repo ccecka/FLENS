@@ -292,7 +292,7 @@ bool
 FullStorage<T, Order, I, A>::fill(const ElementType &value)
 {
     ASSERT(data_!=pointer());
-    std::fill_n(data(), numRows()*numCols(), value);
+    flens::alg::fill_n(data(), numRows()*numCols(), value);
     return true;
 }
 
@@ -314,7 +314,7 @@ void
 FullStorage<T, Order, I, A>::changeIndexBase(IndexType firstRow,
                                              IndexType firstCol)
 {
-    if (data_) {
+    if (data_ != pointer()) {
         if (Order==RowMajor) {
             data_ = data() - (firstRow*leadingDimension() + firstCol);
         }
@@ -380,7 +380,7 @@ FullStorage<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        return ConstView(numRows, numCols, 0, leadingDimension(),
+        return ConstView(numRows, numCols, pointer(), leadingDimension(),
                          firstViewRow, firstViewCol, allocator());
     }
 
@@ -421,7 +421,7 @@ FullStorage<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        return      View(numRows, numCols, 0, leadingDimension(),
+        return      View(numRows, numCols, pointer(), leadingDimension(),
                          firstViewRow, firstViewCol, allocator());
     }
 
@@ -456,7 +456,7 @@ FullStorage<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numCols()==0) {
-        return ConstArrayView(numCols(), 0, strideCol(),
+        return ConstArrayView(numCols(), pointer(), strideCol(),
                               firstViewIndex, allocator());
     }
 #   endif
@@ -479,7 +479,7 @@ FullStorage<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numCols()==0) {
-        return ArrayView(numCols(), 0, strideCol(),
+        return ArrayView(numCols(), pointer(), strideCol(),
                          firstViewIndex, allocator());
     }
 #   endif
@@ -506,7 +506,7 @@ FullStorage<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ConstArrayView(length, 0, strideCol()*stride,
+        return ConstArrayView(length, pointer(), strideCol()*stride,
                               firstViewIndex, allocator());
     }
 #   endif
@@ -532,7 +532,7 @@ FullStorage<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ArrayView(length, 0, strideCol()*stride,
+        return ArrayView(length, pointer(), strideCol()*stride,
                          firstViewIndex, allocator());
     }
 #   endif
@@ -556,7 +556,7 @@ FullStorage<T, Order, I, A>::viewCol(IndexType col,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numRows()==0) {
-        return ConstArrayView(numRows(), 0, strideRow(),
+        return ConstArrayView(numRows(), pointer(), strideRow(),
                               firstViewIndex, allocator());
     }
 #   endif
@@ -579,7 +579,7 @@ FullStorage<T, Order, I, A>::viewCol(IndexType col,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numRows()==0) {
-        return ArrayView(numRows(), 0, strideRow(),
+        return ArrayView(numRows(), pointer(), strideRow(),
                          firstViewIndex, allocator());
     }
 #   endif
@@ -605,7 +605,7 @@ FullStorage<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ConstArrayView(length, 0, strideRow()*stride,
+        return ConstArrayView(length, pointer(), strideRow()*stride,
                               firstViewIndex, allocator());
     }
 #   endif
@@ -631,7 +631,7 @@ FullStorage<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ArrayView(length, 0, strideRow()*stride,
+        return ArrayView(length, pointer(), strideRow()*stride,
                          firstViewIndex, allocator());
     }
 #   endif
@@ -744,7 +744,7 @@ template <typename T, StorageOrder Order, typename I, typename A>
 void
 FullStorage<T, Order, I, A>::raw_allocate_()
 {
-    ASSERT(data_ == pointer());
+    ASSERT(data_==pointer());
     ASSERT(numRows_>0);
     ASSERT(numCols_>0);
 
@@ -778,10 +778,8 @@ void
 FullStorage<T, Order, I, A>::release_()
 {
     if (data_ != pointer()) {
-        pointer p = data();
-        //for (IndexType i=0; i<numRows()*numCols(); ++i, ++p) {
-        //    allocator_.destroy(p);
-        //}
+        // XXX: Assume T is trivially destructible
+        // TODO: std::destroy(first, last, alloc).  See gcc's std::_Destroy
         allocator_.deallocate(data(), numRows()*numCols());
         data_ = pointer();
     }

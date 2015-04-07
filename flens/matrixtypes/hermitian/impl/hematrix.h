@@ -236,7 +236,7 @@ class HeMatrix
         order() const;
 
         bool
-        fill(const ElementType &value = ElementType(0));
+        fill(const ElementType &value = ElementType());
 
         template <typename RHS>
             bool

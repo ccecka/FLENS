@@ -217,7 +217,7 @@ Array<T, I, A>::view(IndexType from, IndexType to,
 
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
-    const_pointer data = (length!=0) ? &operator()(from) : 0;
+    const_pointer data = (length!=0) ? &operator()(from) : pointer();
 
     if (length!=0) {
         ASSERT(firstIndex()<=from);
@@ -285,9 +285,8 @@ Array<T, I, A>::release_()
 {
     if (data_ != pointer()) {
         ASSERT(length()>0);
-        //for (IndexType i=0; i<length(); ++i) {
-        //    allocator_.destroy(data_+i);
-        //}
+        // XXX: Assume T is trivially destructible
+        // TODO: std::destroy(first, last, alloc).  See gcc's std::_Destroy
         allocator_.deallocate(data(), length());
         data_ = pointer();
     }

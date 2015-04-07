@@ -86,7 +86,7 @@ class PackedStorageView
         typedef flens::Array<T, I, A>                   Array;
 
         PackedStorageView(IndexType dim,
-                          ElementType *data,
+                          pointer data,
                           IndexType indexBase = I::defaultIndexBase,
                           const Allocator &allocator = Allocator());
 
@@ -137,7 +137,7 @@ class PackedStorageView
                const ElementType &value = ElementType());
 
         bool
-        fill(const ElementType &value = ElementType(0));
+        fill(const ElementType &value = ElementType());
 
         void
         changeIndexBase(IndexType indexBase);

@@ -211,7 +211,7 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
         return ConstView(length,                // length
-                     pointer(),             // data
+                         pointer(),             // data
                          stride*stride_,        // stride
                          firstViewIndex,        // firstIndex in view
                          allocator());          // allocator
@@ -240,7 +240,7 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
         return ArrayView(length,                // length
-                     pointer(),             // data
+                         pointer(),             // data
                          stride*stride_,        // stride
                          firstViewIndex,        // firstIndex in view
                          allocator());          // allocator

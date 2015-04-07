@@ -125,7 +125,7 @@ class TinyVector
         stride() const;
 
         void
-        fill(const ElementType &value = ElementType(0));
+        fill(const ElementType &value = ElementType());
 
         // -- implementation ---------------------------------------------------
         const TA &

@@ -120,7 +120,7 @@ ConstFullStorageView<T, Order, I, A>::operator()(IndexType row,
     } else {
         ASSERT(row==firstRow_);
         ASSERT(col==firstCol_);
-        ASSERT(data_);
+        ASSERT(data_!=pointer());
     }
 #   endif
 
@@ -265,7 +265,7 @@ ConstFullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        return ConstView(numRows, numCols, 0, leadingDimension(),
+        return ConstView(numRows, numCols, pointer(), leadingDimension(),
                          firstViewRow, firstViewCol, allocator());
     }
 

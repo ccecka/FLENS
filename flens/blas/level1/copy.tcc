@@ -838,7 +838,7 @@ copy(Transpose DEBUG_VAR(trans), const MA &A, MB &&B)
 
     B.resize(A.numRows(), A.numCols(),
              A.firstRow(), A.firstCol(),
-             ElementType(0));
+             ElementType());
 
     const auto &cols = A.engine().cols();
     const auto &rows = A.engine().rows();
@@ -865,7 +865,7 @@ copy(Transpose DEBUG_VAR(trans), const MA &A, MB &&B)
 
     B.resize(A.numRows(), A.numCols(),
              A.firstRow(), A.firstCol(),
-             ElementType(0));
+             ElementType());
 
     const auto &rows = A.engine().rows();
     const auto &cols = A.engine().cols();
@@ -891,7 +891,7 @@ copy(Transpose DEBUG_VAR(trans), const MA &A, MB &&B)
 
     B.resize(A.numRows(), A.numCols(),
              A.firstRow(), A.firstCol(),
-             ElementType(0));
+             ElementType());
 
     const auto &coord = A.engine().coordVector();
 
@@ -914,7 +914,7 @@ copy(const MA &A, MB &&B)
 
     if (B.dim()!=A.dim()) {
         ASSERT(B.dim()==0);
-        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType(0));
+        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType());
         B.upLo() = A.upLo();
     }
 
@@ -943,7 +943,7 @@ copy(const MA &A, MB &&B)
 
     if (B.dim()!=A.dim()) {
         ASSERT(B.dim()==0);
-        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType(0));
+        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType());
         B.upLo() = A.upLo();
     }
 
@@ -974,7 +974,7 @@ copy(const MA &A, MB &&B)
 
     if (B.dim()!=A.dim()) {
         ASSERT(B.dim()==0);
-        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType(0));
+        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType());
         B.upLo() = A.upLo();
     }
 
@@ -1003,7 +1003,7 @@ copy(const MA &A, MB &&B)
 
     if (B.dim()!=A.dim()) {
         ASSERT(B.dim()==0);
-        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType(0));
+        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType());
         B.upLo() = A.upLo();
     }
 

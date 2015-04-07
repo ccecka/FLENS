@@ -124,7 +124,7 @@ class Array
             resize(const ARRAY &rhs, const ElementType &value = ElementType());
 
         bool
-        fill(const ElementType &value = ElementType(0));
+        fill(const ElementType &value = ElementType());
 
         void
         changeIndexBase(IndexType firstIndex);

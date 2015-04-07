@@ -38,16 +38,16 @@
 
 namespace flens {
 
-template <typename IndexType, typename T>
+template <typename IndexType, typename T, typename TPtr>
     void
     trapezoidalFill(StorageOrder order, StorageUpLo upLo,
                     const T &value,
-                    IndexType m, IndexType n, T *data, IndexType ld);
+                    IndexType m, IndexType n, TPtr data, IndexType ld);
 
-template <typename IndexType, typename T>
+template <typename IndexType, typename T, typename TPtr>
     void
     trapezoidalFillRandom(StorageOrder order, StorageUpLo upLo,
-                          IndexType m, IndexType n, T *data, IndexType ld);
+                          IndexType m, IndexType n, TPtr data, IndexType ld);
 
 } // namespace flens
 

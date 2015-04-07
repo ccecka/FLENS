@@ -43,7 +43,7 @@ namespace flens {
 
 template <typename T, StorageOrder Order, typename I, typename A>
 BandStorage<T, Order, I, A>::BandStorage()
-    :  data_(0),
+    :  data_(),
        numRows_(0), numCols_(0),
        numSubDiags_(0), numSuperDiags_(0),
        firstIndex_(I::defaultIndexBase)
@@ -57,7 +57,7 @@ BandStorage<T, Order, I, A>::BandStorage(IndexType numRows, IndexType numCols,
                                          IndexType firstIndex,
                                          const ElementType &value,
                                          const Allocator &allocator)
-    : data_(0), allocator_(allocator),
+    : data_(), allocator_(allocator),
       numRows_(numRows), numCols_(numCols),
       numSubDiags_(numSubDiags), numSuperDiags_(numSuperDiags),
       firstIndex_(firstIndex)
@@ -69,12 +69,11 @@ BandStorage<T, Order, I, A>::BandStorage(IndexType numRows, IndexType numCols,
     ASSERT(numSuperDiags_>=0);
 
     allocate_(value);
-
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 BandStorage<T, Order, I, A>::BandStorage(const BandStorage &rhs)
-    : data_(0), allocator_(rhs.allocator()),
+    : data_(), allocator_(rhs.allocator()),
       numRows_(rhs.numRows()), numCols_(rhs.numCols()),
       numSubDiags_(rhs.numSubDiags()), numSuperDiags_(rhs.numSuperDiags()),
       firstIndex_(rhs.firstIndex())
@@ -92,7 +91,7 @@ BandStorage<T, Order, I, A>::BandStorage(const BandStorage &rhs)
 template <typename T, StorageOrder Order, typename I, typename A>
 template <typename RHS>
 BandStorage<T, Order, I, A>::BandStorage(const RHS &rhs)
-    : data_(0), allocator_(rhs.allocator()),
+    : data_(), allocator_(rhs.allocator()),
       numRows_(rhs.numRows()), numCols_(rhs.numCols()),
       numSubDiags_(rhs.numSubDiags()), numSuperDiags_(rhs.numSuperDiags()),
       firstIndex_(rhs.firstIndex())
@@ -123,7 +122,6 @@ template <typename T, StorageOrder Order, typename I, typename A>
 typename BandStorage<T, Order, I, A>::const_reference
 BandStorage<T, Order, I, A>::operator()(IndexType row, IndexType col) const
 {
-
     ASSERT(row>=firstIndex_);
     ASSERT(row<firstIndex_+numRows_);
     ASSERT(col>=firstIndex_);
@@ -169,7 +167,6 @@ BandStorage<T, Order, I, A>::operator()(IndexType row, IndexType col)
     const IndexType i = numSubDiags_+col-row;
     const IndexType j = row-firstIndex_;
     return data_[j*leadingDimension+i];
-
 }
 
 //-- Methods -------------------------------------------------------------------
@@ -214,7 +211,6 @@ BandStorage<T, Order, I, A>::lastIndex() const
 {
     return firstIndex_+numCols_-1;
 }
-
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename BandStorage<T, Order, I, A>::IndexType
@@ -350,10 +346,10 @@ BandStorage<T, Order, I, A>::fill(const ElementType &value)
 {
     const IndexType m = numSubDiags_+numSuperDiags_+1;
     if (Order==ColMajor) {
-        std::fill_n(data_, m*numCols_, value);
+        flens::alg::fill_n(data_, m*numCols_, value);
     }
     else {
-        std::fill_n(data_, m*numRows_, value);
+        flens::alg::fill_n(data_, m*numRows_, value);
     }
 
     return true;
@@ -424,7 +420,6 @@ const typename BandStorage<T, Order, I, A>::ConstArrayView
 BandStorage<T, Order, I, A>::viewDiag(IndexType diag,
                                       IndexType firstViewIndex) const
 {
-
     ASSERT( diag <= numSuperDiags_);
     ASSERT(-diag <= numSubDiags_);
 
@@ -439,7 +434,6 @@ BandStorage<T, Order, I, A>::viewDiag(IndexType diag,
                           &(operator()(i, j)),
                           numSubDiags_+numSuperDiags_+1,
                           firstIndex_, allocator_);
-
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -461,8 +455,6 @@ BandStorage<T, Order, I, A>::viewDiag(IndexType diag,
                      &(operator()(i, j)),
                      numSubDiags_+numSuperDiags_+1,
                      firstIndex_, allocator_);
-
-
 }
 
 // View some diagonals
@@ -471,7 +463,6 @@ const typename BandStorage<T, Order, I, A>::ConstView
 BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag,
                                        IndexType toDiag) const
 {
-
     ASSERT(fromDiag<=toDiag);
     IndexType numRows = numRows_;
     IndexType numCols = numCols_;
@@ -502,13 +493,13 @@ BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag,
 
     if (Order == RowMajor ) {
         if (toDiag < 0) {
-            return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
+            return ConstView(numRows, numCols, -fromDiag+toDiag, pointer(),
                              &(operator()(i,j)) + fromDiag-toDiag,
                              numSubDiags_+numSuperDiags_+1,
                              firstIndex_, allocator_);
         }
         if (fromDiag > 0) {
-            return ConstView(numRows, numCols, 0, toDiag-fromDiag,
+            return ConstView(numRows, numCols, pointer(), toDiag-fromDiag,
                              &(operator()(i,j)),
                              numSubDiags_+numSuperDiags_+1,
                              firstIndex_, allocator_);
@@ -520,13 +511,13 @@ BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag,
     }
 
     if (toDiag < 0) {
-        return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
+        return ConstView(numRows, numCols, -fromDiag+toDiag, pointer(),
                          &(operator()(i,j)),
                          numSubDiags_+numSuperDiags_+1,
                          firstIndex_, allocator_);
     }
     if (fromDiag > 0) {
-        return ConstView(numRows, numCols, 0, toDiag-fromDiag,
+        return ConstView(numRows, numCols, pointer(), toDiag-fromDiag,
                          &(operator()(i,j)) + fromDiag-toDiag,
                          numSubDiags_+numSuperDiags_+1,
                          firstIndex_, allocator_);
@@ -572,13 +563,13 @@ BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag)
 
     if (Order == RowMajor ) {
         if (toDiag < 0) {
-            return View(numRows, numCols, -fromDiag+toDiag, 0,
+            return View(numRows, numCols, -fromDiag+toDiag, IndexType(0),
                         &(operator()(i,j)) + fromDiag-toDiag ,
                         numSubDiags_+numSuperDiags_+1,
                         firstIndex_, allocator_);
         }
         if (fromDiag > 0) {
-            return View(numRows, numCols, 0, toDiag-fromDiag,
+            return View(numRows, numCols, IndexType(0), toDiag-fromDiag,
                         &(operator()(i,j)),
                         numSubDiags_+numSuperDiags_+1,
                         firstIndex_, allocator_);
@@ -590,13 +581,13 @@ BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag)
     }
 
     if (toDiag < 0) {
-        return View(numRows, numCols, -fromDiag+toDiag, 0,
+        return View(numRows, numCols, -fromDiag+toDiag, IndexType(0),
                     &(operator()(i,j)),
                     numSubDiags_+numSuperDiags_+1,
                     firstIndex_, allocator_);
     }
     if (fromDiag > 0) {
-        return View(numRows, numCols, 0, toDiag-fromDiag,
+        return View(numRows, numCols, IndexType(0), toDiag-fromDiag,
                     &(operator()(i,j)) + fromDiag-toDiag,
                     numSubDiags_+numSuperDiags_+1,
                     firstIndex_, allocator_);
@@ -617,7 +608,7 @@ BandStorage<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numCols()==0) {
-        return ConstArrayView(numCols(), 0, strideCol(),
+        return ConstArrayView(numCols(), pointer(), strideCol(),
                               firstViewIndex, allocator());
     }
 #   endif
@@ -646,7 +637,7 @@ BandStorage<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numCols()==0) {
-        return ArrayView(numCols(), 0, strideCol(),
+        return ArrayView(numCols(), pointer(), strideCol(),
                          firstViewIndex, allocator());
     }
 #   endif
@@ -677,7 +668,7 @@ BandStorage<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ConstArrayView(length, 0, strideCol()*stride,
+        return ConstArrayView(length, pointer(), strideCol()*stride,
                               firstViewIndex, allocator());
     }
 #   endif
@@ -703,7 +694,7 @@ BandStorage<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ArrayView(length, 0, strideCol()*stride,
+        return ArrayView(length, pointer(), strideCol()*stride,
                          firstViewIndex, allocator());
     }
 #   endif
@@ -728,7 +719,7 @@ BandStorage<T, Order, I, A>::viewCol(IndexType col,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numRows()==0) {
-        return ArrayView(numRows(), 0, strideRow(),
+        return ArrayView(numRows(), pointer(), strideRow(),
                          firstViewIndex, allocator());
     }
 #   endif
@@ -758,7 +749,7 @@ BandStorage<T, Order, I, A>::viewCol(IndexType col,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numRows()==0) {
-        return ArrayView(numRows(), 0, strideRow(),
+        return ArrayView(numRows(), pointer(), strideRow(),
                          firstViewIndex, allocator());
     }
 #   endif
@@ -789,7 +780,7 @@ BandStorage<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ConstArrayView(length, 0, strideRow()*stride,
+        return ConstArrayView(length, pointer(), strideRow()*stride,
                               firstViewIndex, allocator());
     }
 #   endif
@@ -815,7 +806,7 @@ BandStorage<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ArrayView(length, 0, strideRow()*stride,
+        return ArrayView(length, pointer(), strideRow()*stride,
                          firstViewIndex, allocator());
     }
 #   endif
@@ -864,7 +855,7 @@ template <typename T, StorageOrder Order, typename I, typename A>
 void
 BandStorage<T, Order, I, A>::raw_allocate_()
 {
-    ASSERT(!data_);
+    ASSERT(data_==pointer());
     ASSERT(numRows_>0);
     ASSERT(numCols_>0);
 
@@ -877,20 +868,17 @@ BandStorage<T, Order, I, A>::raw_allocate_()
     }
 
     setIndexBase_(firstIndex_);
-
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 void
 BandStorage<T, Order, I, A>::allocate_(const ElementType &value)
 {
-
     if (numRows()*numCols()==0) {
         return;
     }
 
     raw_allocate_();
-    T *p = data_;
 
     IndexType numArrayElements = (numSubDiags_+numSuperDiags_+1)*numCols_;
 
@@ -898,28 +886,25 @@ BandStorage<T, Order, I, A>::allocate_(const ElementType &value)
         numArrayElements = (numSubDiags_+numSuperDiags_+1)*numRows_;
     }
 
-    for (IndexType i=0; i<numArrayElements; ++i) {
-        allocator_.construct(p++, value);
-    }
+    flens::alg::uninitialized_fill_n(data(), numArrayElements, value);
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 void
 BandStorage<T, Order, I, A>::release_()
 {
-    if (data_) {
-        T *p = data_;
-        IndexType numElements = (numSubDiags_+numSuperDiags_+1)*numCols_;
+    if (data_ != pointer()) {
+        IndexType numElements;
         if (Order == RowMajor)
             numElements = (numSubDiags_+numSuperDiags_+1)*numRows_;
-
-        for (IndexType i=0; i<numElements; ++i) {
-            allocator_.destroy(p++);
-        }
-         allocator_.deallocate(data(), numElements);
-        data_ = 0;
+        else
+            numElements = (numSubDiags_+numSuperDiags_+1)*numCols_;
+        // XXX: Assume T is trivially destructible
+        // TODO: std::destroy(first, last, alloc).  See gcc's std::_Destroy
+        allocator_.deallocate(data(), numElements);
+        data_ = pointer();
     }
-    ASSERT(data_==0);
+    ASSERT(data_==pointer());
 }
 
 } // namespace flens

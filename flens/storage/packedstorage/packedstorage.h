@@ -133,7 +133,7 @@ class PackedStorage
                const ElementType &value = ElementType());
 
         bool
-        fill(const ElementType &value = ElementType(0));
+        fill(const ElementType &value = ElementType());
 
         void
         changeIndexBase(IndexType indexBase);

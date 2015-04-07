@@ -46,7 +46,7 @@ PackedStorage<T, Order, I, A>::PackedStorage(IndexType dim,
                                              IndexType indexBase,
                                              const ElementType &value,
                                              const Allocator &allocator)
-    : data_(0), allocator_(allocator),
+    : data_(), allocator_(allocator),
       dim_(dim),
       indexBase_(indexBase)
 {
@@ -57,7 +57,7 @@ PackedStorage<T, Order, I, A>::PackedStorage(IndexType dim,
 
 template <typename T, StorageOrder Order, typename I, typename A>
 PackedStorage<T, Order, I, A>::PackedStorage(const PackedStorage &rhs)
-    : data_(0), allocator_(rhs.allocator()),
+    : data_(), allocator_(rhs.allocator()),
       dim_(rhs.dim()),
       indexBase_(rhs.indexBase())
 {
@@ -69,7 +69,7 @@ PackedStorage<T, Order, I, A>::PackedStorage(const PackedStorage &rhs)
 template <typename T, StorageOrder Order, typename I, typename A>
 template <typename RHS>
 PackedStorage<T, Order, I, A>::PackedStorage(const RHS &rhs)
-    : data_(0), allocator_(rhs.allocator()),
+    : data_(), allocator_(rhs.allocator()),
       dim_(rhs.dim()),
       indexBase_(rhs.indexBase())
 {
@@ -217,8 +217,8 @@ template <typename T, StorageOrder Order, typename I, typename A>
 bool
 PackedStorage<T, Order, I, A>::fill(const ElementType &value)
 {
-    ASSERT(data_);
-    std::fill_n(data(), 0.5*(dim()+1)*dim(), value);
+    ASSERT(data_!=pointer());
+    flens::alg::fill_n(data(), 0.5*(dim()+1)*dim(), value);
     return true;
 }
 
@@ -235,14 +235,14 @@ template <typename T, StorageOrder Order, typename I, typename A>
 void
 PackedStorage<T, Order, I, A>::raw_allocate_()
 {
-    ASSERT(!data_);
+    ASSERT(data_==pointer());
     ASSERT(dim_>0);
 
     data_ = allocator_.allocate(numNonZeros());
-    ASSERT(data_);
+    ASSERT(data_!=pointer());
 
 #ifndef NDEBUG
-    ElementType *p = data_;
+    pointer p = data_;
 #endif
 
     changeIndexBase(indexBase_);
@@ -263,27 +263,20 @@ PackedStorage<T, Order, I, A>::allocate_(const ElementType &value)
     }
 
     raw_allocate_();
-    T *p = data();
-    for (IndexType i=0; i<numElements; ++i, ++p) {
-        allocator_.construct(p, value);
-    }
+    flens::alg::uninitialized_fill_n(data(), numElements, value);
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 void
 PackedStorage<T, Order, I, A>::release_()
 {
-    if (data_) {
-        const IndexType numElements = numNonZeros();
-
-        T *p = data();
-        for (IndexType i=0; i<numElements; ++i, ++p) {
-            allocator_.destroy(p);
-        }
-        allocator_.deallocate(data(), numElements);
-        data_ = 0;
+    if (data_ != pointer()) {
+        // XXX: Assume T is trivially destructible
+        // TODO: std::destroy(first, last, alloc).  See gcc's std::_Destroy
+        allocator_.deallocate(data(), numNonZeros());
+        data_ = pointer();
     }
-    ASSERT(data_==0);
+    ASSERT(data_==pointer());
 }
 
 } // namespace flens

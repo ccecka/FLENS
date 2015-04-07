@@ -1,13 +1,12 @@
 #ifndef CXXSTD_ALGORITHM_H
 #define CXXSTD_ALGORITHM_H 1
 
-#include <algorithm>
-
-#if defined(__CUDACC__)   // Compiling with nvcc -- cublas, thrust available
+#if defined(__CUDACC__)   // Compiling with nvcc -- thrust available
 
 #  include <thrust/fill.h>
 #  include <thrust/uninitialized_fill.h>
 #  include <thrust/device_ptr.h>
+
 namespace flens {
 namespace alg {
   using thrust::fill;
@@ -18,6 +17,8 @@ namespace alg {
 }
 
 #else
+
+#include <algorithm>
 
 namespace flens {
 namespace alg {

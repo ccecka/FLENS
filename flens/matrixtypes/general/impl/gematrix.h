@@ -244,7 +244,7 @@ class GeMatrix
                const ElementType &value = ElementType());
 
         bool
-        fill(const ElementType &value = ElementType(0));
+        fill(const ElementType &value = ElementType());
 
         void
         changeIndexBase(IndexType firstRowIndex, IndexType firstColIndex);

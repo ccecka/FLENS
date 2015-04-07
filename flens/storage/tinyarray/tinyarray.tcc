@@ -93,7 +93,7 @@ template <typename T, int n, int ib>
 void
 TinyArray<T,n,ib>::fill(const ElementType &value)
 {
-    std::fill_n(data(), length, value);
+    flens::alg::fill_n(data(), length, value);
 }
 
 } // namespace flens

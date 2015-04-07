@@ -78,7 +78,7 @@ class TinyArray
         data();
 
         void
-        fill(const ElementType &value = ElementType(0));
+        fill(const ElementType &value = ElementType());
 
     private:
         ElementType data_[n];

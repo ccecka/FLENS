@@ -304,7 +304,7 @@ unglq(MA &&A, const VTAU &tau, VWORK &&work)
     if (work_org.length()!=0) {
         work = work_org;
     } else {
-        work = ElementType(0);
+        work = ElementType();
     }
 //
 //  Compare results

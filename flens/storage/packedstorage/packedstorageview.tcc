@@ -41,7 +41,7 @@ namespace flens {
 
 template <typename T, StorageOrder Order, typename I, typename A>
 PackedStorageView<T, Order, I, A>::PackedStorageView(IndexType dim,
-                                                     ElementType *data,
+                                                     pointer data,
                                                      IndexType indexBase,
                                                      const Allocator &allocator)
     : data_(data),
@@ -232,7 +232,7 @@ template <typename T, StorageOrder Order, typename I, typename A>
 bool
 PackedStorageView<T, Order, I, A>::fill(const ElementType &value)
 {
-    std::fill_n(data(), numNonZeros(), value);
+    flens::alg::fill_n(data(), numNonZeros(), value);
     return true;
 }
 

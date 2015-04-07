@@ -43,7 +43,7 @@ ConstBandStorageView<T, Order, I, A>::ConstBandStorageView(
                                         IndexType numRows, IndexType numCols,
                                         IndexType numSubDiags,
                                         IndexType numSuperDiags,
-                                        const ElementType *data,
+                                        const_pointer data,
                                         IndexType leadingDimension,
                                         IndexType firstIndex,
                                         const Allocator &allocator)
@@ -56,7 +56,6 @@ ConstBandStorageView<T, Order, I, A>::ConstBandStorageView(
     ASSERT(numCols_>=0);
     ASSERT(numSubDiags_>=0);
     ASSERT(numSuperDiags_>=0);
-
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -318,13 +317,13 @@ ConstBandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag,
 
     if (Order == RowMajor ) {
         if (toDiag < 0) {
-            return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
+            return ConstView(numRows, numCols, -fromDiag+toDiag, IndexType(0),
                              &(operator()(i,j)) + fromDiag-toDiag ,
                             leadingDimension_,
                              firstIndex_, allocator_);
         }
         if (fromDiag > 0) {
-            return ConstView(numRows, numCols, 0, toDiag-fromDiag,
+            return ConstView(numRows, numCols, IndexType(0), toDiag-fromDiag,
                              &(operator()(i,j)),
                              leadingDimension_,
                              firstIndex_, allocator_);
@@ -336,13 +335,13 @@ ConstBandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag,
     }
 
     if (toDiag < 0) {
-        return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
+        return ConstView(numRows, numCols, -fromDiag+toDiag, IndexType(0),
                          &(operator()(i,j)),
                          leadingDimension_,
                          firstIndex_, allocator_);
     }
     if (fromDiag > 0) {
-        return ConstView(numRows, numCols, 0, toDiag-fromDiag,
+        return ConstView(numRows, numCols, IndexType(0), toDiag-fromDiag,
                          &(operator()(i,j)) + fromDiag-toDiag,
                          leadingDimension_,
                          firstIndex_, allocator_);
@@ -363,7 +362,7 @@ ConstBandStorageView<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numCols()==0) {
-        return ConstArrayView(numCols(), 0, strideCol(),
+        return ConstArrayView(numCols(), pointer(), strideCol(),
                               firstViewIndex, allocator());
     }
 #   endif
@@ -396,7 +395,7 @@ ConstBandStorageView<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ConstArrayView(length, 0, strideCol()*stride,
+        return ConstArrayView(length, pointer(), strideCol()*stride,
                               firstViewIndex, allocator());
     }
 #   endif
@@ -421,7 +420,7 @@ ConstBandStorageView<T, Order, I, A>::viewCol(IndexType col,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numRows()==0) {
-        return ArrayView(numRows(), 0, strideRow(),
+        return ArrayView(numRows(), pointer(), strideRow(),
                          firstViewIndex, allocator());
     }
 #   endif
@@ -453,7 +452,7 @@ ConstBandStorageView<T, Order, I, A>::viewCol(IndexType firstRow,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ConstArrayView(length, 0, strideRow()*stride,
+        return ConstArrayView(length, pointer(), strideRow()*stride,
                               firstViewIndex, allocator());
     }
 #   endif

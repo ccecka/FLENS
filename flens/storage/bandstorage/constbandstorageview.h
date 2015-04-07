@@ -100,7 +100,7 @@ class ConstBandStorageView
 
         ConstBandStorageView(IndexType numRows, IndexType numCols,
                              IndexType numSubDiags, IndexType numSuperDiags,
-                             const ElementType *data,
+                             const_pointer data,
                              IndexType leadingDimension,
                              IndexType firstIndex = I::defaultIndexBase,
                              const Allocator &allocator = Allocator());

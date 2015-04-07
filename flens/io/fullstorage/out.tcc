@@ -205,7 +205,7 @@ operator<<(std::ostream &out, const TrMatrix<FS> &A)
                  || ((i<j) && (A.upLo()==cxxblas::Upper))) {
                     out << A(i,j);
                 } else {
-                    out << ElementType(0);
+                    out << ElementType();
                 }
             }
             out << " ";

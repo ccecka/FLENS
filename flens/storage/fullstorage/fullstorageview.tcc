@@ -123,7 +123,7 @@ FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col) const
         ASSERT(row<firstRow_+numRows_);
         ASSERT(col>=firstCol_);
         ASSERT(col<firstCol_+numCols_);
-        ASSERT(data_);
+        ASSERT(data_!=pointer());
     } else {
         ASSERT(row==firstRow_);
         ASSERT(col==firstCol_);
@@ -146,7 +146,7 @@ FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col)
         ASSERT(row<firstRow_+numRows_);
         ASSERT(col>=firstCol_);
         ASSERT(col<firstCol_+numCols_);
-        ASSERT(data_);
+        ASSERT(data_!=pointer());
     } else {
         ASSERT(row==firstRow_);
         ASSERT(col==firstCol_);
@@ -277,16 +277,16 @@ bool
 FullStorageView<T, Order, I, A>::fill(const ElementType &value)
 {
     if (Order==RowMajor) {
-        ElementType *p = data();
+        pointer p = data();
         for (IndexType i=0; i<numRows(); ++i, p+=leadingDimension()) {
-            std::fill_n(p, numCols(), value);
+            flens::alg::fill_n(p, numCols(), value);
         }
         return true;
     }
     if (Order==ColMajor) {
-        ElementType *p = data();
+        pointer p = data();
         for (IndexType j=0; j<numCols(); ++j, p+=leadingDimension()) {
-            std::fill_n(p, numRows(), value);
+            flens::alg::fill_n(p, numRows(), value);
         }
         return true;
     }
@@ -386,7 +386,7 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        return ConstView(numRows, numCols, 0, leadingDimension(),
+        return ConstView(numRows, numCols, pointer(), leadingDimension(),
                          firstViewRow, firstViewCol, allocator());
     }
 
@@ -427,7 +427,7 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        return      View(numRows, numCols, 0, leadingDimension(),
+        return      View(numRows, numCols, pointer(), leadingDimension(),
                          firstViewRow, firstViewCol, allocator());
     }
 
@@ -462,7 +462,7 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numCols()==0) {
-        return ConstArrayView(numCols(), 0, strideCol(),
+        return ConstArrayView(numCols(), pointer(), strideCol(),
                               firstViewIndex, allocator());
     }
 #   endif
@@ -485,7 +485,7 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numCols()==0) {
-        return ArrayView(numCols(), 0, strideCol(),
+        return ArrayView(numCols(), pointer(), strideCol(),
                          firstViewIndex, allocator());
     }
 #   endif
@@ -512,7 +512,7 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ConstArrayView(length, 0, strideCol()*stride,
+        return ConstArrayView(length, pointer(), strideCol()*stride,
                               firstViewIndex, allocator());
     }
 #   endif
@@ -539,7 +539,7 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ArrayView(length, 0, strideCol()*stride,
+        return ArrayView(length, pointer(), strideCol()*stride,
                          firstViewIndex, allocator());
     }
 #   endif
@@ -563,7 +563,7 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType col,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numRows()==0) {
-        return ConstArrayView(numRows(), 0, strideRow(),
+        return ConstArrayView(numRows(), pointer(), strideRow(),
                               firstViewIndex, allocator());
     }
 #   endif
@@ -586,7 +586,7 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType col,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numRows()==0) {
-        return ArrayView(numRows(), 0, strideRow(),
+        return ArrayView(numRows(), pointer(), strideRow(),
                          firstViewIndex, allocator());
     }
 #   endif
@@ -612,7 +612,7 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ConstArrayView(length, 0, strideRow()*stride,
+        return ConstArrayView(length, pointer(), strideRow()*stride,
                               firstViewIndex, allocator());
     }
 #   endif
@@ -638,7 +638,7 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ArrayView(length, 0, strideRow()*stride,
+        return ArrayView(length, pointer(), strideRow()*stride,
                          firstViewIndex, allocator());
     }
 #   endif
@@ -739,11 +739,11 @@ bool
 fillRandom(FullStorageView<T, Order, I, Allocator> &A)
 {
     typedef FullStorageView<T,Order,I,Allocator>    FullStorageView;
-    typedef typename FullStorageView::ElementType   ElementType;
+    typedef typename FullStorageView::pointer       pointer;
     typedef typename FullStorageView::IndexType     IndexType;
 
     if (Order==RowMajor) {
-        ElementType *p = A.data();
+        pointer p = A.data();
         for (IndexType i=0; i<A.numRows(); ++i, p+=A.leadingDimension()) {
             for (IndexType j=0;j<A.numCols();++j) {
                 p[j] = randomValue<T>();
@@ -752,7 +752,7 @@ fillRandom(FullStorageView<T, Order, I, Allocator> &A)
         return true;
     }
     if (Order==ColMajor) {
-        ElementType *p = A.data();
+        pointer p = A.data();
         for (IndexType j=0; j<A.numCols(); ++j, p+=A.leadingDimension()) {
             for (IndexType i=0;i<A.numRows();++i) {
                 p[i] = randomValue<T>();
@@ -760,7 +760,7 @@ fillRandom(FullStorageView<T, Order, I, Allocator> &A)
         }
         return true;
     }
-    ASSERT(0);
+    ASSERT(false);
     return false;
 }
 

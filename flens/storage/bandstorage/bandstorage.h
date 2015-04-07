@@ -186,7 +186,7 @@ class BandStorage
             resize(const FS &rhs, const ElementType &value = ElementType());
 
         bool
-        fill(const ElementType &value = ElementType(0));
+        fill(const ElementType &value = ElementType());
 
         bool
         fillRandom();

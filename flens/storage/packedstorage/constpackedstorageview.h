@@ -86,7 +86,7 @@ class ConstPackedStorageView
         typedef flens::Array<T, I, A>                Array;
 
         ConstPackedStorageView(IndexType dim,
-                               const ElementType *data,
+                               const_pointer data,
                                IndexType indexBase = I::defaultIndexBase,
                                const Allocator &allocator = Allocator());
 

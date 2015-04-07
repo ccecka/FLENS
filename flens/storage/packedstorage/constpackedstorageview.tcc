@@ -41,7 +41,7 @@ namespace flens {
 template <typename T, StorageOrder Order, typename I, typename A>
 ConstPackedStorageView<T, Order, I, A>::ConstPackedStorageView(
                                                      IndexType dim,
-                                                     const ElementType *data,
+                                                     const_pointer data,
                                                      IndexType indexBase,
                                                      const Allocator &allocator)
     : data_(data), allocator_(allocator), dim_(dim),

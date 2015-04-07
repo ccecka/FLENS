@@ -164,10 +164,10 @@ class FullStorage
             resize(const FS &rhs, const ElementType &value = ElementType());
 
         bool
-        fill(const ElementType &value = ElementType(0));
+        fill(const ElementType &value = ElementType());
 
         bool
-        fill(StorageUpLo upLo, const ElementType &value = ElementType(0));
+        fill(StorageUpLo upLo, const ElementType &value = ElementType());
 
         void
         changeIndexBase(IndexType firstRow, IndexType firstCol);

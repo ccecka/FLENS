@@ -92,7 +92,7 @@ void
 TinyFullStorageView<T,m,n,ldA,ib>::fill(const ElementType &value)
 {
     for (IndexType i=0;i<numRows; ++i) {
-        std::fill_n(data()+i*leadingDimension, numCols, value);
+        flens::alg::fill_n(data()+i*leadingDimension, numCols, value);
     }
 }
 

@@ -101,7 +101,7 @@ class BandStorageView
 
         BandStorageView(IndexType numRows, IndexType numCols,
                         IndexType numSubDiags, IndexType numSuperDiags,
-                        ElementType *data,
+                        pointer data,
                         IndexType leadingDimension,
                         IndexType firstIndex = I::defaultIndexBase,
                         const Allocator &allocator = Allocator());
@@ -186,7 +186,7 @@ class BandStorageView
             resize(const FS &rhs, const ElementType &value = ElementType());
 
         bool
-        fill(const ElementType &value = ElementType(0));
+        fill(const ElementType &value = ElementType());
 
         bool
         fillRandom();

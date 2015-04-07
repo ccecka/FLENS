@@ -69,7 +69,7 @@ CoordStorage<T,Cmp,I>::operator()(IndexType row, IndexType col)
         coord_.reserve(coord_.capacity() + numRows_);
     }
 
-    coord_.push_back(CoordType(row, col, ElementType(0)));
+    coord_.push_back(CoordType(row, col, ElementType()));
     isAccumulated_ = false;
 
     size_t lastIndex = coord_.size()-1;
@@ -168,7 +168,7 @@ CoordStorage<T,Cmp,I>::accumulate() const
     for (k=0, K=1; K<coord_.size(); ++k, ++K) {
         while ((K<coord_.size()) && (!less_(coord_[k], coord_[K]))) {
             coord_[k].value += coord_[K].value;
-            coord_[K].value = ElementType(0);
+            coord_[K].value = ElementType();
             ++K;
         }
         if (K<coord_.size()) {

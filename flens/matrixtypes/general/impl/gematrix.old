@@ -589,7 +589,7 @@ Methods
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  bool                                                                     |
-|  fill(const ElementType &value = ElementType(0));                         |
+|  fill(const ElementType &value = ElementType());                          |
 |                                                                           |
 *---------------------------------------------------------------------------*
                                  [c:@N@flens@CT>1#T@GeMatrix@F@fill#&1 #bool]
@@ -1367,6 +1367,3 @@ Related Trait-Classes
 
     Defined in namespace `flens`.
     Function `fillRandom` with 1 template parameters.
-
-
-

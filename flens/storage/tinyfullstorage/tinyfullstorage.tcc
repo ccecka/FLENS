@@ -95,7 +95,7 @@ template <typename T, int m, int n, int ib>
 void
 TinyFullStorage<T,m,n,ib>::fill(const ElementType &value)
 {
-    std::fill_n(data(), m*n, value);
+    flens::alg::fill_n(data(), m*n, value);
 }
 
 } // namespace flens

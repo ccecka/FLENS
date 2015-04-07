@@ -39,11 +39,11 @@
 
 namespace flens {
 
-template <typename IndexType, typename T>
+template <typename IndexType, typename T, typename TPtr>
 void
 trapezoidalFill(StorageOrder order, StorageUpLo upLo,
                 const T &value,
-                IndexType m, IndexType n, T *data, IndexType ld)
+                IndexType m, IndexType n, TPtr data, IndexType ld)
 {
     using std::min;
 
@@ -51,12 +51,12 @@ trapezoidalFill(StorageOrder order, StorageUpLo upLo,
     if (upLo==Upper) {
         if (order==RowMajor) {
             for (IndexType i=0; i<min(m,n); ++i, data+=ld+1) {
-                std::fill_n(data, n-i, value);
+                flens::alg::fill_n(data, n-i, value);
             }
         }
         if (order==ColMajor) {
             for (IndexType j=0; j<n; ++j, data+=ld) {
-                std::fill_n(data, min(j+1,m), value);
+                flens::alg::fill_n(data, min(j+1,m), value);
             }
         }
     }
@@ -64,21 +64,21 @@ trapezoidalFill(StorageOrder order, StorageUpLo upLo,
     if (upLo==Lower) {
         if (order==RowMajor) {
             for (IndexType i=0; i<m; ++i, data+=ld) {
-                std::fill_n(data, min(i+1, n), value);
+                flens::alg::fill_n(data, min(i+1, n), value);
             }
         }
         if (order==ColMajor) {
             for (IndexType j=0; j<min(m, n); ++j, data+=ld+1) {
-                std::fill_n(data, m-j, value);
+                flens::alg::fill_n(data, m-j, value);
             }
         }
     }
 }
 
-template <typename IndexType, typename T>
+template <typename IndexType, typename T, typename TPtr>
 void
 trapezoidalFillRandom(StorageOrder order, StorageUpLo upLo,
-                      IndexType m, IndexType n, T *data, IndexType ld)
+                      IndexType m, IndexType n, TPtr data, IndexType ld)
 {
     using std::min;
 
