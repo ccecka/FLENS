@@ -49,6 +49,8 @@
 #   include <cxxblas/drivers/mklblas.h>
 #elif defined (WITH_REFBLAS)
 #   include <cxxblas/drivers/refblas.h>
+#elif defined (WITH_NVBLAS)
+#   include <cxxblas/drivers/nvblas.h>
 #endif
 
 #if defined (WITH_CUBLAS)
