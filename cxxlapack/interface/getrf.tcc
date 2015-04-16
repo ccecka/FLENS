@@ -156,16 +156,21 @@ getrf(IndexType                                m,
                                 A.get(), ldA,
                                 &work_size);
     float* work;
-    checkStatus(cudaMalloc(&work, work_size * sizeof(float)));
+    flens::checkStatus(cudaMalloc(&work, work_size * sizeof(float)));
+    int* devInfo;
+    flens::checkStatus(cudaMalloc(&devInfo, sizeof(int)));
 
     cusolverDnSgetrf(flens::CudaEnv::solverHandle(),
-                     m, n, A.get(), lda,
+                     m, n, A.get(), ldA,
                      work, iPiv.get(),
-                     flens::CudaEnv::solverInfo());
+                     devInfo);
 
     // TODO: Check solverInfo, check cusolverStatus
 
-    checkStatus(cudaFree(work));
+    flens::checkStatus(cudaFree(work));
+    flens::checkStatus(cudaFree(devInfo));
+
+    return 0;
 }
 
 template <typename IndexType>
@@ -184,16 +189,20 @@ getrf(IndexType                                 m,
                                 A.get(), ldA,
                                 &work_size);
     double* work;
-    checkStatus(cudaMalloc(&work, work_size * sizeof(double)));
+    flens::checkStatus(cudaMalloc(&work, work_size * sizeof(double)));
+    int* devInfo;
+    flens::checkStatus(cudaMalloc(&devInfo, sizeof(int)));
 
     cusolverDnDgetrf(flens::CudaEnv::solverHandle(),
-                     m, n, A.get(), lda,
+                     m, n, A.get(), ldA,
                      work, iPiv.get(),
-                     flens::CudaEnv::solverInfo());
+                     devInfo);
 
     // TODO: Check solverInfo, check cusolverStatus
 
-    checkStatus(cudaFree(work));
+    flens::checkStatus(cudaFree(work));
+
+    return 0;
 }
 
 template <typename IndexType>
@@ -212,16 +221,20 @@ getrf(IndexType                                 m,
                                 reinterpret_cast<cuFloatComplex*>(A.get()), ldA,
                                 &work_size);
     cuFloatComplex* work;
-    checkStatus(cudaMalloc(&work, work_size * sizeof(cuFloatComplex)));
+    flens::checkStatus(cudaMalloc(&work, work_size * sizeof(cuFloatComplex)));
+    int* devInfo;
+    flens::checkStatus(cudaMalloc(&devInfo, sizeof(int)));
 
     cusolverDnCgetrf(flens::CudaEnv::solverHandle(),
-                     m, n, reinterpret_cast<cuFloatComplex*>(A.get()), lda,
+                     m, n, reinterpret_cast<cuFloatComplex*>(A.get()), ldA,
                      work, iPiv.get(),
-                     flens::CudaEnv::solverInfo());
+                     devInfo);
 
     // TODO: Check solverInfo, check cusolverStatus
 
-    checkStatus(cudaFree(work));
+    flens::checkStatus(cudaFree(work));
+
+    return 0;
 }
 
 template <typename IndexType>
@@ -240,19 +253,23 @@ getrf(IndexType                                 m,
                                 reinterpret_cast<cuDoubleComplex*>(A.get()), ldA,
                                 &work_size);
     cuDoubleComplex* work;
-    checkStatus(cudaMalloc(&work, work_size * sizeof(cuDoubleComplex)));
+    flens::checkStatus(cudaMalloc(&work, work_size * sizeof(cuDoubleComplex)));
+    int* devInfo;
+    flens::checkStatus(cudaMalloc(&devInfo, sizeof(int)));
 
     cusolverDnZgetrf(flens::CudaEnv::solverHandle(),
-                     m, n, reinterpret_cast<cuDoubleComplex*>(A.get()), lda,
+                     m, n, reinterpret_cast<cuDoubleComplex*>(A.get()), ldA,
                      work, iPiv.get(),
-                     flens::CudaEnv::solverInfo());
+                     devInfo);
 
     // TODO: Check solverInfo, check cusolverStatus
 
-    checkStatus(cudaFree(work));
+    flens::checkStatus(cudaFree(work));
+
+    return 0;
 }
 
-#end // HAVE_CUSOLVER
+#endif // HAVE_CUSOLVER
 
 } // namespace cxxlapack
 

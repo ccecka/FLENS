@@ -103,7 +103,7 @@ template <typename IndexType>
           IndexType                                 ldA,
           thrust::device_ptr<IndexType>             iPiv);
 
-#end // HAVE_CUSOLVER
+#endif // HAVE_CUSOLVER
 
 } // namespace cxxlapack
 

@@ -90,7 +90,6 @@ FullStorageView<T, Order, I, A>::FullStorageView(const FullStorageView &rhs)
       leadingDimension_(rhs.leadingDimension_),
       firstRow_(rhs.firstRow_), firstCol_(rhs.firstCol_)
 {
-    ASSERT(order==rhs.order);
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -132,8 +131,9 @@ FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col) const
 
     if (Order==ColMajor) {
         return data_[col*leadingDimension_+row];
+    } else {
+        return data_[row*leadingDimension_+col];
     }
-    return data_[row*leadingDimension_+col];
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -155,8 +155,9 @@ FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col)
 
     if (Order==ColMajor) {
         return data_[col*leadingDimension_+row];
+    } else {
+        return data_[row*leadingDimension_+col];
     }
-    return data_[row*leadingDimension_+col];
 }
 
 //-- Methods -------------------------------------------------------------------

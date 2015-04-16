@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2010, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,17 +30,25 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_AUXILIARY_AUXILIARY_H
-#define CXXBLAS_AUXILIARY_AUXILIARY_H 1
+#ifndef FLENS_IO_AUXILIARY_H
+#define FLENS_IO_AUXILIARY_H 1
 
-#include <cxxblas/auxiliary/complex.h>
-#include <cxxblas/auxiliary/complextrait.h>
-#include <cxxblas/auxiliary/debugmacro.h>
-#include <cxxblas/auxiliary/fakeuse.h>
-#include <cxxblas/auxiliary/iscomplex.h>
-#include <cxxblas/auxiliary/ismpfrreal.h>
-#include <cxxblas/auxiliary/issame.h>
-#include <cxxblas/auxiliary/pow.h>
-#include <cxxblas/auxiliary/restrictto.h>
+#ifdef WITH_CUBLAS
 
-#endif // CXXBLAS_AUXILIARY_AUXILIARY_H
+#include <cxxstd/iostream.h>
+#include <cxxstd/memory.h>
+
+namespace flens {
+
+template <typename A>
+std::ostream &
+operator<<(std::ostream &out, const thrust::device_reference<A> &x)
+{
+  return out << static_cast<A>(x);
+}
+
+} // namespace flens
+
+#endif // WITH_CUBLAS
+
+#endif // FLENS_IO_AUXILIARY_H

@@ -1,7 +1,7 @@
 #ifndef CXXBLAS_AUXILIARY_CUDA_H
 #define CXXBLAS_AUXILIARY_CUDA_H 1
 
-#if defined(WITH_CUBLAS) || defined(WITH_CUSOLVER)
+#if defined(HAVE_CUBLAS) || defined(HAVE_CUSOLVER)
 
 #include <thrust/device_ptr.h>
 #include <string>
@@ -14,6 +14,7 @@
 #include <thrust/iterator/permutation_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/functional.h>
+#include <thrust/complex.h>
 
 namespace flens {
 
@@ -80,15 +81,15 @@ class CudaEnv {
     static std::string
     getInfo();
 
-#ifdef WITH_CUBLAS
+#ifdef HAVE_CUBLAS
     static cublasHandle_t &
     blasHandle();
-#endif // WITH_CUBLAS
+#endif // HAVE_CUBLAS
 
-#ifdef WITH_CUSOLVER
+#ifdef HAVE_CUSOLVER
     static cusolverDnHandle_t &
     solverHandle();
-#endif // WITH_CUSOLVER
+#endif // HAVE_CUSOLVER
 
 private:
     static int                          NCalls;
@@ -96,12 +97,12 @@ private:
     static int                          streamID;
     static bool                         syncCopyEnabled;
     static std::map<int, cudaEvent_t >  events;
-#ifdef WITH_CUBLAS
+#ifdef HAVE_CUBLAS
     static cublasHandle_t               blas_handle;
-#endif // WITH_CUBLAS
-#ifdef WITH_CUSOLVER
+#endif // HAVE_CUBLAS
+#ifdef HAVE_CUSOLVER
     static cusolverDnHandle_t           solver_handle;
-#endif // WITH_CUSOLVER
+#endif // HAVE_CUSOLVER
 };
 
 
@@ -111,16 +112,22 @@ std::map<int, cudaStream_t> CudaEnv::streams         = std::map<int, cudaStream_
 int                         CudaEnv::streamID        = 0;
 bool                        CudaEnv::syncCopyEnabled = true;
 std::map<int, cudaEvent_t>  CudaEnv::events          = std::map<int, cudaEvent_t>();
-#ifdef WITH_CUBLAS
+#ifdef HAVE_CUBLAS
 cublasHandle_t              CudaEnv::blas_handle     = 0;
-#endif // WITH_CUBLAS
-#ifdef WITH_CUSOLVER
+#endif // HAVE_CUBLAS
+#ifdef HAVE_CUSOLVER
 cusolverDnHandle_t          CudaEnv::solver_handle   = 0;
-#endif // WITH_CUSOLVER
+#endif // HAVE_CUSOLVER
 
-
+#ifdef HAVE_CUBLAS
 void
 checkStatus(cublasStatus_t status);
+#endif
+
+#ifdef HAVE_CUSOLVER
+void
+checkStatus(cusolverStatus_t status);
+#endif // HAVE_CUSOLVER
 
 void
 checkStatus(cudaError_t error);
@@ -248,6 +255,6 @@ protected:
 
 } // end namespace flens
 
-#endif // WITH_CUBLAS
+#endif // HAVE_CUBLAS || HAVE_CUSOLVER
 
 #endif

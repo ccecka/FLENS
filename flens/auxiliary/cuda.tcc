@@ -1,27 +1,28 @@
 #ifndef CXXBLAS_AUXILIARY_CUDA_TCC
 #define CXXBLAS_AUXILIARY_CUDA_TCC 1
 
-#if defined(WITH_CUBLAS) || defined(WITH_CUSOLVER)
+#if defined(HAVE_CUBLAS) || defined(HAVE_CUSOLVER)
 
 // XXX
 #include <utility>
 #include <sstream>
+#include <iomanip>
 
 namespace flens {
 
 void
 CudaEnv::init(){
     if(NCalls==0) {
-#ifdef WITH_CUBLAS
+#ifdef HAVE_CUBLAS
         // create BLAS handle
         cublasStatus_t cublas_status = cublasCreate(&blas_handle);
         checkStatus(cublas_status);
-#endif // WITH_CUBLAS
-#ifdef WITH_CUSOLVER
+#endif // HAVE_CUBLAS
+#ifdef HAVE_CUSOLVER
         // create SOLVER handle
         cusolverStatus_t cusolver_status = cusolverDnCreate(&solver_handle);
         checkStatus(cusolver_status);
-#endif // WITH_CUSOLVER
+#endif // HAVE_CUSOLVER
         // Create stream with index 0
         streamID   = 0;
         streams.insert(std::make_pair(streamID, cudaStream_t()));
@@ -52,16 +53,16 @@ CudaEnv::release(){
         }
         streams.clear();
 
-#ifdef WITH_CUBLAS
+#ifdef HAVE_CUBLAS
         // destroy BLAS handle
         cublasStatus_t cublas_status = cublasDestroy(blas_handle);
         checkStatus(cublas_status);
-#endif // WITH_CUBLAS
-#ifdef WITH_CUSOLVER
+#endif // HAVE_CUBLAS
+#ifdef HAVE_CUSOLVER
         // destroy SOLVER handle
         cusolverStatus_t cusolver_status = cusolverDnDestroy(solver_handle);
         checkStatus(cublas_status);
-#endif // WITH_CUSOLVER
+#endif // HAVE_CUSOLVER
     }
     NCalls--;
 }
@@ -81,7 +82,7 @@ CudaEnv::destroyStream(int _streamID)
     streams.erase(_streamID);
 }
 
-#ifdef WITH_CUBLAS
+#ifdef HAVE_CUBLAS
 cublasHandle_t &
 CudaEnv::blasHandle()
 {
@@ -92,9 +93,9 @@ CudaEnv::blasHandle()
 
     return blas_handle;
 }
-#endif // WITH_CUBLAS
+#endif // HAVE_CUBLAS
 
-#ifdef WITH_CUSOLVER
+#ifdef HAVE_CUSOLVER
 cusolverDnHandle_t &
 CudaEnv::solverHandle()
 {
@@ -105,7 +106,7 @@ CudaEnv::solverHandle()
 
     return solver_handle;
 }
-#endif // WITH_CUSOLVER
+#endif // HAVE_CUSOLVER
 
 cudaStream_t &
 CudaEnv::getStream()
@@ -146,7 +147,7 @@ CudaEnv::setStream(int _streamID)
         checkStatus(cuda_status);
     }
 
-#ifdef WITH_CUBLAS
+#ifdef HAVE_CUBLAS
     // Set stream
     cublasStatus_t cublas_status = cublasSetStream(blas_handle, streams.at(streamID));
     checkStatus(cublas_status);
@@ -258,7 +259,7 @@ CudaEnv::getInfo()
     return sstream.str();
 }
 
-#ifdef WITH_CUBLAS
+#ifdef HAVE_CUBLAS
 void
 checkStatus(cublasStatus_t status)
 {
@@ -286,9 +287,9 @@ checkStatus(cublasStatus_t status)
 
     ASSERT(status==CUBLAS_STATUS_SUCCESS); // false
 }
-#endif // WITH_CUBLAS
+#endif // HAVE_CUBLAS
 
-#ifdef WITH_CUSOLVER
+#ifdef HAVE_CUSOLVER
 void
 checkStatus(cusolverStatus_t status)
 {
@@ -316,7 +317,7 @@ checkStatus(cusolverStatus_t status)
 
     ASSERT(status==CUSOLVER_STATUS_SUCCESS); // false
 }
-#endif // WITH_CUSOLVER
+#endif // HAVE_CUSOLVER
 
 void
 checkStatus(cudaError_t status)
