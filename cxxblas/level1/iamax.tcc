@@ -156,7 +156,7 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIsamax");
 
-    cublasStatus_t status = cublasIsamax(flens::CudaEnv::getHandle(), n,
+    cublasStatus_t status = cublasIsamax(flens::CudaEnv::blasHandle(), n,
                                          x.get(), incX, &result);
 
     flens::checkStatus(status);
@@ -178,7 +178,7 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIdamax");
 
-    cublasStatus_t status = cublasIdamax(flens::CudaEnv::getHandle(), n,
+    cublasStatus_t status = cublasIdamax(flens::CudaEnv::blasHandle(), n,
                                          x.get(), incX, &result);
 
     flens::checkStatus(status);
@@ -200,7 +200,7 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIcamax");
 
-    cublasStatus_t status = cublasIcamax(flens::CudaEnv::getHandle(), n,
+    cublasStatus_t status = cublasIcamax(flens::CudaEnv::blasHandle(), n,
                                          reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                          &result);
 
@@ -223,7 +223,7 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIzamax");
 
-    cublasStatus_t status = cublasIzamax(flens::CudaEnv::getHandle(), n,
+    cublasStatus_t status = cublasIzamax(flens::CudaEnv::blasHandle(), n,
                                          reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                          &result);
 

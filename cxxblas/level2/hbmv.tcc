@@ -230,7 +230,7 @@ hbmv(StorageOrder order, StorageUpLo upLo,
 
     ASSERT(order==ColMajor);
 
-    cublasStatus_t status = cublasChbmv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasChbmv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo),
                                         n, k,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
@@ -257,7 +257,7 @@ hbmv(StorageOrder order, StorageUpLo upLo,
 
     ASSERT(order==ColMajor);
 
-    cublasStatus_t status = cublasZhbmv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasZhbmv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo),
                                         n, k,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),

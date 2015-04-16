@@ -138,6 +138,122 @@ getrf(IndexType             m,
     return info;
 }
 
+#ifdef HAVE_CUSOLVER
+
+template <typename IndexType>
+IndexType
+getrf(IndexType                                m,
+      IndexType                                n,
+      thrust::device_ptr<float>                A,
+      IndexType                                ldA,
+      thrust::device_ptr<IndexType>            iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("fgetrf [cuda]");
+
+    int work_size;
+    cusolverDnSgetrf_bufferSize(flens::CudaEnv::solverHandle(),
+                                m, n,
+                                A.get(), ldA,
+                                &work_size);
+    float* work;
+    checkStatus(cudaMalloc(&work, work_size * sizeof(float)));
+
+    cusolverDnSgetrf(flens::CudaEnv::solverHandle(),
+                     m, n, A.get(), lda,
+                     work, iPiv.get(),
+                     flens::CudaEnv::solverInfo());
+
+    // TODO: Check solverInfo, check cusolverStatus
+
+    checkStatus(cudaFree(work));
+}
+
+template <typename IndexType>
+IndexType
+getrf(IndexType                                 m,
+      IndexType                                 n,
+      thrust::device_ptr<double>                A,
+      IndexType                                 ldA,
+      thrust::device_ptr<IndexType>             iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("dgetrf [cuda]");
+
+    int work_size;
+    cusolverDnDgetrf_bufferSize(flens::CudaEnv::solverHandle(),
+                                m, n,
+                                A.get(), ldA,
+                                &work_size);
+    double* work;
+    checkStatus(cudaMalloc(&work, work_size * sizeof(double)));
+
+    cusolverDnDgetrf(flens::CudaEnv::solverHandle(),
+                     m, n, A.get(), lda,
+                     work, iPiv.get(),
+                     flens::CudaEnv::solverInfo());
+
+    // TODO: Check solverInfo, check cusolverStatus
+
+    checkStatus(cudaFree(work));
+}
+
+template <typename IndexType>
+IndexType
+getrf(IndexType                                 m,
+      IndexType                                 n,
+      thrust::device_ptr<std::complex<float> >  A,
+      IndexType                                 ldA,
+      thrust::device_ptr<IndexType>             iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("cgetrf [cuda]");
+
+    int work_size;
+    cusolverDnCgetrf_bufferSize(flens::CudaEnv::solverHandle(),
+                                m, n,
+                                reinterpret_cast<cuFloatComplex*>(A.get()), ldA,
+                                &work_size);
+    cuFloatComplex* work;
+    checkStatus(cudaMalloc(&work, work_size * sizeof(cuFloatComplex)));
+
+    cusolverDnCgetrf(flens::CudaEnv::solverHandle(),
+                     m, n, reinterpret_cast<cuFloatComplex*>(A.get()), lda,
+                     work, iPiv.get(),
+                     flens::CudaEnv::solverInfo());
+
+    // TODO: Check solverInfo, check cusolverStatus
+
+    checkStatus(cudaFree(work));
+}
+
+template <typename IndexType>
+IndexType
+getrf(IndexType                                 m,
+      IndexType                                 n,
+      thrust::device_ptr<std::complex<double> > A,
+      IndexType                                 ldA,
+      thrust::device_ptr<IndexType>             iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("zgetrf [cuda]");
+
+    int work_size;
+    cusolverDnZgetrf_bufferSize(flens::CudaEnv::solverHandle(),
+                                m, n,
+                                reinterpret_cast<cuDoubleComplex*>(A.get()), ldA,
+                                &work_size);
+    cuDoubleComplex* work;
+    checkStatus(cudaMalloc(&work, work_size * sizeof(cuDoubleComplex)));
+
+    cusolverDnZgetrf(flens::CudaEnv::solverHandle(),
+                     m, n, reinterpret_cast<cuDoubleComplex*>(A.get()), lda,
+                     work, iPiv.get(),
+                     flens::CudaEnv::solverInfo());
+
+    // TODO: Check solverInfo, check cusolverStatus
+
+    checkStatus(cudaFree(work));
+}
+
+#end // HAVE_CUSOLVER
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_GETRF_TCC

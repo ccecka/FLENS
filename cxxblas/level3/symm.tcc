@@ -207,7 +207,7 @@ symm(StorageOrder order, Side side, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasSsymm(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(side),
+    cublasStatus_t status = cublasSsymm(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo),
                                         m, n, &alpha,
                                         A.get(), ldA,
@@ -237,7 +237,7 @@ symm(StorageOrder order, Side side, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasDsymm(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(side),
+    cublasStatus_t status = cublasDsymm(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo),
                                         m, n, &alpha,
                                         A.get(), ldA,
@@ -267,7 +267,7 @@ symm(StorageOrder order, Side side, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasCsymm(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(side),
+    cublasStatus_t status = cublasCsymm(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo),
                                         m, n, reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
@@ -299,7 +299,7 @@ symm(StorageOrder order, Side side, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasZsymm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+    cublasStatus_t status = cublasZsymm(flens::CudaEnv::blasHandle(),  CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo),
                                         m, n, reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,

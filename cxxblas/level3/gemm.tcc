@@ -331,7 +331,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
         return;
     }
 
-    cublasStatus_t status = cublasSgemm(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasSgemm(flens::CudaEnv::blasHandle(), 
                                         CUBLAS::getCublasType(transA), 
                                         CUBLAS::getCublasType(transB),
                                         m,  n, k,
@@ -366,7 +366,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
         return;
     }
 
-    cublasStatus_t status = cublasDgemm(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasDgemm(flens::CudaEnv::blasHandle(), 
                                         CUBLAS::getCublasType(transA), 
                                         CUBLAS::getCublasType(transB),
                                         m,  n, k,
@@ -401,7 +401,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
         return;
     }
     
-    cublasStatus_t status = cublasCgemm(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasCgemm(flens::CudaEnv::blasHandle(), 
                                         CUBLAS::getCublasType(transA), 
                                         CUBLAS::getCublasType(transB),
                                         m, n, k,
@@ -436,7 +436,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
         return;
     }
 
-    cublasStatus_t status = cublasZgemm(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasZgemm(flens::CudaEnv::blasHandle(), 
                                         CUBLAS::getCublasType(transA), 
                                         CUBLAS::getCublasType(transB),
                                         m, n, k,

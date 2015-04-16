@@ -191,7 +191,7 @@ sbmv(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasSsbmv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasSsbmv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo),
                                         n, k,
                                         &alpha,
@@ -223,7 +223,7 @@ sbmv(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasDsbmv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasDsbmv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo),
                                         n, k,
                                         &alpha,

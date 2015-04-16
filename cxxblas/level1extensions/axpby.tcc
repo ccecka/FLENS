@@ -108,19 +108,47 @@ axpby(IndexType n, const ComplexDouble &alpha,
 
 #ifdef HAVE_CUBLAS
 
+template <typename TALPHA, typename TBETA, typename TX, typename TY>
+struct axpby_func {
+  const TALPHA a;
+  const TBETA b;
+
+  axpby_func(const TALPHA& _a, const TBETA& _b)
+      : a(_a), b(_b) {}
+
+  __device__
+  TY operator()(const TX& tx, const TY& ty) const {
+    return a * tx + b * ty;
+  }
+};
+
+
 template <typename IndexType, typename ALPHA, typename X,
           typename BETA, typename Y>
 void
 axpby(IndexType n,
       const ALPHA &alpha, const thrust::device_ptr<X> x, IndexType incX,
-      const BETA &beta, thrust::device_ptr<Y> y, IndexType incY) {
+      const BETA &beta, thrust::device_ptr<Y> y, IndexType incY)
+{
     CXXBLAS_DEBUG_OUT("axpby_generic [cuda]");
 
-    flens::StridedRange<thrust::device_ptr<X> > xr(x, x+n, incX);
-    flens::StridedRange<thrust::device_ptr<Y> > yr(y, y+n, incY);
+    typedef typename flens::ThrustType<X>::Type      TX;
+    typedef typename flens::ThrustType<Y>::Type      TY;
+    typedef typename flens::ThrustType<ALPHA>::Type  TALPHA;
+    typedef typename flens::ThrustType<BETA>::Type   TBETA;
 
-    thrust::transform(xr.begin(), xr.end(), yr.begin(), yr.begin(),
-                      alpha * thrust::placeholders::_1 + beta * thrust::placeholders::_2);
+    flens::StridedRange<const TX*> xr(reinterpret_cast<const TX*>(x.get()),
+                                      reinterpret_cast<const TX*>(x.get()) + n*incX,
+                                      incX);
+    flens::StridedRange<      TY*> yr(reinterpret_cast<      TY*>(y.get()),
+                                      reinterpret_cast<      TY*>(y.get()) + n*incY,
+                                      incY);
+
+    thrust::transform(thrust::cuda::par.on(flens::CudaEnv::getStream()),
+                      xr.begin(), xr.end(),
+                      yr.begin(),
+                      yr.begin(),
+                      axpby_func<TALPHA,TBETA,TX,TY>(alpha,beta));
 }
 
 #endif // end HAVE_CUBLAS

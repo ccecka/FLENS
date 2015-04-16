@@ -228,7 +228,7 @@ dot(IndexType n,
     CXXBLAS_DEBUG_OUT(" cublasSdot");
    
 
-    cublasStatus_t status = cublasSdot(flens::CudaEnv::getHandle(), n, 
+    cublasStatus_t status = cublasSdot(flens::CudaEnv::blasHandle(), n, 
                                        x.get(), incX, 
                                        y.get(), incY, 
                                        &result);
@@ -261,7 +261,7 @@ dot(IndexType n,
     CXXBLAS_DEBUG_OUT("cublasDdot");
     
 
-    cublasStatus_t status = cublasDdot(flens::CudaEnv::getHandle(), n, 
+    cublasStatus_t status = cublasDdot(flens::CudaEnv::blasHandle(), n, 
                                        x.get(), incX, 
                                        y.get(), incY, &result);
     
@@ -293,7 +293,7 @@ dot(IndexType n,
     CXXBLAS_DEBUG_OUT("cublasCdotc");
     
     
-    cublasStatus_t status = cublasCdotc(flens::CudaEnv::getHandle(), n, 
+    cublasStatus_t status = cublasCdotc(flens::CudaEnv::blasHandle(), n, 
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
                                         reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
                                         reinterpret_cast<cuFloatComplex*>(&result));
@@ -316,7 +316,7 @@ dotu(IndexType n,
     CXXBLAS_DEBUG_OUT("cublasCdotu");
     
     
-    cublasStatus_t status = cublasCdotu(flens::CudaEnv::getHandle(), n, 
+    cublasStatus_t status = cublasCdotu(flens::CudaEnv::blasHandle(), n, 
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
                                         reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
                                         reinterpret_cast<cuFloatComplex*>(&result));
@@ -339,7 +339,7 @@ dot(IndexType n,
     CXXBLAS_DEBUG_OUT("cublasZdot");
     
     
-    cublasStatus_t status = cublasZdotc(flens::CudaEnv::getHandle(), n, 
+    cublasStatus_t status = cublasZdotc(flens::CudaEnv::blasHandle(), n, 
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
                                         reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
                                         reinterpret_cast<cuDoubleComplex*>(&result));
@@ -361,7 +361,7 @@ dotu(IndexType n,
     CXXBLAS_DEBUG_OUT("cublasZdotu");
     
 
-    cublasStatus_t status = cublasZdotu(flens::CudaEnv::getHandle(), n, 
+    cublasStatus_t status = cublasZdotu(flens::CudaEnv::blasHandle(), n, 
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
                                         reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
                                         reinterpret_cast<cuDoubleComplex*>(&result));

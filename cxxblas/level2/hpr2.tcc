@@ -192,7 +192,7 @@ typename If<IndexType>::isBlasCompatibleInteger
     
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasChpr2(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasChpr2(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                         n, 
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
@@ -216,7 +216,7 @@ hpr2(StorageOrder order, StorageUpLo upLo,
       
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasZhpr2(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZhpr2(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                         n, 
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,

@@ -118,7 +118,7 @@ asum(IndexType n,
 {
     CXXBLAS_DEBUG_OUT(" cublasSasum");
 
-    cublasStatus_t status = cublasSasum(flens::CudaEnv::getHandle(), n, x, incX, &result);
+    cublasStatus_t status = cublasSasum(flens::CudaEnv::blasHandle(), n, x, incX, &result);
 
     flens::checkStatus(status);
     if (flens::CudaEnv::isSyncCopyEnabled()) {
@@ -136,7 +136,7 @@ asum(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasDasum");
 
-    cublasStatus_t status = cublasDasum(flens::CudaEnv::getHandle(), n,
+    cublasStatus_t status = cublasDasum(flens::CudaEnv::blasHandle(), n,
                                         x.get(), incX,
                                         &result);
 
@@ -156,7 +156,7 @@ asum(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasCasum");
 
-    cublasStatus_t status = cublasScasum(flens::CudaEnv::getHandle(), n,
+    cublasStatus_t status = cublasScasum(flens::CudaEnv::blasHandle(), n,
                                          reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                          &result);
 
@@ -175,7 +175,7 @@ asum(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasDzasum");
 
-    cublasStatus_t status = cublasDzasum(flens::CudaEnv::getHandle(), n,
+    cublasStatus_t status = cublasDzasum(flens::CudaEnv::blasHandle(), n,
                                       reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                       &result);
 

@@ -325,7 +325,7 @@ trsv(StorageOrder order, StorageUpLo upLo,
         trsv(ColMajor, upLo, transA, diag, n, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasStrsv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasStrsv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,
@@ -352,7 +352,7 @@ trsv(StorageOrder order, StorageUpLo upLo,
         trsv(ColMajor, upLo, transA, diag, n, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasDtrsv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasDtrsv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,
@@ -379,7 +379,7 @@ trsv(StorageOrder order, StorageUpLo upLo,
         trsv(ColMajor, upLo, transA, diag, n, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasCtrsv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasCtrsv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,
@@ -406,7 +406,7 @@ trsv(StorageOrder order, StorageUpLo upLo,
         trsv(ColMajor, upLo, transA, diag, n, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasZtrsv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasZtrsv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n,

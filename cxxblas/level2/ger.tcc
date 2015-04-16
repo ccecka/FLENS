@@ -297,7 +297,7 @@ typename If<IndexType>::isBlasCompatibleInteger
         return;
     }
 
-    cublasStatus_t status = cublasSger(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasSger(flens::CudaEnv::blasHandle(),
                                         m, n,
                                         &alpha,
                                         x.get(), incX,
@@ -326,7 +326,7 @@ typename If<IndexType>::isBlasCompatibleInteger
         return;
     }
 
-    cublasStatus_t status = cublasDger(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasDger(flens::CudaEnv::blasHandle(),
                                         m, n,
                                         &alpha,
                                         x.get(), incX,
@@ -355,7 +355,7 @@ ger(StorageOrder order,
         return;
     }
 
-    cublasStatus_t status = cublasCgeru(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasCgeru(flens::CudaEnv::blasHandle(),
                                         m, n,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
@@ -383,7 +383,7 @@ ger(StorageOrder order,
         return;
     }
 
-    cublasStatus_t status = cublasZgeru(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasZgeru(flens::CudaEnv::blasHandle(),
                                         m, n,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
@@ -408,7 +408,7 @@ gerc(StorageOrder order,
 
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasCgerc(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasCgerc(flens::CudaEnv::blasHandle(),
                                         m, n,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
@@ -432,7 +432,7 @@ gerc(StorageOrder order,
 
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasZgerc(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasZgerc(flens::CudaEnv::blasHandle(),
                                         m, n,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,

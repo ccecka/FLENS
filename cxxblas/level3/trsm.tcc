@@ -204,7 +204,7 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasStrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+    cublasStatus_t status = cublasStrsm(flens::CudaEnv::blasHandle(),  CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         m, n, &alpha,
@@ -233,7 +233,7 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasDtrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+    cublasStatus_t status = cublasDtrsm(flens::CudaEnv::blasHandle(),  CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         m, n, &alpha,
@@ -262,7 +262,7 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasCtrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+    cublasStatus_t status = cublasCtrsm(flens::CudaEnv::blasHandle(),  CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         m, n, reinterpret_cast<const cuFloatComplex*>(&alpha),
@@ -291,7 +291,7 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasZtrsm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+    cublasStatus_t status = cublasZtrsm(flens::CudaEnv::blasHandle(),  CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         m, n, reinterpret_cast<const cuDoubleComplex*>(&alpha),

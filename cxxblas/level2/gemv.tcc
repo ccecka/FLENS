@@ -305,7 +305,7 @@ gemv(StorageOrder order, Transpose trans,
         return;
     }
 
-    cublasStatus_t status = cublasSgemv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasSgemv(flens::CudaEnv::blasHandle(), 
                                         CUBLAS::getCublasType(trans),
                                         m,  n,
                                         &alpha,
@@ -337,7 +337,7 @@ gemv(StorageOrder order, Transpose trans,
         return;
     }
 
-    cublasStatus_t status = cublasDgemv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasDgemv(flens::CudaEnv::blasHandle(), 
                                         CUBLAS::getCublasType(trans),
                                         m,  n,
                                         &alpha,
@@ -369,7 +369,7 @@ gemv(StorageOrder order, Transpose trans,
         return;
     }
 
-    cublasStatus_t status = cublasCgemv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasCgemv(flens::CudaEnv::blasHandle(), 
                                         CUBLAS::getCublasType(trans),
                                         m,  n,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
@@ -401,7 +401,7 @@ gemv(StorageOrder order, Transpose trans,
         return;
     }
 
-    cublasStatus_t status = cublasZgemv(flens::CudaEnv::getHandle(), 
+    cublasStatus_t status = cublasZgemv(flens::CudaEnv::blasHandle(), 
                                         CUBLAS::getCublasType(trans),
                                         m,  n,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),

@@ -33,6 +33,8 @@
 #ifndef FLENS_IO_IO_H
 #define FLENS_IO_IO_H 1
 
+#include <flens/io/auxiliary.h>
+
 #include <flens/io/array/load.h>
 #include <flens/io/array/out.h>
 #include <flens/io/array/save.h>

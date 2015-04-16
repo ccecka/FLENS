@@ -189,7 +189,7 @@ nrm2(IndexType n,
 {
     CXXBLAS_DEBUG_OUT(" cublasSnrm2");
 
-    cublasStatus_t status = cublasSnrm2(flens::CudaEnv::getHandle(), n, 
+    cublasStatus_t status = cublasSnrm2(flens::CudaEnv::blasHandle(), n, 
                                         x.get(), incX, &result);
     
     flens::checkStatus(status);
@@ -209,7 +209,7 @@ nrm2(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasDnrm2");
 
-    cublasStatus_t status = cublasDnrm2(flens::CudaEnv::getHandle(), n, 
+    cublasStatus_t status = cublasDnrm2(flens::CudaEnv::blasHandle(), n, 
                                         x.get(), incX, &result);
     
     flens::checkStatus(status);
@@ -228,7 +228,7 @@ nrm2(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasCnrm2");
     
-    cublasStatus_t status = cublasScnrm2(flens::CudaEnv::getHandle(), n, 
+    cublasStatus_t status = cublasScnrm2(flens::CudaEnv::blasHandle(), n, 
                                          reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
                                          &result);
 
@@ -248,7 +248,7 @@ nrm2(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasDznrm2");
     
-    cublasStatus_t status = cublasDznrm2(flens::CudaEnv::getHandle(), n, 
+    cublasStatus_t status = cublasDznrm2(flens::CudaEnv::blasHandle(), n, 
                                          reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
                                          &result);
     

@@ -33,7 +33,12 @@
 #ifndef CXXLAPACK_CXXLAPACK_H
 #define CXXLAPACK_CXXLAPACK_H 1
 
+#ifdef WITH_CUSOLVER
+#    define HAVE_CUSOLVER
+// Provide extern interface (like blas drivers) to avoid #include?
+#    include <cusolverDn.h>
+#endif
+
 #include <cxxlapack/interface/interface.h>
 
 #endif // CXXLAPACK_CXXLAPACK_H 1
-

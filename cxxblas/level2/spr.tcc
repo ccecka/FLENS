@@ -140,7 +140,7 @@ typename If<IndexType>::isBlasCompatibleInteger
     
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasSspr(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasSspr(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                        n, 
                                        &alpha,
                                        x.get(), incX,
@@ -162,7 +162,7 @@ spr(StorageOrder order, StorageUpLo upLo,
       
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasDspr(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasDspr(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                        n, 
                                        &alpha,
                                        x.get(), incX,

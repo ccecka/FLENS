@@ -69,6 +69,42 @@ template <typename IndexType>
           IndexType             ldA,
           IndexType             *iPiv);
 
+#ifdef HAVE_CUSOLVER
+
+template <typename IndexType>
+    IndexType
+    getrf(IndexType                                m,
+          IndexType                                n,
+          thrust::device_ptr<float>                A,
+          IndexType                                ldA,
+          thrust::device_ptr<IndexType>            iPiv);
+
+template <typename IndexType>
+    IndexType
+    getrf(IndexType                                 m,
+          IndexType                                 n,
+          thrust::device_ptr<double>                A,
+          IndexType                                 ldA,
+          thrust::device_ptr<IndexType>             iPiv);
+
+template <typename IndexType>
+    IndexType
+    getrf(IndexType                                 m,
+          IndexType                                 n,
+          thrust::device_ptr<std::complex<float> >  A,
+          IndexType                                 ldA,
+          thrust::device_ptr<IndexType>             iPiv);
+
+template <typename IndexType>
+    IndexType
+    getrf(IndexType                                 m,
+          IndexType                                 n,
+          thrust::device_ptr<std::complex<double> > A,
+          IndexType                                 ldA,
+          thrust::device_ptr<IndexType>             iPiv);
+
+#end // HAVE_CUSOLVER
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_GETRF_H 1

@@ -1,11 +1,13 @@
 #ifndef CXXBLAS_AUXILIARY_CUDA_H
 #define CXXBLAS_AUXILIARY_CUDA_H 1
 
-#ifdef WITH_CUBLAS
+#if defined(WITH_CUBLAS) || defined(WITH_CUSOLVER)
 
 #include <thrust/device_ptr.h>
 #include <string>
 #include <map>
+
+#include <thrust/execution_policy.h>
 
 // Implement a strided range/iterator
 #include <thrust/iterator/counting_iterator.h>
@@ -14,6 +16,28 @@
 #include <thrust/functional.h>
 
 namespace flens {
+
+template <typename T>
+struct ThrustType {
+  typedef T Type;
+};
+
+template <typename T>
+struct ThrustType<const T> {
+  typedef const typename ThrustType<T>::Type Type;
+};
+
+template <>
+struct ThrustType<std::complex<float> > {
+  typedef thrust::complex<float> Type;
+};
+
+template <>
+struct ThrustType<std::complex<double> > {
+  typedef thrust::complex<double> Type;
+};
+
+
 
 class CudaEnv {
  public:
@@ -25,9 +49,6 @@ class CudaEnv {
 
     static void
     destroyStream(int _streamID);
-
-    static cublasHandle_t &
-    getHandle();
 
     static cudaStream_t &
     getStream();
@@ -59,25 +80,43 @@ class CudaEnv {
     static std::string
     getInfo();
 
+#ifdef WITH_CUBLAS
+    static cublasHandle_t &
+    blasHandle();
+#endif // WITH_CUBLAS
+
+#ifdef WITH_CUSOLVER
+    static cusolverDnHandle_t &
+    solverHandle();
+#endif // WITH_CUSOLVER
+
 private:
     static int                          NCalls;
-    static cublasHandle_t               handle;
-    static std::map<int, cudaStream_t>  streams;
+  static std::map<int, cudaStream_t>  streams;
     static int                          streamID;
     static bool                         syncCopyEnabled;
     static std::map<int, cudaEvent_t >  events;
+#ifdef WITH_CUBLAS
+    static cublasHandle_t               blas_handle;
+#endif // WITH_CUBLAS
+#ifdef WITH_CUSOLVER
+    static cusolverDnHandle_t           solver_handle;
+#endif // WITH_CUSOLVER
 };
 
 
 // XXX XXX
 int                         CudaEnv::NCalls          = 0;
-cublasHandle_t              CudaEnv::handle          = 0;
 std::map<int, cudaStream_t> CudaEnv::streams         = std::map<int, cudaStream_t>();
 int                         CudaEnv::streamID        = 0;
 bool                        CudaEnv::syncCopyEnabled = true;
 std::map<int, cudaEvent_t>  CudaEnv::events          = std::map<int, cudaEvent_t>();
-
-
+#ifdef WITH_CUBLAS
+cublasHandle_t              CudaEnv::blas_handle     = 0;
+#endif // WITH_CUBLAS
+#ifdef WITH_CUSOLVER
+cusolverDnHandle_t          CudaEnv::solver_handle   = 0;
+#endif // WITH_CUSOLVER
 
 
 void

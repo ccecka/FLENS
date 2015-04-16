@@ -1,8 +1,9 @@
 #ifndef CXXBLAS_AUXILIARY_CUDA_TCC
 #define CXXBLAS_AUXILIARY_CUDA_TCC 1
 
-#ifdef WITH_CUBLAS
+#if defined(WITH_CUBLAS) || defined(WITH_CUSOLVER)
 
+// XXX
 #include <utility>
 #include <sstream>
 
@@ -11,11 +12,16 @@ namespace flens {
 void
 CudaEnv::init(){
     if(NCalls==0) {
-
-        // create Handle
-        cublasStatus_t cublas_status = cublasCreate(&handle);
+#ifdef WITH_CUBLAS
+        // create BLAS handle
+        cublasStatus_t cublas_status = cublasCreate(&blas_handle);
         checkStatus(cublas_status);
-
+#endif // WITH_CUBLAS
+#ifdef WITH_CUSOLVER
+        // create SOLVER handle
+        cusolverStatus_t cusolver_status = cusolverDnCreate(&solver_handle);
+        checkStatus(cusolver_status);
+#endif // WITH_CUSOLVER
         // Create stream with index 0
         streamID   = 0;
         streams.insert(std::make_pair(streamID, cudaStream_t()));
@@ -32,7 +38,7 @@ CudaEnv::release(){
     if (NCalls==1) {
 
         // destroy events
-        cudaError_t cuda_status = cudaSuccess;;
+        cudaError_t cuda_status = cudaSuccess;
         for (std::map<int, cudaEvent_t >::iterator it=events.begin(); it!=events.end(); ++it) {
             cuda_status = cudaEventDestroy(it->second);
             checkStatus(cuda_status);
@@ -46,9 +52,16 @@ CudaEnv::release(){
         }
         streams.clear();
 
-        // destroy handle
-        cublasStatus_t cublas_status = cublasDestroy(handle);
+#ifdef WITH_CUBLAS
+        // destroy BLAS handle
+        cublasStatus_t cublas_status = cublasDestroy(blas_handle);
         checkStatus(cublas_status);
+#endif // WITH_CUBLAS
+#ifdef WITH_CUSOLVER
+        // destroy SOLVER handle
+        cusolverStatus_t cusolver_status = cusolverDnDestroy(solver_handle);
+        checkStatus(cublas_status);
+#endif // WITH_CUSOLVER
     }
     NCalls--;
 }
@@ -57,7 +70,6 @@ CudaEnv::release(){
 void
 CudaEnv::destroyStream(int _streamID)
 {
-
     if(NCalls==0) {
         std::cerr << "Error: Cuda not initialized!" << std::endl;
         ASSERT(0);
@@ -69,18 +81,35 @@ CudaEnv::destroyStream(int _streamID)
     streams.erase(_streamID);
 }
 
+#ifdef WITH_CUBLAS
 cublasHandle_t &
-CudaEnv::getHandle() {
+CudaEnv::blasHandle()
+{
     if(NCalls==0) {
         std::cerr << "Error: Cuda not initialized!" << std::endl;
         ASSERT(0);
     }
 
-    return handle;
+    return blas_handle;
 }
+#endif // WITH_CUBLAS
+
+#ifdef WITH_CUSOLVER
+cusolverDnHandle_t &
+CudaEnv::solverHandle()
+{
+    if(NCalls==0) {
+        std::cerr << "Error: Cuda not initialized!" << std::endl;
+        ASSERT(0);
+    }
+
+    return solver_handle;
+}
+#endif // WITH_CUSOLVER
 
 cudaStream_t &
-CudaEnv::getStream() {
+CudaEnv::getStream()
+{
     if(NCalls==0) {
         std::cerr << "Error: Cuda not initialized!" << std::endl;
         ASSERT(0);
@@ -117,10 +146,11 @@ CudaEnv::setStream(int _streamID)
         checkStatus(cuda_status);
     }
 
+#ifdef WITH_CUBLAS
     // Set stream
-    cublasStatus_t cublas_status = cublasSetStream(handle, streams.at(streamID));
+    cublasStatus_t cublas_status = cublasSetStream(blas_handle, streams.at(streamID));
     checkStatus(cublas_status);
-
+#endif
 }
 
 void
@@ -205,7 +235,7 @@ CudaEnv::getInfo()
         sstream << "Major revision number:         " << std::setw(15) << devProp.major << std::endl;
         sstream << "Minor revision number:         " << std::setw(15) << devProp.minor << std::endl;
         sstream << "Number of multiprocessors:     " << std::setw(15) << devProp.multiProcessorCount << std::endl;
-        sstream << "Clock rate:                    " << std::setw(11) << devProp.clockRate / (1024*1024) << " GHz" << std::endl;
+        sstream << "Clock rate:                    " << std::setw(11) << devProp.clockRate / (1024.f*1024.f) << " GHz" << std::endl;
         sstream << "Total global memory:           " << std::setw(9) << devProp.totalGlobalMem / (1024*1024) << " MByte" << std::endl;
         sstream << "Total constant memory:         " << std::setw(9) << devProp.totalConstMem  / (1024) << " KByte"<< std::endl;
         sstream << "Maximum memory:                " << std::setw(9) << devProp.memPitch  / (1024*1024) << " MByte"<< std::endl;
@@ -228,6 +258,7 @@ CudaEnv::getInfo()
     return sstream.str();
 }
 
+#ifdef WITH_CUBLAS
 void
 checkStatus(cublasStatus_t status)
 {
@@ -253,18 +284,46 @@ checkStatus(cublasStatus_t status)
         std::cerr << "CUBLAS: Unkown error" << std::endl;
     }
 
-    ASSERT(status==CUBLAS_STATUS_SUCCESS);
+    ASSERT(status==CUBLAS_STATUS_SUCCESS); // false
 }
+#endif // WITH_CUBLAS
+
+#ifdef WITH_CUSOLVER
+void
+checkStatus(cusolverStatus_t status)
+{
+    if (status==CUSOLVER_STATUS_SUCCESS) {
+        return;
+    }
+
+    if (status==CUSOLVER_STATUS_NOT_INITIALIZED) {
+        std::cerr << "CUSOLVER: Library was not initialized!" << std::endl;
+    } else if  (status==CUSOLVER_STATUS_INVALID_VALUE) {
+        std::cerr << "CUSOLVER: Parameter had illegal value!" << std::endl;
+    } else if  (status==CUSOLVER_STATUS_ALLOC_FAILED) {
+        std::cerr << "CUSOLVER: allocation failed!" << std::endl;
+    } else if  (status==CUSOLVER_STATUS_ARCH_MISMATCH) {
+        std::cerr << "CUSOLVER: Device does not support double precision!" << std::endl;
+    } else if  (status==CUSOLVER_STATUS_EXECUTION_FAILED) {
+        std::cerr << "CUSOLVER: Failed to launch function of the GPU" << std::endl;
+    } else if  (status==CUSOLVER_STATUS_INTERNAL_ERROR) {
+        std::cerr << "CUSOLVER: An internal operation failed" << std::endl;
+    } else if  (status==CUSOLVER_STATUS_MATRIX_TYPE_NOT_SUPPORTED) {
+        std::cerr << "CUSOLVER: Invalid matrix descriptor" << std::endl;
+    } else {
+        std::cerr << "CUSOLVER: Unkown error" << std::endl;
+    }
+
+    ASSERT(status==CUSOLVER_STATUS_SUCCESS); // false
+}
+#endif // WITH_CUSOLVER
 
 void
 checkStatus(cudaError_t status)
 {
-    if(status==cudaSuccess) {
+    if(status==cudaSuccess)
         return;
-    } else {
-        std::cerr << cudaGetErrorString(status) << std::endl;
-    }
-    ASSERT(status==cudaSuccess);
+    std::cerr << cudaGetErrorString(status) << std::endl;
 }
 
 void
@@ -316,6 +375,6 @@ syncStream(int streamID, Args... args)
 
 } // end namespace flens
 
-#endif // WITH_CUBLAS
+#endif // WITH_CUDA
 
 #endif

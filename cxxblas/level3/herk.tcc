@@ -161,7 +161,7 @@ herk(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasZherk(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZherk(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
@@ -193,7 +193,7 @@ herk(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasZherk(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZherk(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,

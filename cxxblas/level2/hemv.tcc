@@ -195,7 +195,7 @@ hemv(StorageOrder order, StorageUpLo upLo,
         upLo = (upLo==Upper) ? Lower : Upper;
     }
 
-    cublasStatus_t status = cublasChemv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasChemv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo),
                                         n,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
@@ -224,7 +224,7 @@ hemv(StorageOrder order, StorageUpLo upLo,
         upLo = (upLo==Upper) ? Lower : Upper;
     }
 
-    cublasStatus_t status = cublasZhemv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasZhemv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo),
                                         n,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),

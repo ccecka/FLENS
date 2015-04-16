@@ -381,7 +381,7 @@ tbmv(StorageOrder order, StorageUpLo upLo,
         tbmv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasStbmv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasStbmv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,
@@ -408,7 +408,7 @@ tbmv(StorageOrder order, StorageUpLo upLo,
         tbmv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasDtbmv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasDtbmv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,
@@ -435,7 +435,7 @@ tbmv(StorageOrder order, StorageUpLo upLo,
         tbmv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasCtbmv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasCtbmv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,
@@ -462,7 +462,7 @@ tbmv(StorageOrder order, StorageUpLo upLo,
         tbmv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasZtbmv(flens::CudaEnv::getHandle(),
+    cublasStatus_t status = cublasZtbmv(flens::CudaEnv::blasHandle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,

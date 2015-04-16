@@ -234,7 +234,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasSsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasSsyr2k(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
                                         A.get(), ldA,
@@ -268,7 +268,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasDsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasDsyr2k(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
                                         A.get(), ldA,
@@ -302,7 +302,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasCsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasCsyr2k(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                          CUBLAS::getCublasType(trans), n, k,
                                          reinterpret_cast<const cuFloatComplex*>(&alpha),
                                          reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
@@ -336,7 +336,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasZsyr2k(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZsyr2k(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                          CUBLAS::getCublasType(trans), n, k,
                                          reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                          reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,

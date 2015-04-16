@@ -165,7 +165,7 @@ hpr(StorageOrder order, StorageUpLo upLo,
     
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasChpr(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasChpr(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                        n, 
                                        &alpha,
                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
@@ -187,7 +187,7 @@ hpr(StorageOrder order, StorageUpLo upLo,
       
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasZhpr(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZhpr(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
                                        n, 
                                        &alpha,
                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,

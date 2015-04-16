@@ -163,7 +163,7 @@ hemm(StorageOrder order, Side side, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasChemm(flens::CudaEnv::getHandle(), CUBLAS::getCublasType(side),
+    cublasStatus_t status = cublasChemm(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo),
                                         m, n, reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
@@ -195,7 +195,7 @@ hemm(StorageOrder order, Side side, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasZhemm(flens::CudaEnv::getHandle(),  CUBLAS::getCublasType(side),
+    cublasStatus_t status = cublasZhemm(flens::CudaEnv::blasHandle(),  CUBLAS::getCublasType(side),
                                         CUBLAS::getCublasType(upLo),
                                         m, n, reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,

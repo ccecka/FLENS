@@ -1,30 +1,50 @@
-// $ nvcc -std=c++11 -ccbin=g++-4.7 -I. -DWITH_CUBLAS -DCXXBLAS_DEBUG -o test_cublas test_cublas.cu -lcublas
+// $ nvcc -std=c++11 -ccbin=g++-4.7 -I. -o test_cublas test_cublas.cu -lcublas
 
 #include <iostream>
+#include <complex>
 
 #include <thrust/device_malloc_allocator.h>
+#include <thrust/complex.h>
+
+#define WITH_CUBLAS
+#define CXXBLAS_DEBUG
+#define CXXLAPACK_DEBUG
 
 #include "flens/flens.cxx"
 
 using namespace flens;
 using namespace std;
 
-template <typename T, typename I = IndexOptions<> >
-using ThrustArray = Array<T,I,thrust::device_malloc_allocator<T> >;
+template <typename T>
+using CPUArray = Array<T>;
+
+template <typename T>
+using CPUFull = FullStorage<T,ColMajor>;
+
 
 template <typename T, typename I = IndexOptions<> >
-using ThrustFull  = FullStorage<T,ColMajor,I,thrust::device_malloc_allocator<T> >;
+using GPUArray = Array<T,I,thrust::device_malloc_allocator<T> >;
+
+template <typename T, typename I = IndexOptions<> >
+using GPUFull  = FullStorage<T,ColMajor,I,thrust::device_malloc_allocator<T> >;
+
+
 
 int main() {
-  typedef DenseVector<ThrustArray<double> >   Vector;
-  typedef GeMatrix<ThrustFull<double> >       Matrix;
+  using T = std::complex<double>;
+  //using T = double;
+
+  typedef DenseVector<GPUArray<T> >   Vector;
+  typedef GeMatrix<GPUFull<T> >       Matrix;
 
   typedef typename Vector::IndexType        IndexType;
 
   flens::CudaEnv::init(); // XXX: revisit
 
-  Vector x(8);
-  x = 1, 2, 3, 4, 5, 6, 7, 8;
+  std::cout << CudaEnv::getInfo() << std::endl;
+
+  Vector x(5);
+  x = 1, 2, 3, 4, 5;
 
   cout << "x.range() = " << x.range() << endl;
   cout << "x.length() = " << x.length() << endl;
@@ -40,21 +60,21 @@ int main() {
 
   const Underscore<IndexType> _;
 
-  Vector::View y = x(_(2,4));
+  Vector::View y = x(_(2,3));
   y = 666;
 
-  Vector::NoView z = x(_(1,2));
+  Vector::NoView z = x(_(2,3));
   z = 42;
 
   cout << "x = " << x << endl;
   cout << "y = " << y << endl;
   cout << "z = " << z << endl;
 
-  Vector z2 = 2*x;
+  Vector z2 = 2.0*x(_(1,2,5));
 
   cout << "z2 = " << z2 << endl;
 
-  Matrix A(8,8);
+  Matrix A(5,5);
 
   A = 0;
   A.diag(1) = -1;
