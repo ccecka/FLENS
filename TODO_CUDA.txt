@@ -1,0 +1,29 @@
+FLENS
+=====
+
+[ ] Use of std::allocator_traits in typedefs
+[ ] Further checking of allocator types, etc
+[ ] Fix MatrixView from DenseVector (need allocators types for conversion)
+
+CUBLAS
+======
+
+
+CUSOLVER
+========
+
+[x] getrf
+[x] getrs
+[ ] gesv (mocked with trf/trs)
+[ ] potrf
+[ ] potrs
+[ ] potsv (mocked with trf/trs)
+[ ] geqrf
+[ ] ormqr
+[ ] sytrf
+
+[ ] gebrd
+[ ] gesvd
+
+CUSOLVER_SP??
+==========
