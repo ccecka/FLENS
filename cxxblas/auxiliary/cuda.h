@@ -3,42 +3,19 @@
 
 #if defined(HAVE_CUBLAS) || defined(HAVE_CUSOLVER)
 
-#include <thrust/device_ptr.h>
-#include <string>
-#include <map>
+#include <string> // XXX
+#include <map>    // XXX
 
 #include <thrust/execution_policy.h>
+#include <thrust/device_ptr.h>
 
 // Implement a strided range/iterator
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/permutation_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
-#include <thrust/functional.h>
-#include <thrust/complex.h>
-
-namespace flens {
-
-template <typename T>
-struct ThrustType {
-  typedef T Type;
-};
-
-template <typename T>
-struct ThrustType<const T> {
-  typedef const typename ThrustType<T>::Type Type;
-};
-
-template <>
-struct ThrustType<std::complex<float> > {
-  typedef thrust::complex<float> Type;
-};
-
-template <>
-struct ThrustType<std::complex<double> > {
-  typedef thrust::complex<double> Type;
-};
 
 
+namespace cxxblas {
 
 class CudaEnv {
  public:
@@ -81,30 +58,13 @@ class CudaEnv {
     static std::string
     getInfo();
 
-#ifdef HAVE_CUBLAS
-    static cublasHandle_t &
-    blasHandle();
-#endif // HAVE_CUBLAS
-
-#ifdef HAVE_CUSOLVER
-    static cusolverDnHandle_t &
-    solverHandle();
-#endif // HAVE_CUSOLVER
-
-private:
+ private:
     static int                          NCalls;
-  static std::map<int, cudaStream_t>  streams;
+    static std::map<int, cudaStream_t>  streams;
     static int                          streamID;
     static bool                         syncCopyEnabled;
     static std::map<int, cudaEvent_t >  events;
-#ifdef HAVE_CUBLAS
-    static cublasHandle_t               blas_handle;
-#endif // HAVE_CUBLAS
-#ifdef HAVE_CUSOLVER
-    static cusolverDnHandle_t           solver_handle;
-#endif // HAVE_CUSOLVER
 };
-
 
 // XXX XXX
 int                         CudaEnv::NCalls          = 0;
@@ -112,22 +72,6 @@ std::map<int, cudaStream_t> CudaEnv::streams         = std::map<int, cudaStream_
 int                         CudaEnv::streamID        = 0;
 bool                        CudaEnv::syncCopyEnabled = true;
 std::map<int, cudaEvent_t>  CudaEnv::events          = std::map<int, cudaEvent_t>();
-#ifdef HAVE_CUBLAS
-cublasHandle_t              CudaEnv::blas_handle     = 0;
-#endif // HAVE_CUBLAS
-#ifdef HAVE_CUSOLVER
-cusolverDnHandle_t          CudaEnv::solver_handle   = 0;
-#endif // HAVE_CUSOLVER
-
-#ifdef HAVE_CUBLAS
-void
-checkStatus(cublasStatus_t status);
-#endif
-
-#ifdef HAVE_CUSOLVER
-void
-checkStatus(cusolverStatus_t status);
-#endif // HAVE_CUSOLVER
 
 void
 checkStatus(cudaError_t error);
@@ -156,6 +100,33 @@ void
 syncStream(int streamID, Args... args);
 
 
+#ifdef HAVE_CUBLAS
+
+class CublasEnv {
+ public:
+    static void
+    init();
+
+    static cublasHandle_t &
+    handle();
+
+    static void
+    release();
+
+ private:
+    static cublasHandle_t               handle_;
+};
+
+cublasHandle_t              CublasEnv::handle_     = 0;
+
+
+void
+checkStatus(cublasStatus_t status);
+
+#endif // HAVE_CUBLAS
+
+
+
 
 /*! \brief RandomAccessIterator for strided access to array entries.
  *
@@ -179,11 +150,11 @@ public:
     typedef typename thrust::iterator_difference<RandomAccessIterator>::type                  difference_type;
     typedef typename thrust::iterator_difference<RandomAccessIterator>::type                  size_type;
 
-    struct StrideFunctor : public thrust::unary_function<difference_type,difference_type>
+    struct Strider : thrust::unary_function<difference_type,difference_type>
     {
         difference_type stride;
 
-        StrideFunctor(difference_type stride)
+        Strider(difference_type stride)
             : stride(stride) {}
 
         __host__ __device__
@@ -194,7 +165,7 @@ public:
     };
 
     typedef typename thrust::counting_iterator<difference_type>                               CountingIterator;
-    typedef typename thrust::transform_iterator<StrideFunctor, CountingIterator>              TransformIterator;
+    typedef typename thrust::transform_iterator<Strider, CountingIterator>              TransformIterator;
     typedef typename thrust::permutation_iterator<RandomAccessIterator,TransformIterator>     PermutationIterator;
 
     // type of the StridedRange iterator
@@ -220,7 +191,7 @@ public:
      */
     iterator begin(void) const
     {
-        return PermutationIterator(first, TransformIterator(CountingIterator(0), StrideFunctor(stride)));
+        return PermutationIterator(first, TransformIterator(CountingIterator(0), Strider(stride)));
     }
 
     /*! \brief This method returns an iterator pointing to one element past

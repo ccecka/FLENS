@@ -127,11 +127,11 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasSswap");
 
-    cublasStatus_t status = cublasSswap(flens::CudaEnv::blasHandle(), n,
+    cublasStatus_t status = cublasSswap(CublasEnv::handle(), n,
                                         x.get(), incX,
                                         y.get(), incY);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // dcopy
@@ -143,11 +143,11 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasDswap");
 
-    cublasStatus_t status = cublasDswap(flens::CudaEnv::blasHandle(), n,
+    cublasStatus_t status = cublasDswap(CublasEnv::handle(), n,
                                         x.get(), incX,
                                         y.get(), incY);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // ccopy
@@ -159,12 +159,12 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasCswap");
 
-    cublasStatus_t status = cublasCswap(flens::CudaEnv::blasHandle(), n,
+    cublasStatus_t status = cublasCswap(CublasEnv::handle(), n,
                                         reinterpret_cast<cuFloatComplex*>(x.get()), incX,
                                         reinterpret_cast<cuFloatComplex*>(y.get()), incY);
 
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zcopy
@@ -176,11 +176,11 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasZswap");
 
-    cublasStatus_t status = cublasZswap(flens::CudaEnv::blasHandle(), n,
+    cublasStatus_t status = cublasZswap(CublasEnv::handle(), n,
                                         reinterpret_cast<cuDoubleComplex*>(x.get()), incX,
                                         reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

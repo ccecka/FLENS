@@ -381,14 +381,14 @@ tbsv(StorageOrder order, StorageUpLo upLo,
         tbsv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasStbsv(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasStbsv(CublasEnv::handle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,
                                         A.get(), ldA,
                                         x.get(), incX);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // dtbsv
@@ -408,14 +408,14 @@ tbsv(StorageOrder order, StorageUpLo upLo,
         tbsv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasDtbsv(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasDtbsv(CublasEnv::handle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,
                                         A.get(), ldA,
                                         x.get(), incX);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // ctbsv
@@ -435,14 +435,14 @@ tbsv(StorageOrder order, StorageUpLo upLo,
         tbsv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasCtbsv(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasCtbsv(CublasEnv::handle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,
                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
                                         reinterpret_cast<cuFloatComplex*>(x.get()), incX);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // ztbsv
@@ -462,14 +462,14 @@ tbsv(StorageOrder order, StorageUpLo upLo,
         tbsv(ColMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    cublasStatus_t status = cublasZtbsv(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasZtbsv(CublasEnv::handle(),
                                         CUBLAS::getCublasType(upLo), CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(diag),
                                         n, k,
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
                                         reinterpret_cast<cuDoubleComplex*>(x.get()), incX);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

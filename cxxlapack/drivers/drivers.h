@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2010, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,18 +30,12 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_AUXILIARY_AUXILIARY_H
-#define CXXBLAS_AUXILIARY_AUXILIARY_H 1
+#ifndef CXXLAPACK_DRIVERS_DRIVERS_H
+#define CXXLAPACK_DRIVERS_DRIVERS_H 1
 
-#include <cxxblas/auxiliary/complex.h>
-#include <cxxblas/auxiliary/complextrait.h>
-#include <cxxblas/auxiliary/cuda.h>
-#include <cxxblas/auxiliary/debugmacro.h>
-#include <cxxblas/auxiliary/fakeuse.h>
-#include <cxxblas/auxiliary/iscomplex.h>
-#include <cxxblas/auxiliary/ismpfrreal.h>
-#include <cxxblas/auxiliary/issame.h>
-#include <cxxblas/auxiliary/pow.h>
-#include <cxxblas/auxiliary/restrictto.h>
+// define implementation specific constants, macros, etc.
+#if defined (WITH_CUSOLVER)
+#   include <cxxlapack/drivers/cusolver.h>
+#endif
 
-#endif // CXXBLAS_AUXILIARY_AUXILIARY_H
+#endif // CXXLAPACK_DRIVERS_DRIVERS_H

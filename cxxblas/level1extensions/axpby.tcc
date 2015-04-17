@@ -132,19 +132,19 @@ axpby(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("axpby_generic [cuda]");
 
-    typedef typename flens::ThrustType<X>::Type      TX;
-    typedef typename flens::ThrustType<Y>::Type      TY;
-    typedef typename flens::ThrustType<ALPHA>::Type  TALPHA;
-    typedef typename flens::ThrustType<BETA>::Type   TBETA;
+    typedef typename ThrustType<X>::Type      TX;
+    typedef typename ThrustType<Y>::Type      TY;
+    typedef typename ThrustType<ALPHA>::Type  TALPHA;
+    typedef typename ThrustType<BETA>::Type   TBETA;
 
-    flens::StridedRange<const TX*> xr(reinterpret_cast<const TX*>(x.get()),
-                                      reinterpret_cast<const TX*>(x.get()) + n*incX,
-                                      incX);
-    flens::StridedRange<      TY*> yr(reinterpret_cast<      TY*>(y.get()),
-                                      reinterpret_cast<      TY*>(y.get()) + n*incY,
-                                      incY);
+    StridedRange<const TX*> xr(reinterpret_cast<const TX*>(x.get()),
+                               reinterpret_cast<const TX*>(x.get()) + n*incX,
+                               incX);
+    StridedRange<      TY*> yr(reinterpret_cast<      TY*>(y.get()),
+                               reinterpret_cast<      TY*>(y.get()) + n*incY,
+                               incY);
 
-    thrust::transform(thrust::cuda::par.on(flens::CudaEnv::getStream()),
+    thrust::transform(thrust::cuda::par.on(CudaEnv::getStream()),
                       xr.begin(), xr.end(),
                       yr.begin(),
                       yr.begin(),

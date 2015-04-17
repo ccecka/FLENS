@@ -297,14 +297,14 @@ typename If<IndexType>::isBlasCompatibleInteger
         return;
     }
 
-    cublasStatus_t status = cublasSger(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasSger(CublasEnv::handle(),
                                         m, n,
                                         &alpha,
                                         x.get(), incX,
                                         y.get(), incY,
                                         A.get(), ldA);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // dger
@@ -326,14 +326,14 @@ typename If<IndexType>::isBlasCompatibleInteger
         return;
     }
 
-    cublasStatus_t status = cublasDger(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasDger(CublasEnv::handle(),
                                         m, n,
                                         &alpha,
                                         x.get(), incX,
                                         y.get(), incY,
                                         A.get(), ldA);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // cgeru
@@ -355,14 +355,14 @@ ger(StorageOrder order,
         return;
     }
 
-    cublasStatus_t status = cublasCgeru(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasCgeru(CublasEnv::handle(),
                                         m, n,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                         reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
                                         reinterpret_cast<cuFloatComplex*>(A.get()), ldA);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 // zgeru
 template <typename IndexType>
@@ -383,14 +383,14 @@ ger(StorageOrder order,
         return;
     }
 
-    cublasStatus_t status = cublasZgeru(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasZgeru(CublasEnv::handle(),
                                         m, n,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                         reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
                                         reinterpret_cast<cuDoubleComplex*>(A.get()), ldA);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 
 }
 
@@ -408,14 +408,14 @@ gerc(StorageOrder order,
 
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasCgerc(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasCgerc(CublasEnv::handle(),
                                         m, n,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                         reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
                                         reinterpret_cast<cuFloatComplex*>(A.get()), ldA);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zgerc
@@ -432,14 +432,14 @@ gerc(StorageOrder order,
 
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasZgerc(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasZgerc(CublasEnv::handle(),
                                         m, n,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                         reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
                                         reinterpret_cast<cuDoubleComplex*>(A.get()), ldA);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

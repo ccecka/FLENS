@@ -156,14 +156,14 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIsamax");
 
-    cublasStatus_t status = cublasIsamax(flens::CudaEnv::blasHandle(), n,
+    cublasStatus_t status = cublasIsamax(CublasEnv::handle(), n,
                                          x.get(), incX, &result);
 
-    flens::checkStatus(status);
-    flens::syncStream();
+    checkStatus(status);
+    syncStream();
 
     // We have to correct the result -> only syncModed allowed
-    ASSERT(flens::CudaEnv::isSyncCopyEnabled());
+    ASSERT(CudaEnv::isSyncCopyEnabled());
     // Correct Indexing
     --result; // cuBLAS is one-based, cblas is zero-based
 }
@@ -178,14 +178,14 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIdamax");
 
-    cublasStatus_t status = cublasIdamax(flens::CudaEnv::blasHandle(), n,
+    cublasStatus_t status = cublasIdamax(CublasEnv::handle(), n,
                                          x.get(), incX, &result);
 
-    flens::checkStatus(status);
-    flens::syncStream();
+    checkStatus(status);
+    syncStream();
 
     // We have to correct the result -> only syncModed allowed
-    ASSERT(flens::CudaEnv::isSyncCopyEnabled());
+    ASSERT(CudaEnv::isSyncCopyEnabled());
     // Correct Indexing
     --result; // cuBLAS is one-based, cblas is zero-based
 }
@@ -200,16 +200,16 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIcamax");
 
-    cublasStatus_t status = cublasIcamax(flens::CudaEnv::blasHandle(), n,
+    cublasStatus_t status = cublasIcamax(CublasEnv::handle(), n,
                                          reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                          &result);
 
 
-    flens::checkStatus(status);
-    flens::syncStream();
+    checkStatus(status);
+    syncStream();
 
     // We have to correct the result -> only syncModed allowed
-    ASSERT(flens::CudaEnv::isSyncCopyEnabled());
+    ASSERT(CudaEnv::isSyncCopyEnabled());
     // Correct Indexing
     --result; // cuBLAS is one-based, cblas is zero-based
 }
@@ -223,16 +223,16 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIzamax");
 
-    cublasStatus_t status = cublasIzamax(flens::CudaEnv::blasHandle(), n,
+    cublasStatus_t status = cublasIzamax(CublasEnv::handle(), n,
                                          reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                          &result);
 
-    flens::checkStatus(status);
-    flens::checkStatus(status);
-    flens::syncStream();
+    checkStatus(status);
+    checkStatus(status);
+    syncStream();
 
     // We have to correct the result -> only syncModed allowed
-    ASSERT(flens::CudaEnv::isSyncCopyEnabled());
+    ASSERT(CudaEnv::isSyncCopyEnabled());
     --result; // cuBLAS is one-based, cblas is zero-based
 }
 

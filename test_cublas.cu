@@ -4,16 +4,10 @@
 #include <complex>
 
 #include <thrust/device_malloc_allocator.h>
-#include <thrust/complex.h>
 
 #define WITH_CUBLAS
 #define CXXBLAS_DEBUG
 #define CXXLAPACK_DEBUG
-
-// XXX: Figure out where to put this -- needed by both blas and lapack...
-#include "cxxblas/cxxblas.h"
-#include "flens/auxiliary/cuda.h"
-#include "flens/auxiliary/cuda.tcc"
 
 #include "flens/flens.cxx"
 
@@ -44,9 +38,9 @@ int main() {
 
   typedef typename Vector::IndexType        IndexType;
 
-  flens::CudaEnv::init(); // XXX: revisit
+  cxxblas::CublasEnv::init(); // XXX: revisit
 
-  std::cout << CudaEnv::getInfo() << std::endl;
+  std::cout << cxxblas::CudaEnv::getInfo() << std::endl;
 
   Vector x(5);
   x = 1, 2, 3, 4, 5;
@@ -87,6 +81,8 @@ int main() {
   Vector a = A*x;
 
   cout << "a = " << a << endl;
+
+  cxxblas::CublasEnv::release(); // XXX: revisit
 
   return 0;
 }

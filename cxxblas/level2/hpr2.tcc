@@ -192,14 +192,14 @@ typename If<IndexType>::isBlasCompatibleInteger
     
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasChpr2(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasChpr2(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n, 
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                         reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
                                         reinterpret_cast<cuFloatComplex*>(A.get()));
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zhpr2
@@ -216,14 +216,14 @@ hpr2(StorageOrder order, StorageUpLo upLo,
       
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasZhpr2(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZhpr2(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n, 
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                         reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
                                         reinterpret_cast<cuDoubleComplex*>(A.get()));
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

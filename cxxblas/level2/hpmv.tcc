@@ -195,7 +195,7 @@ hpmv(StorageOrder order, StorageUpLo upLo,
 
     ASSERT(order==ColMajor);
 
-    cublasStatus_t status = cublasChpmv(flens::CudaEnv::blasHandle(),  CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasChpmv(CublasEnv::handle(),  CUBLAS::getCublasType(upLo),
                                         n,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(A.get()),
@@ -203,7 +203,7 @@ hpmv(StorageOrder order, StorageUpLo upLo,
                                         reinterpret_cast<const cuFloatComplex*>(&beta),
                                         reinterpret_cast<cuFloatComplex*>(y.get()), incY);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zhpmv
@@ -221,7 +221,7 @@ hpmv(StorageOrder order, StorageUpLo upLo,
 
     ASSERT(order==ColMajor);
 
-    cublasStatus_t status = cublasZhpmv(flens::CudaEnv::blasHandle(),  CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZhpmv(CublasEnv::handle(),  CUBLAS::getCublasType(upLo),
                                         n,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()),
@@ -229,7 +229,7 @@ hpmv(StorageOrder order, StorageUpLo upLo,
                                         reinterpret_cast<const cuDoubleComplex*>(&beta),
                                         reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

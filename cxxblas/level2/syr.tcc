@@ -139,13 +139,13 @@ typename If<IndexType>::isBlasCompatibleInteger
 
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasSsyr(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasSsyr(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n,
                                         &alpha,
                                         x.get(), incX,
                                         A.get(), ldA);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zsyr
@@ -161,13 +161,13 @@ syr(StorageOrder order, StorageUpLo upLo,
 
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasDsyr(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasDsyr(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n,
                                         &alpha,
                                         x.get(), incX,
                                         A.get(), ldA);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // csyr
@@ -183,13 +183,13 @@ typename If<IndexType>::isBlasCompatibleInteger
 
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasCsyr(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasCsyr(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zsyr
@@ -205,13 +205,13 @@ syr(StorageOrder order, StorageUpLo upLo,
 
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasZsyr(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZsyr(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                         reinterpret_cast<cuDoubleComplex*>(A.get()), ldA);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

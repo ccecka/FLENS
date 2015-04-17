@@ -11,7 +11,7 @@
 #   define     LAPACK_IMPL(x)           x
 #endif
 
-#if  defined(DEBUG_CXXLAPACK) || defined(CXXLACK_DEBUG)
+#if  defined(DEBUG_CXXLAPACK) || defined(CXXLAPACK_DEBUG)
 #   define CXXLAPACK_DEBUG_OUT(msg) std::cerr<<"CXXLAPACK: "<<msg<<std::endl;
 #endif
 

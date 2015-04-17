@@ -33,7 +33,7 @@
 #ifndef CXXLAPACK_CXXLAPACK_TCC
 #define CXXLAPACK_CXXLAPACK_TCC 1
 
+#include <cxxlapack/auxiliary/auxiliary.tcc>
 #include <cxxlapack/interface/interface.tcc>
 
 #endif // CXXLAPACK_CXXLAPACK_TCC 1
-

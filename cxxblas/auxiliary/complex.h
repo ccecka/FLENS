@@ -38,6 +38,30 @@
 
 namespace cxxblas {
 
+#ifdef HAVE_CUBLAS
+template <typename T>
+struct ThrustType {
+    typedef T Type;
+};
+
+template <typename T>
+struct ThrustType<const T> {
+    typedef const typename ThrustType<T>::Type Type;
+};
+
+template <>
+struct ThrustType<ComplexFloat> {
+    typedef thrust::complex<float> Type;
+};
+
+template <>
+struct ThrustType<ComplexDouble> {
+    typedef thrust::complex<double> Type;
+};
+#else
+#warning "Something is weird..."
+#endif // HAVE_CUBLAS
+
 template <typename T>
     typename
     cxxblas::RestrictTo<std::is_arithmetic<T>::value,

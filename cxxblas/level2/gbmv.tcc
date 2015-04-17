@@ -351,7 +351,7 @@ gbmv(StorageOrder order, Transpose trans,
 
     ASSERT(trans!=Conj);
 
-    cublasStatus_t status = cublasSgbmv(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasSgbmv(CublasEnv::handle(),
                                         CUBLAS::getCublasType(trans),
                                         m, n, kl, ku,
                                         &alpha,
@@ -360,7 +360,7 @@ gbmv(StorageOrder order, Transpose trans,
                                         &beta,
                                         y.get(), incY);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // dgbmv
@@ -386,7 +386,7 @@ gbmv(StorageOrder order, Transpose trans,
 
     ASSERT(trans!=Conj);
 
-    cublasStatus_t status = cublasDgbmv(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasDgbmv(CublasEnv::handle(),
                                         CUBLAS::getCublasType(trans),
                                         m, n, kl, ku,
                                         &alpha,
@@ -395,7 +395,7 @@ gbmv(StorageOrder order, Transpose trans,
                                         &beta,
                                         y.get(), incY);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // cgbmv
@@ -421,7 +421,7 @@ gbmv(StorageOrder order, Transpose trans,
 
     ASSERT(trans!=Conj);
 
-    cublasStatus_t status = cublasCgbmv(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasCgbmv(CublasEnv::handle(),
                                         CUBLAS::getCublasType(trans),
                                         m, n, kl, ku,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
@@ -430,7 +430,7 @@ gbmv(StorageOrder order, Transpose trans,
                                         reinterpret_cast<const cuFloatComplex*>(&beta),
                                         reinterpret_cast<cuFloatComplex*>(y.get()), incY);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zgbmv
@@ -456,7 +456,7 @@ gbmv(StorageOrder order, Transpose trans,
 
     ASSERT(trans!=Conj);
 
-    cublasStatus_t status = cublasZgbmv(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasZgbmv(CublasEnv::handle(),
                                         CUBLAS::getCublasType(trans),
                                         m, n, kl, ku,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
@@ -465,7 +465,7 @@ gbmv(StorageOrder order, Transpose trans,
                                         reinterpret_cast<const cuDoubleComplex*>(&beta),
                                         reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

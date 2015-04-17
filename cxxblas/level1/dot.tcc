@@ -228,14 +228,14 @@ dot(IndexType n,
     CXXBLAS_DEBUG_OUT(" cublasSdot");
    
 
-    cublasStatus_t status = cublasSdot(flens::CudaEnv::blasHandle(), n, 
+    cublasStatus_t status = cublasSdot(CublasEnv::handle(), n, 
                                        x.get(), incX, 
                                        y.get(), incY, 
                                        &result);
     
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 
@@ -261,13 +261,13 @@ dot(IndexType n,
     CXXBLAS_DEBUG_OUT("cublasDdot");
     
 
-    cublasStatus_t status = cublasDdot(flens::CudaEnv::blasHandle(), n, 
+    cublasStatus_t status = cublasDdot(CublasEnv::handle(), n, 
                                        x.get(), incX, 
                                        y.get(), incY, &result);
     
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 
@@ -293,15 +293,15 @@ dot(IndexType n,
     CXXBLAS_DEBUG_OUT("cublasCdotc");
     
     
-    cublasStatus_t status = cublasCdotc(flens::CudaEnv::blasHandle(), n, 
+    cublasStatus_t status = cublasCdotc(CublasEnv::handle(), n, 
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
                                         reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
                                         reinterpret_cast<cuFloatComplex*>(&result));
 
     
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 
@@ -316,15 +316,15 @@ dotu(IndexType n,
     CXXBLAS_DEBUG_OUT("cublasCdotu");
     
     
-    cublasStatus_t status = cublasCdotu(flens::CudaEnv::blasHandle(), n, 
+    cublasStatus_t status = cublasCdotu(CublasEnv::handle(), n, 
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
                                         reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
                                         reinterpret_cast<cuFloatComplex*>(&result));
 
     
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 
@@ -339,14 +339,14 @@ dot(IndexType n,
     CXXBLAS_DEBUG_OUT("cublasZdot");
     
     
-    cublasStatus_t status = cublasZdotc(flens::CudaEnv::blasHandle(), n, 
+    cublasStatus_t status = cublasZdotc(CublasEnv::handle(), n, 
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
                                         reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
                                         reinterpret_cast<cuDoubleComplex*>(&result));
     
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 
@@ -361,14 +361,14 @@ dotu(IndexType n,
     CXXBLAS_DEBUG_OUT("cublasZdotu");
     
 
-    cublasStatus_t status = cublasZdotu(flens::CudaEnv::blasHandle(), n, 
+    cublasStatus_t status = cublasZdotu(CublasEnv::handle(), n, 
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
                                         reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
                                         reinterpret_cast<cuDoubleComplex*>(&result));
     
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 

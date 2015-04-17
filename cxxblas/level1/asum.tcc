@@ -118,11 +118,11 @@ asum(IndexType n,
 {
     CXXBLAS_DEBUG_OUT(" cublasSasum");
 
-    cublasStatus_t status = cublasSasum(flens::CudaEnv::blasHandle(), n, x, incX, &result);
+    cublasStatus_t status = cublasSasum(CublasEnv::handle(), n, x, incX, &result);
 
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 
@@ -136,13 +136,13 @@ asum(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasDasum");
 
-    cublasStatus_t status = cublasDasum(flens::CudaEnv::blasHandle(), n,
+    cublasStatus_t status = cublasDasum(CublasEnv::handle(), n,
                                         x.get(), incX,
                                         &result);
 
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 
@@ -156,13 +156,13 @@ asum(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasCasum");
 
-    cublasStatus_t status = cublasScasum(flens::CudaEnv::blasHandle(), n,
+    cublasStatus_t status = cublasScasum(CublasEnv::handle(), n,
                                          reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                          &result);
 
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 
@@ -175,13 +175,13 @@ asum(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasDzasum");
 
-    cublasStatus_t status = cublasDzasum(flens::CudaEnv::blasHandle(), n,
+    cublasStatus_t status = cublasDzasum(CublasEnv::handle(), n,
                                       reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                       &result);
 
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 

@@ -191,7 +191,7 @@ sbmv(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasSsbmv(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasSsbmv(CublasEnv::handle(),
                                         CUBLAS::getCublasType(upLo),
                                         n, k,
                                         &alpha,
@@ -200,7 +200,7 @@ sbmv(StorageOrder order, StorageUpLo upLo,
                                         &beta,
                                         y.get(), incY);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zsbmv
@@ -223,7 +223,7 @@ sbmv(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasDsbmv(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasDsbmv(CublasEnv::handle(),
                                         CUBLAS::getCublasType(upLo),
                                         n, k,
                                         &alpha,
@@ -232,7 +232,7 @@ sbmv(StorageOrder order, StorageUpLo upLo,
                                         &beta,
                                         y.get(), incY);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

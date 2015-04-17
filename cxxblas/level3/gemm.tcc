@@ -331,7 +331,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
         return;
     }
 
-    cublasStatus_t status = cublasSgemm(flens::CudaEnv::blasHandle(), 
+    cublasStatus_t status = cublasSgemm(CublasEnv::handle(), 
                                         CUBLAS::getCublasType(transA), 
                                         CUBLAS::getCublasType(transB),
                                         m,  n, k,
@@ -341,7 +341,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
                                         &beta,
                                         C.get(), ldC);
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // dgemm
@@ -366,7 +366,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
         return;
     }
 
-    cublasStatus_t status = cublasDgemm(flens::CudaEnv::blasHandle(), 
+    cublasStatus_t status = cublasDgemm(CublasEnv::handle(), 
                                         CUBLAS::getCublasType(transA), 
                                         CUBLAS::getCublasType(transB),
                                         m,  n, k,
@@ -376,7 +376,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
                                         &beta,
                                         C.get(), ldC);
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // cgemm
@@ -401,7 +401,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
         return;
     }
     
-    cublasStatus_t status = cublasCgemm(flens::CudaEnv::blasHandle(), 
+    cublasStatus_t status = cublasCgemm(CublasEnv::handle(), 
                                         CUBLAS::getCublasType(transA), 
                                         CUBLAS::getCublasType(transB),
                                         m, n, k,
@@ -411,7 +411,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
                                         reinterpret_cast<const cuFloatComplex*>(&beta),
                                         reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zgemm
@@ -436,7 +436,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
         return;
     }
 
-    cublasStatus_t status = cublasZgemm(flens::CudaEnv::blasHandle(), 
+    cublasStatus_t status = cublasZgemm(CublasEnv::handle(), 
                                         CUBLAS::getCublasType(transA), 
                                         CUBLAS::getCublasType(transB),
                                         m, n, k,
@@ -446,7 +446,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
                                         reinterpret_cast<const cuDoubleComplex*>(&beta),
                                         reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

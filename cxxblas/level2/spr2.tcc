@@ -154,14 +154,14 @@ typename If<IndexType>::isBlasCompatibleInteger
     
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasSspr2(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasSspr2(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n, 
                                         &alpha,
                                         x.get(), incX,
                                         y.get(), incY,
                                         A.get());
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zspr2
@@ -178,14 +178,14 @@ spr2(StorageOrder order, StorageUpLo upLo,
       
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasDspr2(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasDspr2(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n, 
                                         &alpha,
                                         x.get(), incX,
                                         y.get(), incY,
                                         A.get());
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

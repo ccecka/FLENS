@@ -7,18 +7,9 @@
 
 #define WITH_CUBLAS
 #define WITH_CUSOLVER
-#define HAVE_CUBLAS
-#define HAVE_CUSOLVER
 #define CXXBLAS_DEBUG
 #define CXXLAPACK_DEBUG
-
 #define ALWAYS_USE_CXXLAPACK
-
-// XXX: Figure out where to put this -- needed by both blas and lapack...
-#include "cxxblas/cxxblas.h"
-#include "cxxlapack/cxxlapack.h"
-#include "flens/auxiliary/cuda.h"
-#include "flens/auxiliary/cuda.tcc"
 
 #include "flens/flens.cxx"
 
@@ -48,9 +39,9 @@ int main() {
 
   typedef typename Vector::IndexType        IndexType;
 
-  flens::CudaEnv::init(); // XXX: revisit
+  cxxlapack::CusolverEnv::init(); // XXX: revisit
 
-  std::cout << CudaEnv::getInfo() << std::endl;
+  std::cout << cxxlapack::CudaEnv::getInfo() << std::endl;
 
   Matrix A(5,5);
 
@@ -64,6 +55,9 @@ int main() {
   flens::lapack::trf(A, ipiv);
 
   cout << "A = " << A << endl;
+  cout << "ipiv = " << ipiv << endl;
+
+  cxxlapack::CusolverEnv::release(); // XXX: revisit
 
   return 0;
 }

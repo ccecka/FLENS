@@ -134,11 +134,11 @@ scal(IndexType n, float alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasSscal");
 
-    cublasStatus_t status = cublasSscal(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasSscal(CublasEnv::handle(),
                                         n, &alpha,
                                         x.get(), incX);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // dscal
@@ -149,11 +149,11 @@ scal(IndexType n, double alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasDscal");
 
-    cublasStatus_t status = cublasDscal(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasDscal(CublasEnv::handle(),
                                         n, &alpha,
                                         x.get(), incX);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // csscal
@@ -164,11 +164,11 @@ scal(IndexType n, float alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasCsscal");
 
-    cublasStatus_t status = cublasCsscal(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasCsscal(CublasEnv::handle(),
                                          n, &alpha,
                                          reinterpret_cast<cuFloatComplex*>(x.get()), incX);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // csscal
@@ -179,11 +179,11 @@ scal(IndexType n, ComplexFloat alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasCscal");
 
-    cublasStatus_t status = cublasCscal(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasCscal(CublasEnv::handle(),
                                         n, (reinterpret_cast<cuFloatComplex*>(&alpha)),
                                         reinterpret_cast<cuFloatComplex*>(x.get()), incX);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zdscal
@@ -194,11 +194,11 @@ scal(IndexType n, double alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasZdscal");
 
-    cublasStatus_t status = cublasZdscal(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasZdscal(CublasEnv::handle(),
                                          n, &alpha,
                                          reinterpret_cast<cuDoubleComplex*>(x.get()), incX);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zscal
@@ -209,11 +209,11 @@ scal(IndexType n, ComplexDouble alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasZdscal");
 
-    cublasStatus_t status = cublasZscal(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasZscal(CublasEnv::handle(),
                                         n, (reinterpret_cast<cuDoubleComplex*>(&alpha)),
                                         reinterpret_cast<cuDoubleComplex*>(x.get()), incX);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

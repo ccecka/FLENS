@@ -165,13 +165,13 @@ hpr(StorageOrder order, StorageUpLo upLo,
     
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasChpr(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasChpr(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                        n, 
                                        &alpha,
                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                        reinterpret_cast<cuFloatComplex*>(A.get()));
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zhpr
@@ -187,13 +187,13 @@ hpr(StorageOrder order, StorageUpLo upLo,
       
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasZhpr(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZhpr(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                        n, 
                                        &alpha,
                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                        reinterpret_cast<cuDoubleComplex*>(A.get()));
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

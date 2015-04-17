@@ -37,6 +37,7 @@
 
 namespace cxxblas {
 
+// User could potentially define ComplexFloat/ComplexDouble instead of std::
 #ifndef CXXBLAS_COMPLEX_TYPES
 #define CXXBLAS_COMPLEX_TYPES 1
 typedef std::complex<float>     ComplexFloat;

@@ -129,14 +129,14 @@ axpy(IndexType n, float alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasSaxpy");
 
-    cublasStatus_t status = cublasSaxpy(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasSaxpy(CublasEnv::handle(),
                                         n, &alpha,
                                         x.get(), incX,
                                         y.get(), incY);
 
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 
@@ -149,14 +149,14 @@ axpy(IndexType n, double alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasDaxpy");
 
-    cublasStatus_t status = cublasDaxpy(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasDaxpy(CublasEnv::handle(),
                                         n, &alpha,
                                         x.get(), incX,
                                         y.get(), incY);
 
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 
@@ -169,14 +169,14 @@ axpy(IndexType n, ComplexFloat alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasCaxpy");
 
-    cublasStatus_t status = cublasCaxpy(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasCaxpy(CublasEnv::handle(),
                                         n, reinterpret_cast<cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                         reinterpret_cast<cuFloatComplex*>(y.get()), incY);
 
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 
@@ -189,14 +189,14 @@ axpy(IndexType n, ComplexDouble alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasZaxpy");
 
-    cublasStatus_t status = cublasZaxpy(flens::CudaEnv::blasHandle(),
+    cublasStatus_t status = cublasZaxpy(CublasEnv::handle(),
                                         n, reinterpret_cast<cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                         reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
 
-    flens::checkStatus(status);
-    if (flens::CudaEnv::isSyncCopyEnabled()) {
-        flens::syncStream();
+    checkStatus(status);
+    if (CudaEnv::isSyncCopyEnabled()) {
+        syncStream();
     }
 }
 

@@ -161,14 +161,14 @@ herk(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasZherk(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZherk(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
                                         reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
                                         &beta,
                                         reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zherk
@@ -193,14 +193,14 @@ herk(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
-    cublasStatus_t status = cublasZherk(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZherk(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         CUBLAS::getCublasType(trans), n, k,
                                         &alpha,
                                         reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
                                         &beta,
                                         reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
 
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS

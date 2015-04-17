@@ -154,14 +154,14 @@ syr2(StorageOrder order, StorageUpLo upLo,
     
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasSsyr2(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasSsyr2(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n, 
                                         &alpha,
                                         x.get(), incX,
                                         y.get(), incY,
                                         A.get(), ldA);
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zsyr2
@@ -178,14 +178,14 @@ syr2(StorageOrder order, StorageUpLo upLo,
       
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasDsyr2(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasDsyr2(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n, 
                                         &alpha,
                                         x.get(), incX,
                                         y.get(), incY,
                                         A.get(), ldA);
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // csyr2
@@ -202,14 +202,14 @@ syr2(StorageOrder order, StorageUpLo upLo,
     
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasCsyr2(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasCsyr2(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n, 
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
                                         reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
                                         reinterpret_cast<cuFloatComplex*>(A.get()), ldA);
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 // zsyr2
@@ -226,14 +226,14 @@ syr2(StorageOrder order, StorageUpLo upLo,
       
     ASSERT (order==ColMajor);
 
-    cublasStatus_t status = cublasZsyr2(flens::CudaEnv::blasHandle(), CUBLAS::getCublasType(upLo),
+    cublasStatus_t status = cublasZsyr2(CublasEnv::handle(), CUBLAS::getCublasType(upLo),
                                         n, 
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
                                         reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
                                         reinterpret_cast<cuDoubleComplex*>(A.get()), ldA);
     
-    flens::checkStatus(status);
+    checkStatus(status);
 }
 
 #endif // HAVE_CUBLAS
