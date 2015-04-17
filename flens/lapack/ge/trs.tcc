@@ -240,13 +240,14 @@ trs(Transpose trans, const MA &A, const VPIV &piv, VB &&b)
 //
 //  Create matrix view from vector b and call above variant
 //
-    typedef typename VectorB::ElementType  ElementType;
-    typedef typename VectorB::IndexType    IndexType;
+    typedef typename VectorB::ElementType        ElementType;
+    typedef typename VectorB::IndexType          IndexType;
+    typedef typename VectorB::Engine::Allocator  Allocator;
 
     const IndexType    n     = b.length();
     const StorageOrder order = MatrixA::Engine::order;
 
-    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+    GeMatrix<FullStorageView<ElementType, order, IndexOptions<IndexType>, Allocator> >  B(n, 1, b, n);
 
     trs(trans, A, piv, B);
 }

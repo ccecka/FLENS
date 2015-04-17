@@ -34,6 +34,9 @@ int main() {
   //using T = std::complex<double>;
   using T = double;
 
+  int N = 5;
+
+
   typedef DenseVector<GPUArray<T> >   Vector;
   typedef GeMatrix<GPUFull<T> >       Matrix;
 
@@ -43,7 +46,7 @@ int main() {
 
   std::cout << cxxlapack::CudaEnv::getInfo() << std::endl;
 
-  Matrix A(5,5);
+  Matrix A(N,N);
 
   A = 1;
   A.diag(0) = 2;
@@ -56,6 +59,15 @@ int main() {
 
   cout << "A = " << A << endl;
   cout << "ipiv = " << ipiv << endl;
+
+  DenseVector<GPUArray<T> > B(N);
+  B = 1;
+
+  cout << "B = " << B << endl;
+
+  flens::lapack::trs(NoTrans, A, ipiv, B);
+
+  cout << "B = " << B << endl;
 
   cxxlapack::CusolverEnv::release(); // XXX: revisit
 

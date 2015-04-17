@@ -14,6 +14,10 @@ CusolverEnv::init()
 
   // create SOLVER handle
   checkStatus(cusolverDnCreate(&handle_));
+
+  // create devInfo
+  devinfo_.resize(1);
+  checkStatus(cudaMalloc(&devinfo_[0], sizeof(int)));
 }
 
 void
@@ -22,15 +26,27 @@ CusolverEnv::release()
   // destroy SOLVER handle
   checkStatus(cusolverDnDestroy(handle_));
 
+  // destroy devInfo
+  for (auto di : devinfo_)
+    checkStatus(cudaFree(di));
+
   CudaEnv::release();
 }
 
 cusolverDnHandle_t &
 CusolverEnv::handle()
 {
-    // TODO: Safety checks? Error msgs?
+    // TODO: Stream support. Safety checks? Error msgs?
 
     return handle_;
+}
+
+int*
+CusolverEnv::devInfo()
+{
+  // TODO: Stream support
+
+  return devinfo_[0];
 }
 
 
@@ -62,6 +78,18 @@ checkStatus(cusolverStatus_t status)
     ASSERT(status==CUSOLVER_STATUS_SUCCESS); // false
 }
 
+
+cublasOperation_t
+F77Trans2Cusolver(char trans)
+{
+  switch(trans) {
+    case 'N': { return CUBLAS_OP_N; }
+    case 'T': { return CUBLAS_OP_T; }
+    case 'C': { return CUBLAS_OP_C; }
+    //case 'R': { return CUBLAS_OP_R; }
+    default:  { ASSERT(0); return CUBLAS_OP_N; }
+  }
+}
 
 } // end cxxlapack
 

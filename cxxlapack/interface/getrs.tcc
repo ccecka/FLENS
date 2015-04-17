@@ -165,6 +165,110 @@ getrs(char                          trans,
     return info;
 }
 
+#ifdef HAVE_CUSOLVER
+
+template <typename IndexType>
+IndexType
+getrs(char                                                   trans,
+      IndexType                                              n,
+      IndexType                                              nRhs,
+      const thrust::device_ptr<const float>                  A,
+      IndexType                                              ldA,
+      const thrust::device_ptr<const IndexType>              iPiv,
+      thrust::device_ptr<float>                              B,
+      IndexType                                              ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cusolverDnSgetrs");
+
+    checkStatus(cusolverDnSgetrs(CusolverEnv::handle(),
+                                 F77Trans2Cusolver(trans), n, nRhs,
+                                 A.get(), ldA,
+                                 iPiv.get(),
+                                 B.get(), ldB,
+                                 CusolverEnv::devInfo()));
+
+    // TODO: check status/info
+
+    return 0;
+}
+
+template <typename IndexType>
+    IndexType
+    getrs(char                                                   trans,
+          IndexType                                              n,
+          IndexType                                              nRhs,
+          const thrust::device_ptr<const double>                 A,
+          IndexType                                              ldA,
+          const thrust::device_ptr<const IndexType>              iPiv,
+          thrust::device_ptr<double>                             B,
+          IndexType                                              ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cusolverDnDgetrs");
+
+    checkStatus(cusolverDnDgetrs(CusolverEnv::handle(),
+                                 F77Trans2Cusolver(trans), n, nRhs,
+                                 A.get(), ldA,
+                                 iPiv.get(),
+                                 B.get(), ldB,
+                                 CusolverEnv::devInfo()));
+
+    // TODO: check status/info
+
+    return 0;
+}
+
+template <typename IndexType>
+    IndexType
+    getrs(char                                                   trans,
+          IndexType                                              n,
+          IndexType                                              nRhs,
+          const thrust::device_ptr<const std::complex<float> >   A,
+          IndexType                                              ldA,
+          const thrust::device_ptr<const IndexType>              iPiv,
+          thrust::device_ptr<std::complex<float> >               B,
+          IndexType                                              ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cusolverDnCgetrs");
+
+    checkStatus(cusolverDnCgetrs(CusolverEnv::handle(),
+                                 F77Trans2Cusolver(trans), n, nRhs,
+                                 reinterpret_cast<const cuFloatComplex*>(A.get()), ldA,
+                                 iPiv.get(),
+                                 reinterpret_cast<cuFloatComplex*>(B.get()), ldB,
+                                 CusolverEnv::devInfo()));
+
+    // TODO: check status/info
+
+    return 0;
+}
+
+template <typename IndexType>
+    IndexType
+    getrs(char                                                   trans,
+          IndexType                                              n,
+          IndexType                                              nRhs,
+          const thrust::device_ptr<const std::complex<double> >  A,
+          IndexType                                              ldA,
+          const thrust::device_ptr<const IndexType>              iPiv,
+          thrust::device_ptr<std::complex<double> >              B,
+          IndexType                                              ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cusolverDnZgetrs");
+
+    checkStatus(cusolverDnZgetrs(CusolverEnv::handle(),
+                                 F77Trans2Cusolver(trans), n, nRhs,
+                                 reinterpret_cast<const cuDoubleComplex*>(A.get()), ldA,
+                                 iPiv.get(),
+                                 reinterpret_cast<cuDoubleComplex*>(B.get()), ldB,
+                                 CusolverEnv::devInfo()));
+
+    // TODO: check status/info
+
+    return 0;
+}
+
+#endif // HAVE_CUSOLVER
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_GETRS_TCC 1
