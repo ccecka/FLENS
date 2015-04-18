@@ -14,7 +14,7 @@ CUSOLVER
 
 [x] getrf
 [x] getrs
-[ ] gesv (mocked with trf/trs)
+[x] gesv (mocked with trf/trs)
 [ ] potrf
 [ ] potrs
 [ ] potsv (mocked with trf/trs)

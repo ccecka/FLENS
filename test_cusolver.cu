@@ -51,22 +51,21 @@ int main() {
   A = 1;
   A.diag(0) = 2;
 
-  cout << "A = " << A << endl;
-
   DenseVector<GPUArray<IndexType> > ipiv;
-
-  flens::lapack::trf(A, ipiv);
-
-  cout << "A = " << A << endl;
-  cout << "ipiv = " << ipiv << endl;
 
   DenseVector<GPUArray<T> > B(N);
   B = 1;
 
+  cout << "A = " << A << endl;
   cout << "B = " << B << endl;
 
-  flens::lapack::trs(NoTrans, A, ipiv, B);
+  //flens::lapack::trf(A, ipiv);
+  //flens::lapack::trs(NoTrans, A, ipiv, B);
 
+  flens::lapack::sv(A, ipiv, B);
+
+  cout << "A = " << A << endl;
+  cout << "ipiv = " << ipiv << endl;
   cout << "B = " << B << endl;
 
   cxxlapack::CusolverEnv::release(); // XXX: revisit

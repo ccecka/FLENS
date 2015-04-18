@@ -193,15 +193,15 @@ getrs(char                                                   trans,
 }
 
 template <typename IndexType>
-    IndexType
-    getrs(char                                                   trans,
-          IndexType                                              n,
-          IndexType                                              nRhs,
-          const thrust::device_ptr<const double>                 A,
-          IndexType                                              ldA,
-          const thrust::device_ptr<const IndexType>              iPiv,
-          thrust::device_ptr<double>                             B,
-          IndexType                                              ldB)
+IndexType
+getrs(char                                                   trans,
+      IndexType                                              n,
+      IndexType                                              nRhs,
+      const thrust::device_ptr<const double>                 A,
+      IndexType                                              ldA,
+      const thrust::device_ptr<const IndexType>              iPiv,
+      thrust::device_ptr<double>                             B,
+      IndexType                                              ldB)
 {
     CXXLAPACK_DEBUG_OUT("cusolverDnDgetrs");
 
@@ -218,15 +218,15 @@ template <typename IndexType>
 }
 
 template <typename IndexType>
-    IndexType
-    getrs(char                                                   trans,
-          IndexType                                              n,
-          IndexType                                              nRhs,
-          const thrust::device_ptr<const std::complex<float> >   A,
-          IndexType                                              ldA,
-          const thrust::device_ptr<const IndexType>              iPiv,
-          thrust::device_ptr<std::complex<float> >               B,
-          IndexType                                              ldB)
+IndexType
+getrs(char                                                   trans,
+      IndexType                                              n,
+      IndexType                                              nRhs,
+      const thrust::device_ptr<const std::complex<float> >   A,
+      IndexType                                              ldA,
+      const thrust::device_ptr<const IndexType>              iPiv,
+      thrust::device_ptr<std::complex<float> >               B,
+      IndexType                                              ldB)
 {
     CXXLAPACK_DEBUG_OUT("cusolverDnCgetrs");
 
@@ -243,15 +243,15 @@ template <typename IndexType>
 }
 
 template <typename IndexType>
-    IndexType
-    getrs(char                                                   trans,
-          IndexType                                              n,
-          IndexType                                              nRhs,
-          const thrust::device_ptr<const std::complex<double> >  A,
-          IndexType                                              ldA,
-          const thrust::device_ptr<const IndexType>              iPiv,
-          thrust::device_ptr<std::complex<double> >              B,
-          IndexType                                              ldB)
+IndexType
+getrs(char                                                   trans,
+      IndexType                                              n,
+      IndexType                                              nRhs,
+      const thrust::device_ptr<const std::complex<double> >  A,
+      IndexType                                              ldA,
+      const thrust::device_ptr<const IndexType>              iPiv,
+      thrust::device_ptr<std::complex<double> >              B,
+      IndexType                                              ldB)
 {
     CXXLAPACK_DEBUG_OUT("cusolverDnZgetrs");
 

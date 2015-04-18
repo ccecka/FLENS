@@ -159,6 +159,35 @@ gesv(IndexType              n,
     return info;
 }
 
+#ifdef HAVE_CUSOLVER
+
+template <typename IndexType, typename T>
+IndexType
+gesv(IndexType                      n,
+     IndexType                      nRhs,
+     thrust::device_ptr<T>          A,
+     IndexType                      ldA,
+     thrust::device_ptr<IndexType>  iPiv,
+     thrust::device_ptr<T>          B,
+     IndexType                      ldB)
+{
+  //CXXLAPACK_DEBUG_OUT("gesv");
+
+  IndexType info;
+  info = getrf(n, n, A, ldA, iPiv);
+
+  if (info == 0) {
+    // Explicit constness casting to WAR template type deduction (on IndexType)
+    info = getrs('N',
+                 n, nRhs, thrust::device_ptr<const T>(A), ldA,
+                 thrust::device_ptr<const IndexType>(iPiv), B, ldB);
+  }
+
+  return info;
+}
+
+#endif // HAVE_CUSOLVER
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_GESV_TCC
