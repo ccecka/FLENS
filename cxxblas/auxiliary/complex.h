@@ -58,8 +58,6 @@ template <>
 struct ThrustType<ComplexDouble> {
     typedef thrust::complex<double> Type;
 };
-#else
-#warning "Something is weird..."
 #endif // HAVE_CUBLAS
 
 template <typename T>
