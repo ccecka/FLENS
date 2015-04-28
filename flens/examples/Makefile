@@ -60,7 +60,7 @@ CXXFLAGS += -DALWAYS_USE_CXXLAPACK
 
 # Define any directories containing libraries
 #   To include directories use -Lpath/to/files
-LDFLAGS += -L/usr/local/opt/openblas/lib
+LDFLAGS += -L/opt/OpenBLAS/lib #-L/usr/local/opt/openblas/lib
 
 # Define any libraries to link into executable
 #   To link in libraries (libXXX.so or libXXX.a) use -lXXX
