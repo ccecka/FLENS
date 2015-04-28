@@ -85,8 +85,9 @@ template <typename RHS>
 Array<T, I, A>::Array(const RHS &rhs)
     : data_(),
       length_(rhs.length()),
-      firstIndex_(rhs.firstIndex()),
-      allocator_(rhs.allocator())
+      firstIndex_(rhs.firstIndex())
+      // XXX: HACK WAR?
+      //, allocator_(rhs.allocator())
 {
     if (length()>0) {
         raw_allocate_();

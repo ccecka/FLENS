@@ -56,9 +56,10 @@ FullStorage<T, Order, I, A>::FullStorage(IndexType numRows, IndexType numCols,
                                          IndexType firstRow, IndexType firstCol,
                                          const ElementType &value,
                                          const Allocator &allocator)
-    : data_(), allocator_(allocator),
+    : data_(),
       numRows_(numRows), numCols_(numCols),
-      firstRow_(firstRow), firstCol_(firstCol)
+      firstRow_(firstRow), firstCol_(firstCol),
+      allocator_(allocator)
 {
     ASSERT(numRows_>=0);
     ASSERT(numCols_>=0);
@@ -68,9 +69,10 @@ FullStorage<T, Order, I, A>::FullStorage(IndexType numRows, IndexType numCols,
 
 template <typename T, StorageOrder Order, typename I, typename A>
 FullStorage<T, Order, I, A>::FullStorage(const FullStorage &rhs)
-    : data_(), allocator_(rhs.allocator()),
+    : data_(),
       numRows_(rhs.numRows()), numCols_(rhs.numCols()),
-      firstRow_(rhs.firstRow()), firstCol_(rhs.firstCol())
+      firstRow_(rhs.firstRow()), firstCol_(rhs.firstCol()),
+      allocator_(rhs.allocator())
 {
     allocate_(ElementType());
     Transpose trans = (Order==rhs.order) ? NoTrans : Trans;
@@ -83,9 +85,11 @@ FullStorage<T, Order, I, A>::FullStorage(const FullStorage &rhs)
 template <typename T, StorageOrder Order, typename I, typename A>
 template <typename RHS>
 FullStorage<T, Order, I, A>::FullStorage(const RHS &rhs)
-    : data_(), allocator_(rhs.allocator()),
+    : data_(),
       numRows_(rhs.numRows()), numCols_(rhs.numCols()),
       firstRow_(rhs.firstRow()), firstCol_(rhs.firstCol())
+      // XXX: HACK WAR?
+      //, allocator_(rhs.allocator())
 {
     allocate_(ElementType());
     Transpose trans = (Order==rhs.order) ? NoTrans : Trans;

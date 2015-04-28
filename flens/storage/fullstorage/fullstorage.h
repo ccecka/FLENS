@@ -269,9 +269,9 @@ class FullStorage
         release_();
 
         pointer      data_;
-        Allocator    allocator_;
         IndexType    numRows_, numCols_;
         IndexType    firstRow_, firstCol_;
+        Allocator    allocator_;   // EBO?
 };
 
 //-- FullStorage specific functions --------------------------------------------

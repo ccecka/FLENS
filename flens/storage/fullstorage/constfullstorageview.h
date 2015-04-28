@@ -197,10 +197,10 @@ class ConstFullStorageView
 
     private:
         const_pointer        data_;
-        Allocator            allocator_;
         IndexType            numRows_, numCols_;
         IndexType            leadingDimension_;
         IndexType            firstRow_, firstCol_;
+        Allocator            allocator_;  // EBO?
 };
 
 } // namespace flens

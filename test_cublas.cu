@@ -33,16 +33,19 @@ int main() {
   using T = std::complex<double>;
   //using T = double;
 
-  typedef DenseVector<GPUArray<T> >   Vector;
-  typedef GeMatrix<GPUFull<T> >       Matrix;
+  typedef DenseVector<GPUArray<T> >   GPUVector;
+  typedef GeMatrix<GPUFull<T> >       GPUMatrix;
 
-  typedef typename Vector::IndexType        IndexType;
+  typedef DenseVector<CPUArray<T> >   CPUVector;
+  typedef GeMatrix<CPUFull<T> >       CPUMatrix;
+
+  typedef typename GPUVector::IndexType        IndexType;
 
   cxxblas::CublasEnv::init(); // XXX: revisit
 
   std::cout << cxxblas::CudaEnv::getInfo() << std::endl;
 
-  Vector x(5);
+  GPUVector x(5);
   x = 1, 2, 3, 4, 5;
 
   cout << "x.range() = " << x.range() << endl;
@@ -56,29 +59,42 @@ int main() {
 
   cout << "x = " << x << endl;
 
+  CPUVector cpux = x;
+  x = 1, 2, 3, 4, 5;
+
+  cout << "cpux.range() = " << cpux.range() << endl;
+  cout << "cpux.length() = " << cpux.length() << endl;
+
+  cout << "cpux = " << cpux << endl;
 
   const Underscore<IndexType> _;
 
-  Vector::View y = x(_(2,3));
+  GPUVector::View y = x(_(2,3));
   y = 666;
 
-  Vector::NoView z = x(_(2,3));
+  GPUVector::NoView z = x(_(2,3));
   z = 42;
 
   cout << "x = " << x << endl;
   cout << "y = " << y << endl;
   cout << "z = " << z << endl;
 
-  Vector z2 = 2.0*x(_(1,2,5));
+  GPUVector z2 = 2.0*x(_(1,2,5));
 
   cout << "z2 = " << z2 << endl;
 
-  Matrix A(5,5);
+  GPUMatrix A(5,5);
 
   A = 0;
   A.diag(1) = -1;
 
-  Vector a = A*x;
+  cout << "A = " << A << endl;
+
+  CPUMatrix CPUA = A;
+
+  cout << "CPUA = " << CPUA << endl;
+
+  GPUVector a = A*x;
 
   cout << "a = " << a << endl;
 

@@ -43,6 +43,52 @@ template <typename IndexType, typename X, typename Y>
     void
     ccopy(IndexType n, const X *x, IndexType incX, Y *y, IndexType incY);
 
+#ifdef HAVE_CUBLAS
+
+// copy Host -> Device
+template <typename IndexType, typename T>
+    typename If<IndexType>::isBlasCompatibleInteger
+    ccopy(IndexType n,
+          const T *x, IndexType incX,
+          thrust::device_ptr<T> y, IndexType incY);
+
+// copy Device -> Host
+template <typename IndexType, typename T>
+    typename If<IndexType>::isBlasCompatibleInteger
+    ccopy(IndexType n,
+          const thrust::device_ptr<const T> x, IndexType incX,
+          T *y, IndexType incY);
+
+// scopy
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    ccopy(IndexType n,
+          const thrust::device_ptr<const float> x, IndexType incX,
+          thrust::device_ptr<float> y, IndexType incY);
+
+// dcopy
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    ccopy(IndexType n,
+          const thrust::device_ptr<const double> x, IndexType incX,
+          thrust::device_ptr<double> y, IndexType incY);
+
+// ccopy
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    ccopy(IndexType n,
+          const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
+          thrust::device_ptr<ComplexFloat> y, IndexType incY);
+
+// zcopy
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    ccopy(IndexType n,
+          const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
+          thrust::device_ptr<ComplexDouble> y, IndexType incY);
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1EXTENSIONS_CCOPY_H
