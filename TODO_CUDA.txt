@@ -8,6 +8,8 @@ FLENS
 CUBLAS
 ======
 
+[ ] Implement geam
+[ ] Reroute matrix copy/axpby/axpy/transpose/etc through geam
 
 CUSOLVER
 ========
