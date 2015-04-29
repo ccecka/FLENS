@@ -64,7 +64,7 @@ ccopy(IndexType n, const X *x, IndexType incX, Y *y, IndexType incY)
 #ifdef HAVE_CUBLAS
 
 template <typename IndexType, typename T>
-void
+typename If<IndexType>::isBlasCompatibleInteger
 ccopy(IndexType n, const T *x, IndexType incX,
       thrust::device_ptr<T> y, IndexType incY)
 {
@@ -73,7 +73,7 @@ ccopy(IndexType n, const T *x, IndexType incX,
 }
 
 template <typename IndexType, typename T>
-void
+typename If<IndexType>::isBlasCompatibleInteger
 ccopy(IndexType n, const std::complex<T> *x, IndexType incX,
       thrust::device_ptr<std::complex<T>> y, IndexType incY)
 {
@@ -84,7 +84,7 @@ ccopy(IndexType n, const std::complex<T> *x, IndexType incX,
 }
 
 template <typename IndexType, typename T>
-void
+typename If<IndexType>::isBlasCompatibleInteger
 ccopy(IndexType n, const thrust::device_ptr<const T> x, IndexType incX,
       T *y, IndexType incY)
 {
@@ -93,7 +93,7 @@ ccopy(IndexType n, const thrust::device_ptr<const T> x, IndexType incX,
 }
 
 template <typename IndexType, typename T>
-void
+typename If<IndexType>::isBlasCompatibleInteger
 ccopy(IndexType n, const thrust::device_ptr<const std::complex<T>> x, IndexType incX,
       std::complex<T> *y, IndexType incY)
 {
@@ -104,7 +104,7 @@ ccopy(IndexType n, const thrust::device_ptr<const std::complex<T>> x, IndexType 
 }
 
 template <typename IndexType, typename T>
-void
+typename If<IndexType>::isBlasCompatibleInteger
 ccopy(IndexType n, const thrust::device_ptr<const T> x, IndexType incX,
       thrust::device_ptr<T> y, IndexType incY)
 {
@@ -113,7 +113,7 @@ ccopy(IndexType n, const thrust::device_ptr<const T> x, IndexType incX,
 }
 
 template <typename IndexType, typename T>
-void
+typename If<IndexType>::isBlasCompatibleInteger
 ccopy(IndexType n, const thrust::device_ptr<const std::complex<T>> x, IndexType incX,
       thrust::device_ptr<std::complex<T>> y, IndexType incY)
 {
