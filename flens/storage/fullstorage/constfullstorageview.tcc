@@ -83,7 +83,7 @@ ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(const ConstFullStorag
       firstRow_(rhs.firstRow_), firstCol_(rhs.firstCol_),
       allocator_(rhs.allocator_)
 {
-    ASSERT(order==rhs.order);
+    //ASSERT(order==rhs.order);
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
