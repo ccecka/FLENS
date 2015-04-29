@@ -1,4 +1,4 @@
-// $ nvcc -std=c++11 -ccbin=g++-4.7 -I. -o test_cublas test_cublas.cu -lcublas
+// $ nvcc -std=c++11 -ccbin=g++-4.7 -I. -o test_cublas test_cublas.cu -L/usr/local/cuda/lib64 -lcublas -L/opt/OpenBLAS/lib -lopenblas
 
 #include <iostream>
 #include <complex>
@@ -6,6 +6,7 @@
 #include <thrust/device_malloc_allocator.h>
 
 #define WITH_CUBLAS
+#define WITH_OPENBLAS
 #define CXXBLAS_DEBUG
 #define CXXLAPACK_DEBUG
 
@@ -20,18 +21,29 @@ using CPUArray = Array<T>;
 template <typename T>
 using CPUFull = FullStorage<T,ColMajor>;
 
+#if 1
 
-template <typename T, typename I = IndexOptions<> >
-using GPUArray = Array<T,I,thrust::device_malloc_allocator<T> >;
+template <typename T>
+using GPUArray = Array<T,IndexOptions<>,thrust::device_malloc_allocator<T> >;
 
-template <typename T, typename I = IndexOptions<> >
-using GPUFull  = FullStorage<T,ColMajor,I,thrust::device_malloc_allocator<T> >;
+template <typename T>
+using GPUFull  = FullStorage<T,ColMajor,IndexOptions<>,thrust::device_malloc_allocator<T> >;
+
+#else
+
+template <typename T>
+using GPUArray = CPUArray<T>;
+
+template <typename T>
+using GPUFull  = CPUFull<T>;
+
+#endif
 
 
 
 int main() {
-  using T = std::complex<double>;
-  //using T = double;
+  //using T = std::complex<double>;
+  using T = double;
 
   typedef DenseVector<GPUArray<T> >   GPUVector;
   typedef GeMatrix<GPUFull<T> >       GPUMatrix;
@@ -97,6 +109,18 @@ int main() {
   GPUVector a = A*x;
 
   cout << "a = " << a << endl;
+
+
+  GPUMatrix B(5,5), C(5,5);
+
+  B = 1;
+
+  std::cout << "Performing mm" << std::endl;
+
+  double alpha = 2;
+  C += alpha * A * B;
+
+  cout << "C = " << C << endl;
 
   cxxblas::CublasEnv::release(); // XXX: revisit
 

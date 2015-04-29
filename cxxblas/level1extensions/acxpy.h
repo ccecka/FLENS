@@ -58,6 +58,34 @@ template <typename IndexType>
 
 #endif // HAVE_CBLAS
 
+#ifdef HAVE_CUBLAS
+
+template <typename IndexType>
+    void
+    acxpy(IndexType n, const float &alpha,
+          const thrust::device_ptr<const float> x, IndexType incX,
+          const thrust::device_ptr<float> y, IndexType incY);
+
+template <typename IndexType>
+    void
+    acxpy(IndexType n, const double &alpha,
+          const thrust::device_ptr<const double> x, IndexType incX,
+          const thrust::device_ptr<double> y, IndexType incY);
+
+template <typename IndexType>
+    void
+    acxpy(IndexType n, const float &alpha,
+          const thrust::device_ptr<const std::complex<float> > x, IndexType incX,
+          const thrust::device_ptr<std::complex<float> > y, IndexType incY);
+
+template <typename IndexType>
+    void
+    acxpy(IndexType n, const double &alpha,
+          const thrust::device_ptr<const std::complex<double> > x, IndexType incX,
+          const thrust::device_ptr<std::complex<double> > y, IndexType incY);
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1EXTENSIONS_ACXPY_H

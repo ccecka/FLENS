@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2010, Michael Lehn, Cris Cecka
  *
  *   All rights reserved.
  *
@@ -30,21 +30,53 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL1EXTENSIONS_GESCAL_H
-#define CXXBLAS_LEVEL1EXTENSIONS_GESCAL_H 1
+#ifndef FLENS_AUXILIARY_ALLOCATOR_H
+#define FLENS_AUXILIARY_ALLOCATOR_H 1
 
-#include <cxxblas/typedefs.h>
+namespace flens {
 
-#define HAVE_CXXBLAS_GESCAL 1
+struct NoAllocator {};
 
-namespace cxxblas {
+// The type of T::Allocator or T::Engine::Allocator or NoAllocator
+template <typename T>
+struct AllocatorType
+{
+    template <typename A>
+        static typename A::Allocator
+        check(typename A::Allocator *);
 
-template <typename IndexType, typename ALPHA, typename MAptr>
-    void
-    gescal(StorageOrder order,
-           IndexType m, IndexType n,
-           const ALPHA &alpha, MAptr A, IndexType ldA);
+    template <typename A>
+        static typename A::Engine::Allocator
+        check(typename A::Engine::Allocator *);
 
-} // namespace cxxblas
+    template <typename Any>
+        static NoAllocator
+        check(...);
 
-#endif // CXXBLAS_LEVEL1EXTENSIONS_GESCAL_H
+    typedef decltype(check<T>(0)) Type;
+};
+
+template <typename A, typename B>
+struct CommonAllocator;
+
+template <typename A>
+struct CommonAllocator<A, A>
+{
+    typedef A Type;
+};
+
+template <typename A>
+struct CommonAllocator<A, NoAllocator>
+{
+    typedef A Type;
+};
+
+template <typename B>
+struct CommonAllocator<NoAllocator, B>
+{
+    typedef B Type;
+};
+
+} // namespace flens
+
+#endif // FLENS_AUXILIARY_ALLOCATOR_H

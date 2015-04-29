@@ -65,7 +65,12 @@ struct Result<MatrixClosure<Op, L, R> >
 {
     typedef typename MatrixClosure<Op, L, R>::ElementType T;
 
-    typedef GeMatrix<FullStorage<T, ColMajor> >  Type;
+    typedef typename AllocatorType<L>::Type LA;
+    typedef typename AllocatorType<R>::Type RA;
+    typedef typename CommonAllocator<LA,RA>::Type A;
+
+    // XXX! -- NEED ALLOCATOR TYPE!!
+    typedef GeMatrix<FullStorage<T, ColMajor, IndexOptions<>, A> >  Type;
     typedef typename Type::NoView                NoView;
 };
 

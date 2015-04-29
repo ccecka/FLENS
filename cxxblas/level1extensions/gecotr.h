@@ -44,6 +44,30 @@ template <typename IndexType, typename MA>
     gecotr(StorageOrder order, Transpose trans, IndexType m, IndexType n,
            MA *A, IndexType ldA);
 
+#ifdef HAVE_CUBLAS
+
+template <typename IndexType>
+    void
+    gecotr(StorageOrder order, Transpose trans, IndexType m, IndexType n,
+           thrust::device_ptr<float> A, IndexType ldA);
+
+template <typename IndexType>
+    void
+    gecotr(StorageOrder order, Transpose trans, IndexType m, IndexType n,
+           thrust::device_ptr<double> A, IndexType ldA);
+
+template <typename IndexType>
+    void
+    gecotr(StorageOrder order, Transpose trans, IndexType m, IndexType n,
+           thrust::device_ptr<ComplexFloat> A, IndexType ldA);
+
+template <typename IndexType>
+    void
+    gecotr(StorageOrder order, Transpose trans, IndexType m, IndexType n,
+           thrust::device_ptr<ComplexDouble> A, IndexType ldA);
+
+#endif // HAVE_CUBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1EXTENSIONS_GECOTR_H

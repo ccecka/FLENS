@@ -75,9 +75,9 @@ FullStorage<T, Order, I, A>::FullStorage(const FullStorage &rhs)
       allocator_(rhs.allocator())
 {
     allocate_(ElementType());
-    Transpose trans = (Order==rhs.order) ? NoTrans : Trans;
-    cxxblas::gecopy(Order,
-                    trans, numRows_, numCols_,
+    //Transpose trans = (Order==rhs.order) ? NoTrans : Trans;  // XXX: Needed?
+    cxxblas::gecopy(Order, NoTrans,
+                    numRows_, numCols_,
                     rhs.data(), rhs.leadingDimension(),
                     data(), leadingDimension());
 }
@@ -93,8 +93,8 @@ FullStorage<T, Order, I, A>::FullStorage(const RHS &rhs)
 {
     allocate_(ElementType());
     Transpose trans = (Order==rhs.order) ? NoTrans : Trans;
-    cxxblas::gecopy(Order,
-                    trans, numRows_, numCols_,
+    cxxblas::gecopy(Order, trans,
+                    numRows_, numCols_,
                     rhs.data(), rhs.leadingDimension(),
                     data(), leadingDimension());
 }
