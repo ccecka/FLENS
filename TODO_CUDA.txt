@@ -4,6 +4,9 @@ FLENS
 [ ] Use of std::allocator_traits in typedefs
 [ ] Further checking of allocator types, etc
 [ ] Fix MatrixView from DenseVector (need allocators types for conversion)
+[x] -- Result<M> propogates allocator
+[x] -- gesv, getrs propogates allocator
+[x] -- posv, potrs propogates allocator
 
 CUBLAS
 ======
