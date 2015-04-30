@@ -65,6 +65,38 @@ template <typename IndexType>
           std::complex<double>  *A,
           IndexType             ldA);
 
+#ifdef HAVE_CUSOLVER
+
+template <typename IndexType>
+    IndexType
+    potrf(char                                      upLo,
+          IndexType                                 n,
+          thrust::device_ptr<float>                 A,
+          IndexType                                 ldA);
+
+template <typename IndexType>
+    IndexType
+    potrf(char                                      upLo,
+          IndexType                                 n,
+          thrust::device_ptr<double>                A,
+          IndexType                                 ldA);
+
+template <typename IndexType>
+    IndexType
+    potrf(char                                      upLo,
+          IndexType                                 n,
+          thrust::device_ptr<std::complex<float> >  A,
+          IndexType                                 ldA);
+
+template <typename IndexType>
+    IndexType
+    potrf(char                                      upLo,
+          IndexType                                 n,
+          thrust::device_ptr<std::complex<double> > A,
+          IndexType                                 ldA);
+
+#endif // HAVE_CUSOLVER
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_POTRF_H

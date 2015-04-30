@@ -91,6 +91,16 @@ F77Trans2Cusolver(char trans)
   }
 }
 
+cublasFillMode_t
+F77UpLo2Cusolver(char upLo)
+{
+  switch(upLo) {
+    case 'U': { return CUBLAS_FILL_MODE_UPPER; }
+    case 'L': { return CUBLAS_FILL_MODE_LOWER; }
+    default:  { ASSERT(0); return CUBLAS_FILL_MODE_LOWER; }
+  }
+}
+
 } // end cxxlapack
 
 #endif // HAVE_CUSOLVER

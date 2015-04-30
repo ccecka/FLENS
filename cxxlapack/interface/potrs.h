@@ -77,6 +77,50 @@ template <typename IndexType>
           std::complex<double>          *B,
           IndexType                     ldB);
 
+#ifdef HAVE_CUSOLVER
+
+template <typename IndexType>
+    IndexType
+    potrs(char                                                   upLo,
+          IndexType                                              n,
+          IndexType                                              nRhs,
+          const thrust::device_ptr<const float>                  A,
+          IndexType                                              ldA,
+          thrust::device_ptr<float>                              B,
+          IndexType                                              ldB);
+
+template <typename IndexType>
+    IndexType
+    potrs(char                                                   upLo,
+          IndexType                                              n,
+          IndexType                                              nRhs,
+          const thrust::device_ptr<const double>                 A,
+          IndexType                                              ldA,
+          thrust::device_ptr<double>                             B,
+          IndexType                                              ldB);
+
+template <typename IndexType>
+    IndexType
+    potrs(char                                                   upLo,
+          IndexType                                              n,
+          IndexType                                              nRhs,
+          const thrust::device_ptr<const std::complex<float> >   A,
+          IndexType                                              ldA,
+          thrust::device_ptr<std::complex<float> >               B,
+          IndexType                                              ldB);
+
+template <typename IndexType>
+    IndexType
+    potrs(char                                                   upLo,
+          IndexType                                              n,
+          IndexType                                              nRhs,
+          const thrust::device_ptr<const std::complex<double> >  A,
+          IndexType                                              ldA,
+          thrust::device_ptr<std::complex<double> >              B,
+          IndexType                                              ldB);
+
+#endif // HAVE_CUSOLVER
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_POTRS_H
