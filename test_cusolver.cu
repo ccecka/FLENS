@@ -31,8 +31,8 @@ using GPUFull  = FullStorage<T,ColMajor,I,thrust::device_malloc_allocator<T> >;
 
 
 int main() {
-  //using T = std::complex<double>;
-  using T = double;
+  using T = std::complex<double>;
+  //using T = double;
 
   int N = 5;
 

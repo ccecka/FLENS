@@ -36,6 +36,10 @@
 #include <cxxblas/typedefs.h>
 #include <flens/auxiliary/restrictto.h>
 
+#if defined(HAVE_CUBLAS) || defined(HAVE_CUSOLVER)
+#include <thrust/complex.h>
+#endif
+
 namespace cxxblas {
 
 #ifdef HAVE_CUBLAS
