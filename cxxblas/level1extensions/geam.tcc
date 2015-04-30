@@ -42,13 +42,13 @@ namespace cxxblas {
 //
 template <typename IndexType,
           typename ALPHA, typename MA, typename BETA, typename MB, typename MC>
-    void
-    geam(StorageOrder orderA, StorageOrder orderB,
-         Transpose transA, Transpose transB,
-         IndexType m, IndexType n,
-         const ALPHA &alpha, const MA *A, IndexType ldA,
-         const BETA & beta, const MB *B, IndexType ldB,
-         MC *C, IndexType ldC)
+void
+geam(StorageOrder orderA, StorageOrder orderB,
+     Transpose transA, Transpose transB,
+     IndexType m, IndexType n,
+     const ALPHA &alpha, const MA *A, IndexType ldA,
+     const BETA &beta, const MB *B, IndexType ldB,
+     MC *C, IndexType ldC)
 {
 
 }
