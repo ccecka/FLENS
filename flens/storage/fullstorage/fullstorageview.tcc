@@ -277,17 +277,24 @@ template <typename T, StorageOrder Order, typename I, typename A>
 bool
 FullStorageView<T, Order, I, A>::fill(const ElementType &value)
 {
+    pointer p = data();
     if (Order==RowMajor) {
-        pointer p = data();
-        for (IndexType i=0; i<numRows(); ++i, p+=leadingDimension()) {
-            flens::alg::fill_n(p, numCols(), value);
+        if (leadingDimension() == numCols()) {
+            flens::alg::fill_n(p, numCols()*numRows(), value);
+        } else {
+            for (IndexType i=0; i<numRows(); ++i, p+=leadingDimension()) {
+                flens::alg::fill_n(p, numCols(), value);
+            }
         }
         return true;
     }
     if (Order==ColMajor) {
-        pointer p = data();
-        for (IndexType j=0; j<numCols(); ++j, p+=leadingDimension()) {
-            flens::alg::fill_n(p, numRows(), value);
+        if (leadingDimension() == numRows()) {
+            flens::alg::fill_n(p, numCols()*numRows(), value);
+        } else {
+            for (IndexType j=0; j<numCols(); ++j, p+=leadingDimension()) {
+                flens::alg::fill_n(p, numRows(), value);
+            }
         }
         return true;
     }
