@@ -31,10 +31,10 @@ using GPUFull  = FullStorage<T,ColMajor,I,thrust::device_malloc_allocator<T> >;
 
 
 int main() {
-  using T = std::complex<double>;
-  //using T = double;
+  //using T = std::complex<double>;
+  using T = double;
 
-  int N = 5;
+  int N = 10000;
 
 
   typedef DenseVector<GPUArray<T> >   Vector;
@@ -46,27 +46,29 @@ int main() {
 
   std::cout << cxxlapack::CudaEnv::getInfo() << std::endl;
 
-  Matrix A(N,N);
+  GeMatrix<CPUFull<T> > A_(N,N);
 
-  A = 1;
-  A.diag(0) = 2;
+  A_ = 1;
+  A_.diag(0) = 2;
+
+  Matrix A = A_;
 
   DenseVector<GPUArray<IndexType> > ipiv;
 
   DenseVector<GPUArray<T> > B(N);
   B = 1;
 
-  cout << "A = " << A << endl;
-  cout << "B = " << B << endl;
+  //cout << "A = " << A << endl;
+  //cout << "B = " << B << endl;
 
   //flens::lapack::trf(A, ipiv);
   //flens::lapack::trs(NoTrans, A, ipiv, B);
 
   flens::lapack::sv(A, ipiv, B);
 
-  cout << "A = " << A << endl;
-  cout << "ipiv = " << ipiv << endl;
-  cout << "B = " << B << endl;
+  //cout << "A = " << A << endl;
+  //cout << "ipiv = " << ipiv << endl;
+  //cout << "B = " << B << endl;
 
   cxxlapack::CusolverEnv::release(); // XXX: revisit
 
