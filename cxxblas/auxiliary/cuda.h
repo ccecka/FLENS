@@ -4,7 +4,7 @@
 #if defined(HAVE_CUBLAS) || defined(HAVE_CUSOLVER)
 
 #include <string> // XXX
-#include <map>    // XXX
+#include <vector>
 
 #include <thrust/execution_policy.h>
 #include <thrust/device_ptr.h>
@@ -60,18 +60,18 @@ class CudaEnv {
 
  private:
     static int                          NCalls;
-    static std::map<int, cudaStream_t>  streams;
+    static std::vector<cudaStream_t>    streams;
     static int                          streamID;
     static bool                         syncCopyEnabled;
-    static std::map<int, cudaEvent_t >  events;
+    static std::vector<cudaEvent_t>     events;
 };
 
 // XXX XXX
 int                         CudaEnv::NCalls          = 0;
-std::map<int, cudaStream_t> CudaEnv::streams         = std::map<int, cudaStream_t>();
+std::vector<cudaStream_t>   CudaEnv::streams         = {};
 int                         CudaEnv::streamID        = 0;
 bool                        CudaEnv::syncCopyEnabled = true;
-std::map<int, cudaEvent_t>  CudaEnv::events          = std::map<int, cudaEvent_t>();
+std::vector<cudaEvent_t>    CudaEnv::events          = {};
 
 void
 checkStatus(cudaError_t error);
