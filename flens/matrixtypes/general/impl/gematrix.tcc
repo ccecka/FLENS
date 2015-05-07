@@ -376,6 +376,24 @@ GeMatrix<FS>::resize(IndexType numRows, IndexType numCols,
 }
 
 template <typename FS>
+template <typename RHS>
+bool
+GeMatrix<FS>::reserve(const GeMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+GeMatrix<FS>::reserve(IndexType numRows, IndexType numCols,
+                      IndexType firstRowIndex,
+                      IndexType firstColIndex)
+{
+    return engine_.reserve(numRows, numCols,
+                           firstRowIndex, firstColIndex);
+}
+
+template <typename FS>
 bool
 GeMatrix<FS>::fill(const ElementType &value)
 {

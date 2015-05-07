@@ -243,6 +243,15 @@ class GeMatrix
                IndexType firstColIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        template <typename RHS>
+            bool
+            reserve(const GeMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType numRows, IndexType numCols,
+                IndexType firstRowIndex = Engine::defaultIndexBase,
+                IndexType firstColIndex = Engine::defaultIndexBase);
+
         bool
         fill(const ElementType &value = ElementType());
 

@@ -299,6 +299,15 @@ CublasEnv::release()
     CudaEnv::release();
 }
 
+void
+CublasEnv::setStream(int _streamID)
+{
+    CudaEnv::setStream(_streamID);
+
+    // Set stream
+    checkStatus(cublasSetStream(handle_, CudaEnv::getStream()));
+}
+
 cublasHandle_t &
 CublasEnv::handle()
 {

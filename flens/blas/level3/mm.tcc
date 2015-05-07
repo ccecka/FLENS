@@ -430,7 +430,8 @@ mm(Transpose        transposeA,
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
         ASSERT(C.numRows()==0 && C.numCols()==0);
-        C.resize(m, n);
+        ASSERT(beta==BETA(0));
+        C.reserve(m, n);
     }
 
 #   ifndef FLENS_DEBUG_CLOSURES

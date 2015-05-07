@@ -104,11 +104,15 @@ syncStream(int streamID, Args... args);
 
 class CublasEnv {
  public:
+
     static void
     init();
 
     static cublasHandle_t &
     handle();
+
+    static void
+    setStream(int _streamID);
 
     static void
     release();
