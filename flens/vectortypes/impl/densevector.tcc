@@ -410,8 +410,7 @@ template <typename RHS>
 bool
 DenseVector<A>::resize(const DenseVector<RHS> &rhs, const ElementType &value)
 {
-    bool resized = array_.resize(rhs.engine(), value);
-    return resized;
+    return array_.resize(rhs.engine(), value);
 }
 
 template <typename A>
@@ -420,6 +419,21 @@ DenseVector<A>::resize(IndexType length, IndexType firstIndex,
                        const ElementType &value)
 {
     return array_.resize(length, firstIndex, value);
+}
+
+template <typename A>
+template <typename RHS>
+bool
+DenseVector<A>::reserve(const DenseVector<RHS> &rhs)
+{
+    return array_.reserve(rhs.engine());
+}
+
+template <typename A>
+bool
+DenseVector<A>::reserve(IndexType length, IndexType firstIndex)
+{
+    return array_.reserve(length, firstIndex);
 }
 
 template <typename A>

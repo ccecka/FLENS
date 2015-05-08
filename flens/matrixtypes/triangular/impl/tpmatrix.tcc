@@ -329,6 +329,22 @@ TpMatrix<PS>::resize(IndexType dim,
                           value);
 }
 
+template <typename PS>
+template <typename RHS>
+bool
+TpMatrix<PS>::reserve(const TpMatrix<RHS> &rhs)
+{
+    return reserve(rhs.dim(), rhs.indexBase());
+}
+
+template <typename PS>
+bool
+TpMatrix<PS>::reserve(IndexType dim,
+                      IndexType indexBase)
+{
+    return engine_.reserve(dim, indexBase);
+}
+
 //-- Views ---------------------------------------------------------------------
 
 // hermitian views

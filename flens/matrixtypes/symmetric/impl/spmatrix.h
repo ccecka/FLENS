@@ -203,6 +203,14 @@ class SpMatrix
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        template <typename RHS>
+            bool
+            reserve(const SpMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim,
+                IndexType firstIndex = Engine::defaultIndexBase);
+
         //-- Views -------------------------------------------------------------
 
         // hermitian views

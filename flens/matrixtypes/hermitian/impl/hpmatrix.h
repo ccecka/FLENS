@@ -202,6 +202,14 @@ class HpMatrix
                IndexType indexBase = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        template <typename RHS>
+            bool
+            reserve(const HpMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim,
+                IndexType indexBase = Engine::defaultIndexBase);
+
         //-- Views -------------------------------------------------------------
 
         // hermitian views

@@ -200,6 +200,14 @@ class TpMatrix
                IndexType indexBase = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        template <typename RHS>
+            bool
+            reserve(const TpMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim,
+                IndexType indexBase = Engine::defaultIndexBase);
+
         //-- Views -------------------------------------------------------------
 
         // hermitian views

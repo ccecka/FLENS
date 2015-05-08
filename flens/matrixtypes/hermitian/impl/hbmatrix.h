@@ -232,6 +232,14 @@ class HbMatrix
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        template <typename RHS>
+            bool
+            reserve(const HbMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim, IndexType numOffDiags,
+                IndexType firstIndex = Engine::defaultIndexBase);
+
         bool
         fill(const ElementType &value = ElementType());
 

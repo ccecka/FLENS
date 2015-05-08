@@ -255,6 +255,19 @@ class SyMatrix
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        template <typename RHS>
+            bool
+            reserve(const SyMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim,
+                IndexType firstIndex = Engine::defaultIndexBase);
+
+        bool
+        reserve(IndexType dim,
+                StorageUpLo upLo,
+                IndexType firstIndex = Engine::defaultIndexBase);
+
         // -- views ------------------------------------------------------------
         // general views
         const ConstGeneralView

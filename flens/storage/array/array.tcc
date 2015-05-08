@@ -196,6 +196,29 @@ Array<T, I, A>::resize(const ARRAY &rhs, const ElementType &value)
 
 template <typename T, typename I, typename A>
 bool
+Array<T, I, A>::reserve(IndexType length, IndexType firstIndex)
+{
+    if (length!=length_) {
+        release_();
+        length_ = length;
+        firstIndex_ = firstIndex;
+        raw_allocate_();
+        return true;
+    }
+    changeIndexBase(firstIndex);
+    return false;
+}
+
+template <typename T, typename I, typename A>
+template <typename ARRAY>
+bool
+Array<T, I, A>::reserve(const ARRAY &rhs)
+{
+    return reserve(rhs.length(), rhs.firstIndex());
+}
+
+template <typename T, typename I, typename A>
+bool
 Array<T, I, A>::fill(const ElementType &value)
 {
     flens::alg::fill_n(data(), length(), value);

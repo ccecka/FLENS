@@ -288,6 +288,15 @@ class GbMatrix
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        template <typename RHS>
+            bool
+            reserve(const GbMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType numRow, IndexType numCols,
+                IndexType numSubDiags, IndexType numSuperDiags,
+                IndexType firstIndex = Engine::defaultIndexBase);
+
         bool
         fill(const ElementType &value = ElementType());
 

@@ -402,6 +402,29 @@ HeMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
     return engine_.resize(dim, dim, firstIndex, firstIndex, value);
 }
 
+template <typename FS>
+template <typename RHS>
+bool
+HeMatrix<FS>::reserve(const HeMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+HeMatrix<FS>::reserve(IndexType dim, IndexType firstIndex)
+{
+    return engine_.reserve(dim, dim, firstIndex, firstIndex);
+}
+
+template <typename FS>
+bool
+HeMatrix<FS>::reserve(IndexType dim, StorageUpLo upLo, IndexType firstIndex)
+{
+    upLo_ = upLo;
+    return engine_.reserve(dim, dim, firstIndex, firstIndex);
+}
+
 // -- views --------------------------------------------------------------------
 
 // general views

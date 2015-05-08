@@ -232,6 +232,15 @@ class TrMatrix
                IndexType firstColIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        template <typename RHS>
+            bool
+            reserve(const TrMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType numRows, IndexType numCols,
+                IndexType firstRowIndex = Engine::defaultIndexBase,
+                IndexType firstColIndex = Engine::defaultIndexBase);
+
         // -- views ------------------------------------------------------------
         // diag views
         const ConstVectorView

@@ -426,6 +426,23 @@ TbMatrix<FS>::resize(IndexType dim, IndexType numOffDiags,
                           firstIndex, value);
 }
 
+template <typename FS>
+template <typename RHS>
+bool
+TbMatrix<FS>::reserve(const TbMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+TbMatrix<FS>::reserve(IndexType dim, IndexType numOffDiags,
+                      IndexType firstIndex)
+{
+    const IndexType numSubDiags = (upLo_ == Upper) ? 0 : numOffDiags;
+    const IndexType numSuperDiags = (upLo_ == Upper) ? numOffDiags : 0;
+    return engine_.reserve(dim, dim, numSubDiags, numSuperDiags, firstIndex);
+}
 
 template <typename FS>
 bool

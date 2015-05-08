@@ -342,6 +342,38 @@ BandStorage<T, Order, I, A>::resize(const FS &rhs, const ElementType &value)
 
 template <typename T, StorageOrder Order, typename I, typename A>
 bool
+BandStorage<T, Order, I, A>::reserve(IndexType numRows, IndexType numCols,
+                                     IndexType numSubDiags,
+                                     IndexType numSuperDiags,
+                                     IndexType firstIndex)
+{
+    if ((numSubDiags_!=numSubDiags) || (numSuperDiags_!=numSuperDiags)
+        || (numRows_!=numRows) || (numCols_!=numCols)) {
+        release_();
+        numSubDiags_ = numSubDiags,
+        numSuperDiags_ = numSuperDiags,
+        numRows_ = numRows;
+        numCols_ = numCols;
+        firstIndex_ = firstIndex;
+        raw_allocate_();
+        return true;
+    }
+    setIndexBase_(firstIndex);
+    return false;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+template <typename FS>
+bool
+BandStorage<T, Order, I, A>::reserve(const FS &rhs)
+{
+    return reserve(rhs.numRows(), rhs.numCols(),
+                   rhs.numSubDiags(), rhs.numSuperDiags(),
+                   rhs.firstIndex());
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
 BandStorage<T, Order, I, A>::fill(const ElementType &value)
 {
     const IndexType m = numSubDiags_+numSuperDiags_+1;

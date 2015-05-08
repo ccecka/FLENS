@@ -322,6 +322,22 @@ SpMatrix<PS>::resize(IndexType dim, IndexType firstIndex,
     return engine_.resize(dim, firstIndex, value);
 }
 
+
+template <typename PS>
+template <typename RHS>
+bool
+SpMatrix<PS>::reserve(const SpMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.dim(), rhs.indexBase());
+}
+
+template <typename PS>
+bool
+SpMatrix<PS>::reserve(IndexType dim, IndexType firstIndex)
+{
+    return engine_.reserve(dim, firstIndex);
+}
+
 // -- views --------------------------------------------------------------------
 
 // hermitian views

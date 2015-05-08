@@ -393,6 +393,25 @@ HbMatrix<FS>::resize(IndexType dim, IndexType numOffDiags,
 }
 
 template <typename FS>
+template <typename RHS>
+bool
+HbMatrix<FS>::reserve(const HbMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+HbMatrix<FS>::reserve(IndexType dim, IndexType numOffDiags,
+                      IndexType firstIndex)
+{
+    return engine_.reserve(dim, dim,
+                           (upLo_==Lower) ? numOffDiags : 0,
+                           (upLo_==Upper) ? numOffDiags : 0,
+                           firstIndex);
+}
+
+template <typename FS>
 bool
 HbMatrix<FS>::fill(const ElementType &value)
 {

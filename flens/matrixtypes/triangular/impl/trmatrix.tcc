@@ -337,6 +337,23 @@ TrMatrix<FS>::resize(IndexType numRows, IndexType numCols,
                           value);
 }
 
+template <typename FS>
+template <typename RHS>
+bool
+TrMatrix<FS>::reserve(const TrMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+TrMatrix<FS>::reserve(IndexType numRows, IndexType numCols,
+                      IndexType firstRowIndex, IndexType firstColIndex)
+{
+    return engine_.reserve(numRows, numCols,
+                           firstRowIndex, firstColIndex);
+}
+
 // -- views ------------------------------------------------------------
 // diag views
 template <typename FS>

@@ -240,6 +240,14 @@ class DenseVector
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        template <typename RHS>
+            bool
+            reserve(const DenseVector<RHS> &rhs);
+
+        bool
+        reserve(IndexType length,
+               IndexType firstIndex = Engine::defaultIndexBase);
+
         bool
         fill(const ElementType &value = ElementType());
 

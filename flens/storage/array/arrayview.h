@@ -123,6 +123,14 @@ class ArrayView
             resize(const ARRAY &rhs, const ElementType &value = ElementType());
 
         bool
+        reserve(IndexType length,
+                IndexType firstIndex = defaultIndexBase);
+
+        template <typename ARRAY>
+            bool
+            reserve(const ARRAY &rhs);
+
+        bool
         fill(const ElementType &value = ElementType());
 
         void

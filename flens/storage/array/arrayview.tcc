@@ -185,6 +185,25 @@ ArrayView<T, I, A>::resize(const ARRAY &rhs, const ElementType &value)
 
 template <typename T, typename I, typename A>
 bool
+ArrayView<T, I, A>::reserve(IndexType DEBUG_VAR(length),
+                            IndexType firstIndex)
+{
+    ASSERT(length==length_);
+
+    changeIndexBase(firstIndex);
+    return false;
+}
+
+template <typename T, typename I, typename A>
+template <typename ARRAY>
+bool
+ArrayView<T, I, A>::reserve(const ARRAY &rhs)
+{
+    return resize(rhs.length(), rhs.firstIndex());
+}
+
+template <typename T, typename I, typename A>
+bool
 ArrayView<T, I, A>::fill(const ElementType &value)
 {
     for (IndexType i=firstIndex(); i<=lastIndex(); ++i) {

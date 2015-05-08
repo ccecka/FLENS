@@ -392,6 +392,25 @@ SbMatrix<FS>::resize(IndexType dim,
 }
 
 template <typename FS>
+template <typename RHS>
+bool
+SbMatrix<FS>::reserve(const SbMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+SbMatrix<FS>::reserve(IndexType dim,
+                     IndexType numOffDiags, IndexType firstIndex)
+{
+    return engine_.reserve(dim, dim,
+                           (upLo_==Lower) ? numOffDiags : 0,
+                           (upLo_==Upper) ? numOffDiags : 0,
+                           firstIndex);
+}
+
+template <typename FS>
 bool
 SbMatrix<FS>::fill(const ElementType &value)
 {

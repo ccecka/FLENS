@@ -299,6 +299,21 @@ DiagMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
 }
 
 template <typename FS>
+template <typename RHS>
+bool
+DiagMatrix<FS>::reserve(const DiagMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+DiagMatrix<FS>::reserve(IndexType dim, IndexType firstIndex)
+{
+    return engine_.reserve(dim, firstIndex);
+}
+
+template <typename FS>
 bool
 DiagMatrix<FS>::fill(const ElementType &value)
 {

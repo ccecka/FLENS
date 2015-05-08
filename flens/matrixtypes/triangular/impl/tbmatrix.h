@@ -240,6 +240,15 @@ class TbMatrix
                IndexType firstColIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        template <typename RHS>
+            bool
+            reserve(const TbMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim,
+                IndexType numOffDiags,
+                IndexType firstColIndex = Engine::defaultIndexBase);
+
         bool
         fill(const ElementType &value = ElementType());
 

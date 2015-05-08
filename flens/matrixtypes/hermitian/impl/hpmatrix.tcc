@@ -332,6 +332,21 @@ HpMatrix<PS>::resize(IndexType dim, IndexType indexBase,
     return engine_.resize(dim, indexBase, value);
 }
 
+template <typename PS>
+template <typename RHS>
+bool
+HpMatrix<PS>::reserve(const HpMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.dim(), rhs.indexBase());
+}
+
+template <typename PS>
+bool
+HpMatrix<PS>::reserve(IndexType dim, IndexType indexBase)
+{
+    return engine_.reserve(dim, indexBase);
+}
+
 // -- views --------------------------------------------------------------------
 
 // general views

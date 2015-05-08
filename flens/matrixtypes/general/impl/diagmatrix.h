@@ -197,6 +197,14 @@ class DiagMatrix
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        template <typename RHS>
+        bool
+        reserve(const DiagMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim,
+                IndexType firstIndex = Engine::defaultIndexBase);
+
         bool
         fill(const ElementType &value = ElementType());
 

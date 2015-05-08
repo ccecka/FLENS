@@ -497,6 +497,22 @@ GbMatrix<FS>::resize(IndexType n, IndexType m, IndexType kl, IndexType ku,
 }
 
 template <typename FS>
+template <typename RHS>
+bool
+GbMatrix<FS>::reserve(const GbMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+GbMatrix<FS>::reserve(IndexType n, IndexType m, IndexType kl, IndexType ku,
+                      IndexType firstIndex)
+{
+    return engine_.reserve(n, m, kl, ku, firstIndex);
+}
+
+template <typename FS>
 bool
 GbMatrix<FS>::fill(const ElementType &value)
 {

@@ -275,6 +275,29 @@ FullStorageView<T, Order, I, A>::resize(const FS &rhs, const ElementType &value)
 
 template <typename T, StorageOrder Order, typename I, typename A>
 bool
+FullStorageView<T, Order, I, A>::reserve(IndexType DEBUG_VAR(numRows_),
+                                         IndexType DEBUG_VAR(numCols_),
+                                         IndexType firstRow,
+                                         IndexType firstCol)
+{
+    ASSERT(numRows_==numRows());
+    ASSERT(numCols_==numCols());
+
+    changeIndexBase(firstRow, firstCol);
+    return false;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+template <typename FS>
+bool
+FullStorageView<T, Order, I, A>::reserve(const FS &rhs)
+{
+    return reserve(rhs.numRows(), rhs.numCols(),
+                   rhs.firstRow(), rhs.firstCol());
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
 FullStorageView<T, Order, I, A>::fill(const ElementType &value)
 {
     pointer p = data();

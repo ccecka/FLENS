@@ -59,7 +59,6 @@ BandStorageView<T, Order, I, A>::BandStorageView(IndexType numRows,
     ASSERT(numCols_>=0);
     ASSERT(numSubDiags_>=0);
     ASSERT(numSuperDiags_>=0);
-
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -71,7 +70,6 @@ BandStorageView<T, Order, I, A>::BandStorageView(const BandStorageView &rhs)
       firstIndex_(rhs.firstIndex()),
       leadingDimension_(rhs.leadingDimension_)
 {
-
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -84,7 +82,6 @@ BandStorageView<T, Order, I, A>::BandStorageView(RHS &rhs)
       firstIndex_(rhs.firstIndex()),
       leadingDimension_(rhs.leadingDimension())
 {
-
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -287,6 +284,32 @@ BandStorageView<T, Order, I, A>::resize(const FS &rhs, const ElementType &value)
     return resize(rhs.numRows(), rhs.numCols(),
                   rhs.numSubDiags(), rhs.numSuperDiags(), rhs.firstCol(),
                   value);
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
+BandStorageView<T, Order, I, A>::reserve(IndexType DEBUG_VAR(numRows),
+                                         IndexType DEBUG_VAR(numCols),
+                                         IndexType DEBUG_VAR(numSubDiags),
+                                         IndexType DEBUG_VAR(numSuperDiags),
+                                         IndexType firstIndex)
+{
+    ASSERT(numRows_==numRows);
+    ASSERT(numCols_==numCols);
+    ASSERT(numSubDiags_==numSubDiags);
+    ASSERT(numSuperDiags_==numSuperDiags);
+
+    changeIndexBase(firstIndex);
+    return false;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+template <typename FS>
+bool
+BandStorageView<T, Order, I, A>::reserve(const FS &rhs)
+{
+    return reserve(rhs.numRows(), rhs.numCols(),
+                   rhs.numSubDiags(), rhs.numSuperDiags(), rhs.firstCol());
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
