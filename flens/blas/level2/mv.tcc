@@ -76,12 +76,9 @@ mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
     ASSERT(beta==BETA(0) || y.length()==yLength || y.length()==0);
 
     if (y.length()!=yLength) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
         FLENS_BLASLOG_RESIZE_VECTOR(y, yLength);
-        y.resize(yLength, y.firstIndex(), Zero);
+        ASSERT(beta==BETA(0));
+        y.reserve(yLength, y.firstIndex());
     }
 
     if (DEBUGCLOSURE::identical(x, y)) {
@@ -154,12 +151,9 @@ mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
     ASSERT(beta==BETA(0) || y.length()==yLength || y.length()==0);
 
     if (y.length()!=yLength) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
         FLENS_BLASLOG_RESIZE_VECTOR(y, yLength);
-        y.resize(yLength, y.firstIndex(), Zero);
+        ASSERT(beta==BETA(0));
+        y.reserve(yLength, y.firstIndex());
     }
 
     ASSERT(!DEBUGCLOSURE::identical(x, y));
@@ -213,11 +207,8 @@ mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
     ASSERT(beta==BETA(0) || y.length()==yLength || y.length()==0);
 
     if (y.length()!=yLength) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
-        y.resize(yLength, y.firstIndex(), Zero);
+        ASSERT(beta==BETA(0));
+        y.reserve(yLength, y.firstIndex());
     }
 
 //  Sparse BLAS only supports this case:
@@ -267,11 +258,8 @@ mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
     ASSERT(beta==BETA(0) || y.length()==yLength || y.length()==0);
 
     if (y.length()!=yLength) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
-        y.resize(yLength, y.firstIndex(), Zero);
+        ASSERT(beta==BETA(0));
+        y.reserve(yLength, y.firstIndex());
     }
 
 //  Sparse BLAS only supports this case:
@@ -320,12 +308,9 @@ mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
     ASSERT(beta==BETA(0) || y.length()==yLength || y.length()==0);
 
     if (y.length()!=yLength) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
         FLENS_BLASLOG_RESIZE_VECTOR(y, yLength);
-        y.resize(yLength, y.firstIndex(), Zero);
+        ASSERT(beta==BETA(0));
+        y.reserve(yLength, y.firstIndex());
     }
 
 
@@ -420,12 +405,8 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
         FLENS_BLASLOG_RESIZE_VECTOR(y, A.dim());
-        const T  Zero(0);
-        y.resize(A.dim(), y.firstIndex(), Zero);
+        y.reserve(A.dim(), y.firstIndex());
     }
 
 #   ifdef HAVE_CXXBLAS_HBMV
@@ -454,11 +435,8 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
-        y.resize(A.dim(), y.firstIndex(), Zero);
+        FLENS_BLASLOG_RESIZE_VECTOR(y, A.dim());
+        y.reserve(A.dim(), y.firstIndex());
     }
 
 #   ifdef HAVE_CXXBLAS_HECRSMV
@@ -489,11 +467,7 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
-        y.resize(A.dim(), y.firstIndex(), Zero);
+        y.reserve(A.dim(), y.firstIndex());
     }
 
 #   ifdef HAVE_CXXBLAS_HECRSMV
@@ -524,11 +498,7 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
-        y.resize(A.dim(), y.firstIndex(), Zero);
+        y.reserve(A.dim(), y.firstIndex());
     }
 
 #   ifdef HAVE_CXXBLAS_HEMV
@@ -558,11 +528,7 @@ mv(const ALPHA &alpha, const MA &A, const VX &x,
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
-        y.resize(A.dim(), y.firstIndex(), Zero);
+        y.reserve(A.dim(), y.firstIndex());
     }
 
 #   ifdef HAVE_CXXBLAS_HEMV
@@ -594,11 +560,7 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
-        y.resize(A.dim(), y.firstIndex(), Zero);
+        y.reserve(A.dim(), y.firstIndex());
     }
 
 #   ifdef HAVE_CXXBLAS_SBMV
@@ -627,7 +589,7 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        y.resize(A.dim(), 0);
+        y.reserve(A.dim());
     }
 
 #   ifdef HAVE_CXXBLAS_SPMV
@@ -656,11 +618,7 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
-        y.resize(A.dim(), y.firstIndex(), Zero);
+        y.reserve(A.dim(), y.firstIndex());
     }
 
 #   ifdef HAVE_CXXBLAS_SYCCSMV
@@ -691,11 +649,7 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
-        y.resize(A.dim(), y.firstIndex(), Zero);
+        y.reserve(A.dim(), y.firstIndex());
     }
 
 #   ifdef HAVE_CXXBLAS_SYCRSMV
@@ -726,12 +680,8 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
         FLENS_BLASLOG_RESIZE_VECTOR(y, A.dim());
-        const T  Zero(0);
-        y.resize(A.dim(), y.firstIndex(), Zero);
+        y.reserve(A.dim(), y.firstIndex());
     }
 
 #   ifdef HAVE_CXXBLAS_SYMV

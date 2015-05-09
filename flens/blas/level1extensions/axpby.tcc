@@ -63,11 +63,8 @@ axpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y)
 //
 //      So we allow  y = beta*y + alpha*x  for an empty vector y
 //
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-        const T  Zero(0);
-
-        y.resize(x, Zero);
+        ASSERT(beta==BETA(0));
+        y.reserve(x);
     }
     ASSERT(y.length()==x.length());
 
@@ -139,14 +136,15 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
 //
 //      So we allow  B = beta*B + alpha*A  for an empty matrix B
 //
+        ASSERT(beta==BETA(0));
         if ((trans==NoTrans) || (trans==Conj)) {
-            B.resize(A.numRows(), A.numCols(),
-                     A.numSubDiags(), A.numSuperDiags(),
-                     A.firstIndex());
+            B.reserve(A.numRows(), A.numCols(),
+                      A.numSubDiags(), A.numSuperDiags(),
+                      A.firstIndex());
         } else {
-            B.resize(A.numCols(), A.numRows(),
-                     A.numSuperDiags(), A.numSubDiags(),
-                     A.firstIndex());
+            B.reserve(A.numCols(), A.numRows(),
+                      A.numSuperDiags(), A.numSubDiags(),
+                      A.firstIndex());
         }
     }
 
@@ -207,23 +205,17 @@ typename RestrictTo<IsGeMatrix<MA>::value
 axpby(Transpose trans, const ALPHA &alpha, const MA &A,
       const BETA &beta, MB &&B)
 {
-    typedef typename RemoveRef<MB>::Type   MatrixB;
-
     if (B.numRows()==0 || B.numCols()==0) {
 //
 //      So we allow  B += alpha*A  for an empty matrix B
 //
-        typedef typename MatrixB::ElementType  T;
-        const T  Zero(0);
-
+        ASSERT(beta==BETA(0));
         if ((trans==NoTrans) || (trans==Conj)) {
-            B.resize(A.numRows(), A.numCols(),
-                     A.firstRow(), A.firstCol(),
-                     Zero);
+            B.reserve(A.numRows(), A.numCols(),
+                      A.firstRow(), A.firstCol());
         } else {
-            B.resize(A.numCols(), A.numRows(),
-                     A.firstCol(), A.firstRow(),
-                     Zero);
+            B.reserve(A.numCols(), A.numRows(),
+                      A.firstCol(), A.firstRow());
         }
     }
 
@@ -323,7 +315,8 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
     ASSERT(cxxblas::imag(beta)==0);
 
     if (B.dim()==0) {
-        B.resize(A);
+        ASSERT(beta==BETA(0));
+        B.reserve(A);
     }
 
 #   ifndef NDEBUG
@@ -405,12 +398,13 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
      const BETA &beta, MB &&B)
 {
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
     if (B.dim()==0) {
-        B.resize(A.dim());
+        ASSERT(beta==BETA(0));
+        B.reserve(A.dim());
     }
 
     ASSERT(A.dim()==B.dim());
@@ -455,7 +449,8 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
     ASSERT(cxxblas::imag(beta)==0);
 
     if (B.dim()==0) {
-        B.resize(A);
+        ASSERT(beta==BETA(0));
+        B.reserve(A);
     }
 
 #   ifndef NDEBUG
@@ -504,7 +499,8 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
     typedef typename MatrixA::IndexType  IndexType;
 
     if (B.dim()==0) {
-        B.resize(A);
+        ASSERT(beta==BETA(0));
+        B.reserve(A);
     }
 
 #   ifndef NDEBUG
@@ -592,7 +588,8 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
     ASSERT(A.diag()==NonUnit);
 
     if (B.dim()==0) {
-        B.resize(A);
+        ASSERT(beta==BETA(0));
+        B.reserve(A);
     }
 
 #   ifndef NDEBUG
@@ -649,12 +646,13 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
      const BETA &beta, MB &&B)
 {
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
     if (B.dim()==0) {
-        B.resize(A.dim());
+        ASSERT(beta==BETA(0));
+        B.reserve(A.dim());
     }
 
     ASSERT(A.dim()==B.dim());
@@ -700,7 +698,8 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
     ASSERT(A.diag()==NonUnit);
 
     if (B.dim()==0) {
-        B.resize(A);
+        ASSERT(beta==BETA(0));
+        B.reserve(A);
     }
 
 #   ifndef NDEBUG
@@ -807,7 +806,8 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
     ASSERT(A.diag()==NonUnit);
 
     if (B.dim()==0) {
-        B.resize(A);
+        ASSERT(beta==BETA(0));
+        B.reserve(A);
     }
 
 #   ifndef NDEBUG

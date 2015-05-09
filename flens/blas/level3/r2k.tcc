@@ -62,10 +62,10 @@ r2k(Transpose           trans,
 
     ASSERT(A.numRows()==B.numRows());
     ASSERT(A.numCols()==B.numCols());
-    ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
 
+    ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
     if (C.dim()!=n) {
-        C.resize(n, n);
+        C.reserve(n, n);
     }
 
 #   ifdef HAVE_CXXBLAS_HER2K
@@ -104,10 +104,10 @@ r2k(Transpose           trans,
 
     ASSERT(A.numRows()==B.numRows());
     ASSERT(A.numCols()==B.numCols());
-    ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
 
+    ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
     if (C.dim()!=n) {
-        C.resize(n, n);
+        C.reserve(n, n);
     }
 
 #   ifdef HAVE_CXXBLAS_SYR2K

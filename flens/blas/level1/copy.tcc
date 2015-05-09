@@ -61,7 +61,7 @@ copy(const VX &x, VY &&y)
     FLENS_BLASLOG_BEGIN_COPY(x, y);
 
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty vector (such that it is no actual
 //  resizing but rather an initialization).
 //
@@ -73,7 +73,7 @@ copy(const VX &x, VY &&y)
             FLENS_BLASLOG_RESIZE_VECTOR(y, x.length());
         }
 #       endif
-        y.resize(x);
+        y.reserve(x);
     }
 
 #   ifdef HAVE_CXXBLAS_COPY
@@ -135,7 +135,7 @@ copy(Transpose trans, const MA &A, MB &&B)
     }
 
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
@@ -146,7 +146,7 @@ copy(Transpose trans, const MA &A, MB &&B)
          || (A.numSuperDiags()>B.numSuperDiags()))
         {
             ASSERT(B.numRows()==0 || B.numCols()==0);
-            B.resize(A);
+            B.reserve(A);
         }
     } else {
         if ((A.numRows()!=B.numCols())
@@ -156,9 +156,9 @@ copy(Transpose trans, const MA &A, MB &&B)
         {
             ASSERT(B.numRows()==0 || B.numCols()==0);
 
-            B.resize(A.numCols(), A.numRows(),
-                     A.numSuperDiags(), A.numSubDiags(),
-                     A.firstIndex());
+            B.reserve(A.numCols(), A.numRows(),
+                      A.numSuperDiags(), A.numSubDiags(),
+                      A.firstIndex());
         }
     }
 
@@ -263,7 +263,7 @@ copy(Transpose trans, const MA &A, MB &&B)
                 FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
             }
 #           endif
-            B.resize(A);
+            B.reserve(A);
         }
     } else {
         if ((A.numRows()!=B.numCols())  || (A.numCols()!=B.numRows())) {
@@ -274,8 +274,8 @@ copy(Transpose trans, const MA &A, MB &&B)
                 FLENS_BLASLOG_RESIZE_MATRIX(B, A.numCols(), A.numRows());
             }
 #           endif
-            B.resize(A.numCols(), A.numRows(),
-                     A.firstCol(), A.firstRow());
+            B.reserve(A.numCols(), A.numRows(),
+                      A.firstCol(), A.firstRow());
         }
     }
 
@@ -332,13 +332,13 @@ copy(const MA &A, MB &&B)
     typename HbMatrix<MB>::ElementType  Zero(0);
 
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
     if ((B.dim()!=A.dim()) || (B.numOffDiags()<A.numOffDiags())) {
         ASSERT(B.dim()==0);
-        B.resize(A);
+        B.reserve(A);
     }
 
     FLENS_BLASLOG_SETTAG("--> ");
@@ -387,7 +387,7 @@ copy(const MA &A, MB &&B)
     ASSERT(A.order()==B.order());
 
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
@@ -399,7 +399,7 @@ copy(const MA &A, MB &&B)
             FLENS_BLASLOG_RESIZE_MATRIX(B, A.dim(), A.dim());
         }
 #       endif
-        B.resize(A);
+        B.reserve(A);
         B.upLo() = A.upLo();
     }
 
@@ -427,7 +427,7 @@ copy(const MA &A, MB &&B)
     ASSERT(A.upLo()==B.upLo());
 
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
@@ -439,7 +439,7 @@ copy(const MA &A, MB &&B)
                 FLENS_BLASLOG_RESIZE_MATRIX(B, A.dim(), A.dim());
             }
 #           endif
-            B.resize(A);
+            B.reserve(A);
     }
 
     FLENS_BLASLOG_SETTAG("--> ");
@@ -471,13 +471,13 @@ copy(const MA &A, MB &&B)
     typename SbMatrix<MB>::ElementType  Zero(0);
 
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
     if ((B.dim()!=A.dim()) || (B.numOffDiags()<A.numOffDiags())) {
         ASSERT(B.dim()==0);
-        B.resize(A);
+        B.reserve(A);
     }
 
     FLENS_BLASLOG_SETTAG("--> ");
@@ -524,13 +524,13 @@ copy(const MA &A, MB &&B)
     ASSERT(A.order()==B.order());
 
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
     if (A.dim()!=B.dim()) {
-            ASSERT(B.dim()==0);
-            B.resize(A);
+        ASSERT(B.dim()==0);
+        B.reserve(A);
     }
 
     FLENS_BLASLOG_SETTAG("--> ");
@@ -555,12 +555,13 @@ typename RestrictTo<IsSyMatrix<MA>::value
 copy(const MA &A, MB &&B)
 {
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
     if (B.dim()!=A.dim()) {
         ASSERT(B.dim()==0);
+        B.reserve(A);
     }
 
     ASSERT(A.upLo()==B.upLo());
@@ -596,7 +597,7 @@ copy(Transpose trans, const MA &A, MB &&B)
     ASSERT((A.diag()!=Unit) || (A.diag()!=B.diag()));
 
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
@@ -613,7 +614,7 @@ copy(Transpose trans, const MA &A, MB &&B)
                                               A.numOffDiags());
             }
 #           endif
-            B.resize(A);
+            B.reserve(A);
 
         }
     } else {
@@ -630,9 +631,9 @@ copy(Transpose trans, const MA &A, MB &&B)
             }
 #           endif
 
-            B.resize(A.dim(),
-                     A.numOffDiags(),
-                     A.firstIndex());
+            B.reserve(A.dim(),
+                      A.numOffDiags(),
+                      A.firstIndex());
         }
     }
 
@@ -691,7 +692,7 @@ copy(Transpose trans, const MA &A, MB &&B)
     ASSERT(((A.upLo()==B.upLo()) && ((trans==NoTrans) || (trans==Conj))) ||
            ((A.upLo()!=B.upLo()) && ((trans==Trans) || (trans==ConjTrans))));
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
@@ -703,7 +704,7 @@ copy(Transpose trans, const MA &A, MB &&B)
             FLENS_BLASLOG_RESIZE_MATRIX(B, A.dim(), A.dim());
         }
 #       endif
-        B.resize(A);
+        B.reserve(A);
     }
 
     trans = (A.order()==B.order())
@@ -1039,9 +1040,9 @@ copy(const MA &A, MB &&B)
      || (A.numOffDiags() > B.numSuperDiags()))
     {
         ASSERT(B.numRows()==0 || B.numCols()==0);
-        B.resize(A.numRows(), A.numCols(),
-                 A.numOffDiags(), A.numOffDiags(),
-                 A.firstIndex(), A.firstIndex());
+        B.reserve(A.numRows(), A.numCols(),
+                  A.numOffDiags(), A.numOffDiags(),
+                  A.firstIndex(), A.firstIndex());
     }
 
     if (A.upLo()==Upper) {
@@ -1068,8 +1069,8 @@ copy(const MA &A, MB &&B)
             FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
         }
 #       endif
-        B.resize(A.numRows(), A.numCols(),
-                 A.firstRow(), A.firstCol());
+        B.reserve(A.numRows(), A.numCols(),
+                  A.firstRow(), A.firstCol());
     }
 
     if (A.upLo()==Upper) {
@@ -1096,9 +1097,9 @@ copy(const MA &A, MB &&B)
         (A.numOffDiags() > B.numSubDiags()) ||
         (A.numOffDiags() > B.numSuperDiags())) {
         ASSERT(B.numRows()==0 || B.numCols()==0);
-        B.resize(A.numRows(), A.numCols(),
-                 A.numOffDiags(), A.numOffDiags(),
-                 A.firstIndex(), A.firstIndex());
+        B.reserve(A.numRows(), A.numCols(),
+                  A.numOffDiags(), A.numOffDiags(),
+                  A.firstIndex(), A.firstIndex());
     }
 
     if (A.upLo()==Upper) {
@@ -1126,8 +1127,8 @@ copy(const MA &A, MB &&B)
             FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
         }
 #       endif
-        B.resize(A.numRows(), A.numCols(),
-                 A.firstRow(), A.firstCol());
+        B.reserve(A.numRows(), A.numCols(),
+                  A.firstRow(), A.firstCol());
     }
 
     if (A.upLo()==Upper) {
@@ -1159,9 +1160,9 @@ copy(Transpose trans, const MA &A, MB &&B)
             || (A.numSuperDiags()>B.numSuperDiags()))
         {
             ASSERT((B.numRows()==0) && (B.numCols()==0));
-            B.resize(A.numRows(), A.numCols(),
-                     A.numSubDiags(), A.numSuperDiags(),
-                     A.firstIndex());
+            B.reserve(A.numRows(), A.numCols(),
+                      A.numSubDiags(), A.numSuperDiags(),
+                      A.firstIndex());
         }
     } else {
         if ((A.numRows()!=B.numCols())
@@ -1170,8 +1171,8 @@ copy(Transpose trans, const MA &A, MB &&B)
             || (A.numSuperDiags()>B.numSubDiags()))
         {
             ASSERT((B.numRows()==0) && (B.numCols()==0));
-            B.resize(A.numCols(), A.numRows(),
-                     A.numSuperDiags(), A.numSubDiags());
+            B.reserve(A.numCols(), A.numRows(),
+                      A.numSuperDiags(), A.numSubDiags());
         }
     }
     if (trans==NoTrans) {
@@ -1243,8 +1244,8 @@ copy(Transpose trans, const MA &A, MB &&B)
                 FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
             }
 #           endif
-            B.resize(A.numRows(), A.numCols(),
-                     A.firstRow(), A.firstCol());
+            B.reserve(A.numRows(), A.numCols(),
+                      A.firstRow(), A.firstCol());
         }
     } else {
         if (A.numRows()!=B.numCols() && A.numCols()!=B.numRows()) {
@@ -1255,8 +1256,8 @@ copy(Transpose trans, const MA &A, MB &&B)
                 FLENS_BLASLOG_RESIZE_MATRIX(B, A.numCols(), A.numRows());
             }
 #           endif
-            B.resize(A.numCols(), A.numRows(),
-                     A.firstCol(), A.firstRow());
+            B.reserve(A.numCols(), A.numRows(),
+                      A.firstCol(), A.firstRow());
          }
     }
 

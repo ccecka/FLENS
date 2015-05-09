@@ -62,7 +62,7 @@ rk(Transpose        trans,
 
     ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
     if (C.dim()!=n) {
-        C.resize(n, n);
+        C.reserve(n, n);
     }
 
     ASSERT(C.dim()==((trans==NoTrans) ? A.numRows() : A.numCols()));
@@ -102,7 +102,7 @@ rk(Transpose trans,
 
     ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
     if (C.dim()!=n) {
-        C.resize(n, n);
+        C.reserve(n, n);
     }
 
     ASSERT(C.dim()==((trans==NoTrans) ? A.numRows() : A.numCols()));

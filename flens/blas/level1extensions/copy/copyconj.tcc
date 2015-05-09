@@ -61,7 +61,7 @@ copyConj(const VX &x, VY &&y)
     FLENS_BLASLOG_BEGIN_COPY(x, y);
 
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty vector (such that it is no actual
 //  resizing but rather an initialization).
 //
@@ -73,7 +73,7 @@ copyConj(const VX &x, VY &&y)
             FLENS_BLASLOG_RESIZE_VECTOR(y, x.length());
         }
 #       endif
-        y.resize(x);
+        y.reserve(x);
     }
 
 #   ifdef HAVE_CXXBLAS_CCOPY
