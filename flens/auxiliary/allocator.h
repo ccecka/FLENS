@@ -33,28 +33,12 @@
 #ifndef FLENS_AUXILIARY_ALLOCATOR_H
 #define FLENS_AUXILIARY_ALLOCATOR_H 1
 
+#include <flens/vectortypes/impl/vectorclosure.h>
+#include <flens/matrixtypes/impl/matrixclosure.h>
+
 namespace flens {
 
 struct NoAllocator {};
-
-// The type of T::Allocator or T::Engine::Allocator or NoAllocator
-template <typename T>
-struct AllocatorType
-{
-    template <typename A>
-        static typename A::Allocator
-        check(typename A::Allocator *);
-
-    template <typename A>
-        static typename A::Engine::Allocator
-        check(typename A::Engine::Allocator *);
-
-    template <typename Any>
-        static NoAllocator
-        check(...);
-
-    typedef decltype(check<T>(0)) Type;
-};
 
 template <typename A, typename B>
 struct CommonAllocator;
@@ -75,6 +59,41 @@ template <typename B>
 struct CommonAllocator<NoAllocator, B>
 {
     typedef B Type;
+};
+
+// The type of T::Allocator or T::Engine::Allocator or NoAllocator
+template <typename T>
+struct AllocatorType
+{
+    template <typename A>
+        static typename A::Allocator
+        check(typename A::Allocator *);
+
+    template <typename A>
+        static typename A::Engine::Allocator
+        check(typename A::Engine::Allocator *);
+
+    template <typename Any>
+        static NoAllocator
+        check(...);
+
+    typedef decltype(check<T>(0)) Type;
+};
+
+// Specialization for VectorClosure
+template <typename Op, typename L, typename R>
+struct AllocatorType<VectorClosure<Op, L, R> >
+{
+  typedef typename CommonAllocator<typename AllocatorType<L>::Type,
+                                   typename AllocatorType<R>::Type>::Type Type;
+};
+
+// Specialization for MatrixClosure
+template <typename Op, typename L, typename R>
+struct AllocatorType<MatrixClosure<Op, L, R> >
+{
+  typedef typename CommonAllocator<typename AllocatorType<L>::Type,
+                                   typename AllocatorType<R>::Type>::Type Type;
 };
 
 } // namespace flens
