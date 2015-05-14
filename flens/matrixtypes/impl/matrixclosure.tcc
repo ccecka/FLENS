@@ -39,21 +39,21 @@
 namespace flens {
 
 template <typename Op, typename L, typename R>
-MatrixClosure<Op, L, R>::MatrixClosure(typename ConstRef<L>::Type l,
-                                       typename ConstRef<R>::Type r)
+MatrixClosure<Op, L, R>::MatrixClosure(const L &l,
+                                       const R &r)
     : left_(l), right_(r)
 {
 }
 
 template <typename Op, typename L, typename R>
-typename ConstRef<L>::Type
+const L &
 MatrixClosure<Op, L, R>::left() const
 {
     return left_;
 }
 
 template <typename Op, typename L, typename R>
-typename ConstRef<R>::Type
+const R &
 MatrixClosure<Op, L, R>::right() const
 {
     return right_;

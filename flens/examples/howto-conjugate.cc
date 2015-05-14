@@ -12,7 +12,7 @@ main()
 
     ZComplex   I(0,1);
 
-    ZGeMatrix  A(2,3);
+    ZGeMatrix  A(3,3);
 
     A = 2.*I, 3.+I,    1.,
         4.,   2.+2.*I, 4.;
@@ -20,7 +20,7 @@ main()
     cout << "A = " << A << endl;
 
     // in-place conjugate (via overloaded operators)
-    A = conjugate(A);
+    A = conjTrans((A));
     cout << "A = " << A << endl;
 
     // in-place conjugate (via explicit copy call)

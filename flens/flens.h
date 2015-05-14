@@ -44,7 +44,6 @@
 #elif __GNUC__
      static_assert((__GNUG__==4 && __GNUC_MINOR__>=7) || __GNUG__>=5,
                    "GNU GCC Version 4.7 or higher required!");
-#    define GCC_HACK
 #    define INCLUDE_TYPE_TRAITS
 #endif
 

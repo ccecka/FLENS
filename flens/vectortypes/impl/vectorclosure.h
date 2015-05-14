@@ -53,18 +53,31 @@ class VectorClosure
 
         typedef typename Promotion<LT, RT>::Type  ElementType;
 
-        VectorClosure(typename ConstRef<L>::Type l,
-                      typename ConstRef<R>::Type r);
+        VectorClosure(const Left &l,
+                      const Right &r);
 
-        typename ConstRef<L>::Type
+        const Left &
         left() const;
 
-        typename ConstRef<R>::Type
+        const Right &
         right() const;
 
     private:
         typename ConstRef<L>::Type left_;
         typename ConstRef<R>::Type right_;
+};
+
+//
+//  If an operand is a closure we need to keep a copy.  Otherwise we can not
+//  do things like in the implementation of conjTrans, i.e. creating nested
+//  closures inside on a function stack and then return it for later usage.
+//
+// TODO: Alternatives? OpConjTrans closure instead of the composition?
+
+template <typename Op, typename L, typename R>
+struct ConstRef<VectorClosure<Op, L, R> >
+{
+    typedef VectorClosure<Op,L,R> Type;
 };
 
 } // namespace flens
