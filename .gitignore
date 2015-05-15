@@ -7,3 +7,11 @@ flens/examples/*
 !flens/examples/*.cc
 !flens/examples/*.doc
 !flens/examples/Makefile
+
+cxxblas/netlib/blas/
+cxxblas/netlib/cblas/
+cxxlapack/netlib/._lapack
+cxxlapack/netlib/lapack/
+flens/blas/interface/test/
+flens/lapack/interface/src/
+flens/lapack/test/

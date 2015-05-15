@@ -7,7 +7,7 @@ dev :
 test/ :
 	tar xfz test.tgz
 
-dev-check : test/
+dev-check check : test/
 	$(MAKE) -C test/MATGEN
 	$(MAKE) -C test cleanup
 	$(MAKE) -C test zsg.out
