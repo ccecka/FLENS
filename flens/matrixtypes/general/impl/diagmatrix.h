@@ -107,6 +107,10 @@ class DiagMatrix
         template <typename RHS>
         DiagMatrix(DiagMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            DiagMatrix(DiagMatrix<RHS> &&rhs);
+
         template <typename RHS>
         DiagMatrix(const DenseVector<RHS> &rhs);
 
