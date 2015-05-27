@@ -59,8 +59,7 @@ TpMatrix<PS>::TpMatrix(const Engine &engine, StorageUpLo upLo, Diag diag)
 
 template <typename PS>
 TpMatrix<PS>::TpMatrix(const TpMatrix &rhs)
-    : TriangularMatrix<TpMatrix<PS> >(),
-      engine_(rhs.engine()), upLo_(upLo), diag_(rhs.diag())
+    : engine_(rhs.engine()), upLo_(upLo), diag_(rhs.diag())
 {
 }
 
@@ -74,6 +73,13 @@ TpMatrix<PS>::TpMatrix(const TpMatrix<RHS> &rhs)
 template <typename PS>
 template <typename RHS>
 TpMatrix<PS>::TpMatrix(TpMatrix<RHS> &rhs)
+    : engine_(rhs.engine()), upLo_(upLo), diag_(rhs.diag())
+{
+}
+
+template <typename PS>
+template <typename RHS, class>
+TpMatrix<PS>::TpMatrix(TpMatrix<RHS> &&rhs)
     : engine_(rhs.engine()), upLo_(upLo), diag_(rhs.diag())
 {
 }
@@ -327,6 +333,22 @@ TpMatrix<PS>::resize(IndexType dim,
 {
     return engine_.resize(dim, indexBase,
                           value);
+}
+
+template <typename PS>
+template <typename RHS>
+bool
+TpMatrix<PS>::reserve(const TpMatrix<RHS> &rhs)
+{
+    return reserve(rhs.dim(), rhs.indexBase());
+}
+
+template <typename PS>
+bool
+TpMatrix<PS>::reserve(IndexType dim,
+                      IndexType indexBase)
+{
+    return engine_.reserve(dim, indexBase);
 }
 
 //-- Views ---------------------------------------------------------------------

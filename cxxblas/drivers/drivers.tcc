@@ -206,14 +206,18 @@ getCublasType(ENUM trans)
     if (trans==NoTrans) {
         return CUBLAS_OP_N;
     }
-    if (trans==Conj) {
-        ASSERT(0);
-//         return CUBLAS_OP_R;
-    }
     if (trans==Trans) {
         return CUBLAS_OP_T;
     }
-    return CUBLAS_OP_C;
+    if (trans==ConjTrans) {
+        return CUBLAS_OP_C;
+    }
+    if (trans==Conj) {
+        ASSERT(0);
+        //return CUBLAS_OP_R;
+    }
+    ASSERT(0);
+    return CUBLAS_OP_N;
 }
 
 template <typename ENUM>

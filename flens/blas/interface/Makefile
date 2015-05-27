@@ -6,7 +6,7 @@ blas/blas_FLENS.a :
 test/ :
 	tar xfz test.tgz
 
-check : test/
+dev-check check : test/
 	$(MAKE) -C test
 	$(MAKE) -C test check
 

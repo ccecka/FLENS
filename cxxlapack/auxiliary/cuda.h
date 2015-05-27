@@ -46,6 +46,8 @@ checkStatus(cusolverStatus_t status);
 cublasOperation_t
 F77Trans2Cusolver(char trans);
 
+cublasFillMode_t
+F77UpLo2Cusolver(char upLo);
 
 } // end cxxlapack
 

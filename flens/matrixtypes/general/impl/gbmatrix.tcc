@@ -65,8 +65,7 @@ GbMatrix<FS>::GbMatrix(const Engine &engine)
 
 template <typename FS>
 GbMatrix<FS>::GbMatrix(const GbMatrix &rhs)
-    : GeneralMatrix<GbMatrix<FS> >(),
-      engine_(rhs.engine())
+    : engine_(rhs.engine())
 {
 }
 
@@ -80,6 +79,13 @@ GbMatrix<FS>::GbMatrix(const GbMatrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 GbMatrix<FS>::GbMatrix(GbMatrix<RHS> &rhs)
+    : engine_(rhs.engine())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+GbMatrix<FS>::GbMatrix(GbMatrix<RHS> &&rhs)
     : engine_(rhs.engine())
 {
 }
@@ -494,6 +500,22 @@ GbMatrix<FS>::resize(IndexType n, IndexType m, IndexType kl, IndexType ku,
                      const ElementType &value)
 {
     return engine_.resize(n, m, kl, ku, firstIndex, value);
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+GbMatrix<FS>::reserve(const GbMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+GbMatrix<FS>::reserve(IndexType n, IndexType m, IndexType kl, IndexType ku,
+                      IndexType firstIndex)
+{
+    return engine_.reserve(n, m, kl, ku, firstIndex);
 }
 
 template <typename FS>

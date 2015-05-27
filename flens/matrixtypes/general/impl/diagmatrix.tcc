@@ -47,7 +47,7 @@ DiagMatrix<FS>::DiagMatrix()
 
 template <typename FS>
 DiagMatrix<FS>::DiagMatrix(IndexType dim, IndexType firstIndex)
-      : engine_(dim, firstIndex)
+    : engine_(dim, firstIndex)
 {
 }
 
@@ -59,7 +59,7 @@ DiagMatrix<FS>::DiagMatrix(const Engine &engine)
 
 template <typename FS>
 DiagMatrix<FS>::DiagMatrix(const DiagMatrix &rhs)
-    : GeneralMatrix<DiagMatrix<FS> >(), engine_(rhs.engine())
+    : engine_(rhs.engine())
 {
 }
 
@@ -73,6 +73,13 @@ DiagMatrix<FS>::DiagMatrix(const DiagMatrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 DiagMatrix<FS>::DiagMatrix(DiagMatrix<RHS> &rhs)
+    : engine_(rhs.engine())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+DiagMatrix<FS>::DiagMatrix(DiagMatrix<RHS> &&rhs)
     : engine_(rhs.engine())
 {
 }
@@ -296,6 +303,21 @@ DiagMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
                        const ElementType &value)
 {
     return engine_.resize(dim, firstIndex, value);
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+DiagMatrix<FS>::reserve(const DiagMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+DiagMatrix<FS>::reserve(IndexType dim, IndexType firstIndex)
+{
+    return engine_.reserve(dim, firstIndex);
 }
 
 template <typename FS>

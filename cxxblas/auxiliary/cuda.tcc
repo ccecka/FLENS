@@ -16,7 +16,7 @@ CudaEnv::init()
     if(NCalls==0) {
         // Create stream with index 0
         streamID   = 0;
-        streams.insert(std::make_pair(streamID, cudaStream_t()));
+        streams.push_back(cudaStream_t());
         checkStatus(cudaStreamCreate(&streams.at(0)));
     }
     NCalls++;
@@ -28,19 +28,15 @@ CudaEnv::release()
 {
     ASSERT(NCalls>0);
     if (NCalls==1) {
-
         // destroy events
-        for (std::map<int, cudaEvent_t >::iterator it=events.begin(); it!=events.end(); ++it) {
-            checkStatus(cudaEventDestroy(it->second));
-        }
+        for (auto& e : events)
+            checkStatus(cudaEventDestroy(e));
         events.clear();
 
-        // destroy stream
-        for (std::map<int, cudaStream_t>::iterator it=streams.begin(); it!=streams.end(); ++it) {
-            checkStatus(cudaStreamDestroy(it->second));
-        }
+        // destroy streams
+        for (auto& s : streams)
+            checkStatus(cudaStreamDestroy(s));
         streams.clear();
-
     }
     NCalls--;
 }
@@ -56,7 +52,7 @@ CudaEnv::destroyStream(int _streamID)
 
     ASSERT(_streamID!=streamID);
     checkStatus(cudaStreamDestroy(streams.at(_streamID)));
-    streams.erase(_streamID);
+    streams.at(_streamID) = cudaStream_t(); // XXX: Needed?
 }
 
 cudaStream_t &
@@ -91,11 +87,12 @@ CudaEnv::setStream(int _streamID)
     }
 
     streamID = _streamID;
-    // Create new stream, object not found
-    if (streams.find(streamID) == streams.end()) {
-        streams.insert(std::make_pair(streamID, cudaStream_t()));
+    // Expand the stream map
+    while (streamID >= streams.size())
+        streams.push_back(cudaStream_t());
+    // Create new stream if not inited
+    if (streams.at(streamID) == cudaStream_t())
         checkStatus(cudaStreamCreate(&streams.at(streamID)));
-    }
 }
 
 void
@@ -135,11 +132,12 @@ CudaEnv::eventRecord(int _eventID)
     /// Creates event on current stream
     ///
 
-    // Insert new event
-    if (events.find(_eventID) == events.end()) {
-        events.insert(std::make_pair(_eventID, cudaEvent_t ()));
+    // Expand the event map
+    while (_eventID >= events.size())
+        events.push_back(cudaEvent_t());
+    // Create new event if not inited
+    if (events.at(_eventID) == cudaEvent_t())
         checkStatus(cudaEventCreate(&events.at(_eventID)));
-    }
 
     // Create Event
     checkStatus(cudaEventRecord(events.at(_eventID), streams.at(streamID)));
@@ -299,6 +297,15 @@ CublasEnv::release()
     checkStatus(cublasDestroy(handle_));
 
     CudaEnv::release();
+}
+
+void
+CublasEnv::setStream(int _streamID)
+{
+    CudaEnv::setStream(_streamID);
+
+    // Set stream
+    checkStatus(cublasSetStream(handle_, CudaEnv::getStream()));
 }
 
 cublasHandle_t &

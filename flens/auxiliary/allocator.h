@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2010, Michael Lehn, Cris Cecka
  *
  *   All rights reserved.
  *
@@ -30,35 +30,72 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_TCC
-#define FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_TCC 1
+#ifndef FLENS_AUXILIARY_ALLOCATOR_H
+#define FLENS_AUXILIARY_ALLOCATOR_H 1
 
-#include <flens/auxiliary/auxiliary.h>
+#include <flens/vectortypes/impl/vectorclosure.h>
 #include <flens/matrixtypes/impl/matrixclosure.h>
 
 namespace flens {
 
-template <typename Op, typename L, typename R>
-MatrixClosure<Op, L, R>::MatrixClosure(const L &l,
-                                       const R &r)
-    : left_(l), right_(r)
-{
-}
+struct NoAllocator {};
 
-template <typename Op, typename L, typename R>
-const L &
-MatrixClosure<Op, L, R>::left() const
-{
-    return left_;
-}
+template <typename A, typename B>
+struct CommonAllocator;
 
-template <typename Op, typename L, typename R>
-const R &
-MatrixClosure<Op, L, R>::right() const
+template <typename A>
+struct CommonAllocator<A, A>
 {
-    return right_;
-}
+    typedef A Type;
+};
+
+template <typename A>
+struct CommonAllocator<A, NoAllocator>
+{
+    typedef A Type;
+};
+
+template <typename B>
+struct CommonAllocator<NoAllocator, B>
+{
+    typedef B Type;
+};
+
+// The type of T::Allocator or T::Engine::Allocator or NoAllocator
+template <typename T>
+struct AllocatorType
+{
+    template <typename A>
+        static typename A::Allocator
+        check(typename A::Allocator *);
+
+    template <typename A>
+        static typename A::Engine::Allocator
+        check(typename A::Engine::Allocator *);
+
+    template <typename Any>
+        static NoAllocator
+        check(...);
+
+    typedef decltype(check<T>(0)) Type;
+};
+
+// Specialization for VectorClosure
+template <typename Op, typename L, typename R>
+struct AllocatorType<VectorClosure<Op, L, R> >
+{
+  typedef typename CommonAllocator<typename AllocatorType<L>::Type,
+                                   typename AllocatorType<R>::Type>::Type Type;
+};
+
+// Specialization for MatrixClosure
+template <typename Op, typename L, typename R>
+struct AllocatorType<MatrixClosure<Op, L, R> >
+{
+  typedef typename CommonAllocator<typename AllocatorType<L>::Type,
+                                   typename AllocatorType<R>::Type>::Type Type;
+};
 
 } // namespace flens
 
-#endif // FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_TCC
+#endif // FLENS_AUXILIARY_ALLOCATOR_H

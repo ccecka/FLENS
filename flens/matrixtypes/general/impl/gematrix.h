@@ -135,6 +135,10 @@ class GeMatrix
         template <typename RHS>
             GeMatrix(GeMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            GeMatrix(GeMatrix<RHS> &&rhs);
+
         template <typename RHS>
             GeMatrix(const Matrix<RHS> &rhs);
 
@@ -242,6 +246,15 @@ class GeMatrix
                IndexType firstRowIndex = Engine::defaultIndexBase,
                IndexType firstColIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        template <typename RHS>
+            bool
+            reserve(const GeMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType numRows, IndexType numCols,
+                IndexType firstRowIndex = Engine::defaultIndexBase,
+                IndexType firstColIndex = Engine::defaultIndexBase);
 
         bool
         fill(const ElementType &value = ElementType());

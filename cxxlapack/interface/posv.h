@@ -77,6 +77,20 @@ template <typename IndexType>
          std::complex<double>   *B,
          IndexType              ldB);
 
+#ifdef HAVE_CUSOLVER
+
+template <typename IndexType, typename T>
+    IndexType
+    posv(char                           upLo,
+         IndexType                      n,
+         IndexType                      nRhs,
+         thrust::device_ptr<T>          A,
+         IndexType                      ldA,
+         thrust::device_ptr<T>          B,
+         IndexType                      ldB);
+
+#endif
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_POSV_H

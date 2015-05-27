@@ -45,11 +45,11 @@ gecotr(StorageOrder order, Transpose trans,
        IndexType m, IndexType n,
        MA *A, IndexType ldA)
 {
+    CXXBLAS_DEBUG_OUT("gecotr_generic");
+
     if (order==RowMajor) {
         std::swap(m,n);
     }
-
-    CXXBLAS_DEBUG_OUT("gecotr_generic");
 
     if (trans==NoTrans) {
         return;
@@ -68,9 +68,44 @@ gecotr(StorageOrder order, Transpose trans,
                 A[i+ldA*j] = cxxblas::conjugate(A[i+ldA*j]);
             }
         }
-
     }
 }
+
+#ifdef HAVE_CUBLAS
+
+template <typename IndexType>
+void
+gecotr(StorageOrder order, Transpose trans, IndexType m, IndexType n,
+       thrust::device_ptr<float> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("gecotr [cublasSgeam]");
+}
+
+template <typename IndexType>
+void
+gecotr(StorageOrder order, Transpose trans, IndexType m, IndexType n,
+       thrust::device_ptr<double> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("gecotr [cublasDgeam]");
+}
+
+template <typename IndexType>
+void
+gecotr(StorageOrder order, Transpose trans, IndexType m, IndexType n,
+       thrust::device_ptr<ComplexFloat> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("gecotr [cublasCgeam]");
+}
+
+template <typename IndexType>
+void
+gecotr(StorageOrder order, Transpose trans, IndexType m, IndexType n,
+       thrust::device_ptr<ComplexDouble> A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("gecotr [cublasZgeam]");
+}
+
+#endif // HAVE_CUBLAS
 
 } // namespace cxxblas
 

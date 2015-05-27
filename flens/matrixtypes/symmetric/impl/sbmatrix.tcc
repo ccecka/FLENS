@@ -65,7 +65,7 @@ SbMatrix<FS>::SbMatrix(const Engine &engine, StorageUpLo upLo)
 
 template <typename FS>
 SbMatrix<FS>::SbMatrix(const SbMatrix &rhs)
-    : SymmetricMatrix<SbMatrix<FS> >(), engine_(rhs.engine()), upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
@@ -79,6 +79,13 @@ SbMatrix<FS>::SbMatrix(const SbMatrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 SbMatrix<FS>::SbMatrix(SbMatrix<RHS> &rhs)
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+SbMatrix<FS>::SbMatrix(SbMatrix<RHS> &&rhs)
     : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
@@ -389,6 +396,25 @@ SbMatrix<FS>::resize(IndexType dim,
                           (upLo_==Lower) ? numOffDiags : 0,
                           (upLo_==Upper) ? numOffDiags : 0,
                           firstIndex, value);
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+SbMatrix<FS>::reserve(const SbMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+SbMatrix<FS>::reserve(IndexType dim,
+                     IndexType numOffDiags, IndexType firstIndex)
+{
+    return engine_.reserve(dim, dim,
+                           (upLo_==Lower) ? numOffDiags : 0,
+                           (upLo_==Upper) ? numOffDiags : 0,
+                           firstIndex);
 }
 
 template <typename FS>

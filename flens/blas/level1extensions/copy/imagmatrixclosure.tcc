@@ -49,9 +49,9 @@ copy(Transpose trans, const ImagMatrixClosure<MA> &A, MB &&B)
 
     if (B.numRows()==0 || B.numCols()==0) {
         if (trans==NoTrans) {
-            B.resize(Z.numRows(), Z.numCols(), Z.firstRow(), Z.firstCol());
+            B.reserve(Z.numRows(), Z.numCols(), Z.firstRow(), Z.firstCol());
         } else {
-            B.resize(Z.numCols(), Z.numRows(), Z.firstCol(), Z.firstRow());
+            B.reserve(Z.numCols(), Z.numRows(), Z.firstCol(), Z.firstRow());
         }
     }
 
@@ -117,9 +117,9 @@ copy(Transpose trans, const ImagConstMatrixClosure<MA> &A, MB &&B)
 
     if (B.numRows()==0 || B.numCols()==0) {
         if (trans==NoTrans) {
-            B.resize(Z.numRows(), Z.numCols(), Z.firstRow(), Z.firstCol());
+            B.reserve(Z.numRows(), Z.numCols(), Z.firstRow(), Z.firstCol());
         } else {
-            B.resize(Z.numCols(), Z.numRows(), Z.firstCol(), Z.firstRow());
+            B.reserve(Z.numCols(), Z.numRows(), Z.firstCol(), Z.firstRow());
         }
     }
 

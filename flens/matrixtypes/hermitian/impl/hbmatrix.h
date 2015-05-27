@@ -120,6 +120,10 @@ class HbMatrix
         template <typename RHS>
             HbMatrix(HbMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            HbMatrix(HbMatrix<RHS> &&rhs);
+
         template <typename RHS>
             HbMatrix(const Matrix<RHS> &rhs);
 
@@ -231,6 +235,14 @@ class HbMatrix
         resize(IndexType dim, IndexType numOffDiags,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        template <typename RHS>
+            bool
+            reserve(const HbMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim, IndexType numOffDiags,
+                IndexType firstIndex = Engine::defaultIndexBase);
 
         bool
         fill(const ElementType &value = ElementType());

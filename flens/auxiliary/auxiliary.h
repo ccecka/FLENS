@@ -33,6 +33,7 @@
 #ifndef FLENS_AUXILIARY_AUXILIARY_H
 #define FLENS_AUXILIARY_AUXILIARY_H 1
 
+#include <flens/auxiliary/allocator.h>
 #include <flens/auxiliary/constref.h>
 #include <flens/auxiliary/compatiblescalar.h>
 #include <flens/auxiliary/compatibletype.h>

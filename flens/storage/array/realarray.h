@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_ARRAY_REALARRAY_H 1
 
 #include <cxxstd/complex.h>
+#include <cxxstd/memory.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/array/array.h>
 #include <flens/storage/array/arrayview.h>
@@ -49,25 +50,28 @@ struct RealArray
 template <typename T, typename I, typename A>
 struct RealArray<Array<T, I, A> >
 {
-    typedef typename ComplexTrait<T>::PrimitiveType                        PT;
-    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other>  ConstView;
-    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>       View;
+    typedef typename ComplexTrait<T>::PrimitiveType                       PT;
+    typedef typename std::allocator_traits<A>::template rebind_alloc<PT>  PA;
+    typedef ConstArrayView<PT, I, PA>  ConstView;
+    typedef ArrayView<PT, I, PA>       View;
 };
 
 template <typename T, typename I, typename A>
 struct RealArray<ArrayView<T, I, A> >
 {
-    typedef typename ComplexTrait<T>::PrimitiveType                        PT;
-    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other>  ConstView;
-    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>       View;
+    typedef typename ComplexTrait<T>::PrimitiveType                       PT;
+    typedef typename std::allocator_traits<A>::template rebind_alloc<PT>  PA;
+    typedef ConstArrayView<PT, I, PA>  ConstView;
+    typedef ArrayView<PT, I, PA>       View;
 };
 
 template <typename T, typename I, typename A>
 struct RealArray<ConstArrayView<T, I, A> >
 {
-    typedef typename ComplexTrait<T>::PrimitiveType                        PT;
-    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other>  ConstView;
-    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>       View;
+    typedef typename ComplexTrait<T>::PrimitiveType                       PT;
+    typedef typename std::allocator_traits<A>::template rebind_alloc<PT>  PA;
+    typedef ConstArrayView<PT, I, PA>  ConstView;
+    typedef ArrayView<PT, I, PA>       View;
 };
 
 } // namespace flens

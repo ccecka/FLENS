@@ -39,12 +39,12 @@
 
 namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename MA, typename MB>
+template <typename IndexType, typename ALPHA, typename MAptr, typename MBptr>
     void
     geaxpy(StorageOrder order,
            Transpose trans, IndexType m, IndexType n,
-           const ALPHA &alpha, const MA *A, IndexType ldA,
-           MB *B, IndexType ldB);
+           const ALPHA &alpha, const MAptr A, IndexType ldA,
+           MBptr B, IndexType ldB);
 
 } // namespace cxxblas
 

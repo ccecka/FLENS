@@ -42,18 +42,17 @@ namespace cxxblas {
 //
 //  B = A, B = A^T or B = A^H
 //
-template <typename IndexType, typename MA, typename MB>
+template <typename IndexType, typename MAptr, typename MBptr>
 void
 gecopy(StorageOrder order,
        Transpose trans, IndexType m, IndexType n,
-       const MA *A, IndexType ldA,
-       MB *B, IndexType ldB)
+       const MAptr A, IndexType ldA,
+       MBptr B, IndexType ldB)
 {
     CXXBLAS_DEBUG_OUT("gecopy_generic");
 
     if (order==ColMajor) {
-        gecopy(RowMajor, trans, n, m, A, ldA, B, ldB);
-        return;
+        std::swap(n,m);
     }
     if (trans==NoTrans) {
         if ((ldA==n) && (ldB==n)) {

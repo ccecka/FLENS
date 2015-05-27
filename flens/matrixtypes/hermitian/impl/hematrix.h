@@ -120,6 +120,10 @@ class HeMatrix
         template <typename RHS>
             HeMatrix(HeMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            HeMatrix(HeMatrix<RHS> &&rhs);
+
         template <typename RHS>
             HeMatrix(const Matrix<RHS> &rhs);
 
@@ -253,6 +257,19 @@ class HeMatrix
                StorageUpLo upLo,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        template <typename RHS>
+            bool
+            reserve(const HeMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim,
+                IndexType firstIndex = Engine::defaultIndexBase);
+
+        bool
+        reserve(IndexType dim,
+                StorageUpLo upLo,
+                IndexType firstIndex = Engine::defaultIndexBase);
 
         // -- views ------------------------------------------------------------
         // general views

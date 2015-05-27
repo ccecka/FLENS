@@ -33,7 +33,6 @@
 #ifndef CXXBLAS_AUXILIARY_COMPLEX_TCC
 #define CXXBLAS_AUXILIARY_COMPLEX_TCC 1
 
-#include <cxxstd/complex.h>
 #include <cxxblas/auxiliary/complex.h>
 
 namespace cxxblas {

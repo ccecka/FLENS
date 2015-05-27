@@ -78,8 +78,7 @@ HeMatrix<FS>::HeMatrix(const Engine &engine, StorageUpLo upLo)
 
 template <typename FS>
 HeMatrix<FS>::HeMatrix(const HeMatrix &rhs)
-    : HermitianMatrix<HeMatrix<FS> >(),
-      engine_(rhs.engine()), upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
@@ -93,6 +92,13 @@ HeMatrix<FS>::HeMatrix(const HeMatrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 HeMatrix<FS>::HeMatrix(HeMatrix<RHS> &rhs)
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+HeMatrix<FS>::HeMatrix(HeMatrix<RHS> &&rhs)
     : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
@@ -400,6 +406,29 @@ HeMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
 {
     upLo_ = upLo;
     return engine_.resize(dim, dim, firstIndex, firstIndex, value);
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+HeMatrix<FS>::reserve(const HeMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+HeMatrix<FS>::reserve(IndexType dim, IndexType firstIndex)
+{
+    return engine_.reserve(dim, dim, firstIndex, firstIndex);
+}
+
+template <typename FS>
+bool
+HeMatrix<FS>::reserve(IndexType dim, StorageUpLo upLo, IndexType firstIndex)
+{
+    upLo_ = upLo;
+    return engine_.reserve(dim, dim, firstIndex, firstIndex);
 }
 
 // -- views --------------------------------------------------------------------

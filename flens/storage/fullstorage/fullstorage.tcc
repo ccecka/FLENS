@@ -56,9 +56,10 @@ FullStorage<T, Order, I, A>::FullStorage(IndexType numRows, IndexType numCols,
                                          IndexType firstRow, IndexType firstCol,
                                          const ElementType &value,
                                          const Allocator &allocator)
-    : data_(), allocator_(allocator),
+    : data_(),
       numRows_(numRows), numCols_(numCols),
-      firstRow_(firstRow), firstCol_(firstCol)
+      firstRow_(firstRow), firstCol_(firstCol),
+      allocator_(allocator)
 {
     ASSERT(numRows_>=0);
     ASSERT(numCols_>=0);
@@ -68,14 +69,15 @@ FullStorage<T, Order, I, A>::FullStorage(IndexType numRows, IndexType numCols,
 
 template <typename T, StorageOrder Order, typename I, typename A>
 FullStorage<T, Order, I, A>::FullStorage(const FullStorage &rhs)
-    : data_(), allocator_(rhs.allocator()),
+    : data_(),
       numRows_(rhs.numRows()), numCols_(rhs.numCols()),
-      firstRow_(rhs.firstRow()), firstCol_(rhs.firstCol())
+      firstRow_(rhs.firstRow()), firstCol_(rhs.firstCol()),
+      allocator_(rhs.allocator())
 {
     allocate_(ElementType());
-    Transpose trans = (Order==rhs.order) ? NoTrans : Trans;
-    cxxblas::gecopy(Order,
-                    trans, numRows_, numCols_,
+    //Transpose trans = (Order==rhs.order) ? NoTrans : Trans;  // XXX: Needed?
+    cxxblas::gecopy(Order, NoTrans,
+                    numRows_, numCols_,
                     rhs.data(), rhs.leadingDimension(),
                     data(), leadingDimension());
 }
@@ -83,14 +85,16 @@ FullStorage<T, Order, I, A>::FullStorage(const FullStorage &rhs)
 template <typename T, StorageOrder Order, typename I, typename A>
 template <typename RHS>
 FullStorage<T, Order, I, A>::FullStorage(const RHS &rhs)
-    : data_(), allocator_(rhs.allocator()),
+    : data_(),
       numRows_(rhs.numRows()), numCols_(rhs.numCols()),
       firstRow_(rhs.firstRow()), firstCol_(rhs.firstCol())
+      // XXX: HACK WAR?
+      //, allocator_(rhs.allocator())
 {
     allocate_(ElementType());
     Transpose trans = (Order==rhs.order) ? NoTrans : Trans;
-    cxxblas::gecopy(Order,
-                    trans, numRows_, numCols_,
+    cxxblas::gecopy(Order, trans,
+                    numRows_, numCols_,
                     rhs.data(), rhs.leadingDimension(),
                     data(), leadingDimension());
 }
@@ -285,6 +289,51 @@ FullStorage<T, Order, I, A>::resize(const FS &rhs, const ElementType &value)
     return resize(rhs.numRows(), rhs.numCols(),
                   rhs.firstRow(), rhs.firstCol(),
                   value);
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
+FullStorage<T, Order, I, A>::reserve(IndexType numRows, IndexType numCols,
+                                     IndexType firstRow, IndexType firstCol)
+{
+    if ((numRows_!=numRows) || (numCols_!=numCols)) {
+        release_();
+        numRows_ = numRows;
+        numCols_ = numCols;
+        firstRow_ = firstRow;
+        firstCol_ = firstCol;
+        raw_allocate_();
+        return true;
+    }
+    changeIndexBase(firstRow, firstCol);
+    return false;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
+FullStorage<T, Order, I, A>::reserve(const Range<IndexType> &rows,
+                                     const Range<IndexType> &cols)
+{
+    if ((numRows_!=rows.length()) || (numCols_!=cols.length())) {
+        release_();
+        numRows_ = rows.length();
+        numCols_ = cols.length();
+        firstRow_ = rows.firstIndex();
+        firstCol_ = cols.firstIndex();
+        raw_allocate_();
+        return true;
+    }
+    changeIndexBase(rows.firstIndex(), cols.firstIndex());
+    return false;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+template <typename FS>
+bool
+FullStorage<T, Order, I, A>::reserve(const FS &rhs)
+{
+    return reserve(rhs.numRows(), rhs.numCols(),
+                   rhs.firstRow(), rhs.firstCol());
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>

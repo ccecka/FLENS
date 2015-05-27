@@ -115,6 +115,10 @@ class GbMatrix
         template <typename RHS>
             GbMatrix(GbMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            GbMatrix(GbMatrix<RHS> &&rhs);
+
         template <typename RHS>
             GbMatrix(const Matrix<RHS> &rhs);
 
@@ -287,6 +291,15 @@ class GbMatrix
                IndexType numSubDiags, IndexType numSuperDiags,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        template <typename RHS>
+            bool
+            reserve(const GbMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType numRow, IndexType numCols,
+                IndexType numSubDiags, IndexType numSuperDiags,
+                IndexType firstIndex = Engine::defaultIndexBase);
 
         bool
         fill(const ElementType &value = ElementType());

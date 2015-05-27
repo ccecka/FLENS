@@ -164,6 +164,15 @@ class FullStorageView
             resize(const FS &rhs, const ElementType &value = ElementType());
 
         bool
+        reserve(IndexType numRows, IndexType numCols,
+                IndexType firstRow = I::defaultIndexBase,
+                IndexType firstCol = I::defaultIndexBase);
+
+        template <typename FS>
+            bool
+            reserve(const FS &rhs);
+
+        bool
         fill(const ElementType &value = ElementType());
 
         bool
@@ -257,10 +266,10 @@ class FullStorageView
 
     private:
         pointer      data_;
-        Allocator    allocator_;
         IndexType    numRows_, numCols_;
         IndexType    leadingDimension_;
         IndexType    firstRow_, firstCol_;
+        Allocator    allocator_;
 };
 
 //-- FullStorageView specific functions ----------------------------------------

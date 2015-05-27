@@ -121,6 +121,10 @@ class SyMatrix
         template <typename RHS>
             SyMatrix(SyMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            SyMatrix(SyMatrix<RHS> &&rhs);
+
         template <typename RHS>
             SyMatrix(const Matrix<RHS> &rhs);
 
@@ -254,6 +258,19 @@ class SyMatrix
                StorageUpLo upLo,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        template <typename RHS>
+            bool
+            reserve(const SyMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim,
+                IndexType firstIndex = Engine::defaultIndexBase);
+
+        bool
+        reserve(IndexType dim,
+                StorageUpLo upLo,
+                IndexType firstIndex = Engine::defaultIndexBase);
 
         // -- views ------------------------------------------------------------
         // general views

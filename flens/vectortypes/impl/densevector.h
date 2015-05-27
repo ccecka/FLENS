@@ -106,7 +106,7 @@ class DenseVector
             DenseVector(DenseVector<RHS> &rhs);
 
         template <typename RHS,
-                  typename = typename RestrictTo<!IsSame<A,RHS>::value>::Type>
+                  class = typename RestrictTo<!IsSame<A,RHS>::value, void>::Type>
             DenseVector(DenseVector<RHS> &&rhs);
 
         template <typename RHS>
@@ -239,6 +239,14 @@ class DenseVector
         resize(IndexType length,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        template <typename RHS>
+            bool
+            reserve(const DenseVector<RHS> &rhs);
+
+        bool
+        reserve(IndexType length,
+               IndexType firstIndex = Engine::defaultIndexBase);
 
         bool
         fill(const ElementType &value = ElementType());

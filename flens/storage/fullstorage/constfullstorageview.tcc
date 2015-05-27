@@ -46,8 +46,9 @@ ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(
                                         IndexType firstRow,
                                         IndexType firstCol,
                                         const Allocator &allocator)
-    : data_(data), allocator_(allocator), numRows_(numRows), numCols_(numCols),
-      leadingDimension_(leadingDimension), firstRow_(0), firstCol_(0)
+    : data_(data), numRows_(numRows), numCols_(numCols),
+      leadingDimension_(leadingDimension), firstRow_(0), firstCol_(0),
+      allocator_(allocator)
 {
     ASSERT(numRows_>=0);
     ASSERT(numCols_>=0);
@@ -62,10 +63,10 @@ ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(
                                        IndexType firstRow, IndexType firstCol,
                                        const Allocator &allocator)
     : data_(array.data()),
-      allocator_(allocator),
       numRows_(numRows), numCols_(numCols),
       leadingDimension_(leadingDimension),
-      firstRow_(0), firstCol_(0)
+      firstRow_(0), firstCol_(0),
+      allocator_(allocator)
 {
     ASSERT(numRows_>=0);
     ASSERT(numCols_>=0);
@@ -75,25 +76,24 @@ ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
-ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(
-                                                const ConstFullStorageView &rhs)
+ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(const ConstFullStorageView &rhs)
     : data_(rhs.data_),
-      allocator_(rhs.allocator_),
       numRows_(rhs.numRows_), numCols_(rhs.numCols_),
       leadingDimension_(rhs.leadingDimension_),
-      firstRow_(rhs.firstRow_), firstCol_(rhs.firstCol_)
+      firstRow_(rhs.firstRow_), firstCol_(rhs.firstCol_),
+      allocator_(rhs.allocator_)
 {
-    ASSERT(order==rhs.order);
+    //ASSERT(order==rhs.order);
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 template <typename RHS>
 ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(const RHS &rhs)
     : data_(rhs.data()),
-      allocator_(rhs.allocator()),
       numRows_(rhs.numRows()), numCols_(rhs.numCols()),
       leadingDimension_(rhs.leadingDimension()),
-      firstRow_(0), firstCol_(0)
+      firstRow_(0), firstCol_(0),
+      allocator_(rhs.allocator())
 {
     ASSERT(order==rhs.order);
     changeIndexBase(rhs.firstRow(), rhs.firstCol());

@@ -67,7 +67,8 @@ acxpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y)
         typedef typename VectorY::ElementType  T;
         const T  Zero(0);
 
-        y.resize(x, Zero);
+        ASSERT(beta==BETA(0));
+        y.reserve(x);
     }
     ASSERT(y.length()==x.length());
 

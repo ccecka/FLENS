@@ -78,8 +78,7 @@ SyMatrix<FS>::SyMatrix(const Engine &engine, StorageUpLo upLo)
 
 template <typename FS>
 SyMatrix<FS>::SyMatrix(const SyMatrix &rhs)
-    : SymmetricMatrix<SyMatrix<FS> >(),
-      engine_(rhs.engine()), upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
@@ -93,6 +92,13 @@ SyMatrix<FS>::SyMatrix(const SyMatrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 SyMatrix<FS>::SyMatrix(SyMatrix<RHS> &rhs)
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+SyMatrix<FS>::SyMatrix(SyMatrix<RHS> &&rhs)
     : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
@@ -399,6 +405,29 @@ SyMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
 {
     upLo_ = upLo;
     return engine_.resize(dim, dim, firstIndex, firstIndex, value);
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+SyMatrix<FS>::reserve(const SyMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+SyMatrix<FS>::reserve(IndexType dim, IndexType firstIndex)
+{
+    return engine_.reserve(dim, dim, firstIndex, firstIndex);
+}
+
+template <typename FS>
+bool
+SyMatrix<FS>::reserve(IndexType dim, StorageUpLo upLo, IndexType firstIndex)
+{
+    upLo_ = upLo;
+    return engine_.reserve(dim, dim, firstIndex, firstIndex);
 }
 
 // -- views --------------------------------------------------------------------

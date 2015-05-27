@@ -38,13 +38,13 @@
 
 namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename MA,
-          typename BETA, typename MB>
+template <typename IndexType, typename ALPHA, typename MAptr,
+          typename BETA, typename MBptr>
 void
 geaxpby(StorageOrder order,
         Transpose trans, IndexType m, IndexType n,
-        const ALPHA &alpha, const MA *A, IndexType ldA,
-        const BETA &beta, MB *B, IndexType ldB)
+        const ALPHA &alpha, const MAptr A, IndexType ldA,
+        const BETA &beta, MBptr B, IndexType ldB)
 {
     CXXBLAS_DEBUG_OUT("geaxpby_generic");
 

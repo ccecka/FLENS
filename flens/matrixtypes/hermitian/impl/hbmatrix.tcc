@@ -62,25 +62,28 @@ HbMatrix<FS>::HbMatrix(const Engine &engine, StorageUpLo upLo)
 
 template <typename FS>
 HbMatrix<FS>::HbMatrix(const HbMatrix &rhs)
-    : HermitianMatrix<HbMatrix<FS> >(),
-      engine_(rhs.engine()),
-      upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 HbMatrix<FS>::HbMatrix(const HbMatrix<RHS> &rhs)
-    : engine_(rhs.engine()),
-      upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 HbMatrix<FS>::HbMatrix(HbMatrix<RHS> &rhs)
-    : engine_(rhs.engine()),
-      upLo_(rhs.upLo())
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+HbMatrix<FS>::HbMatrix(HbMatrix<RHS> &&rhs)
+    : engine_(rhs.engine()), upLo_(rhs.upLo())
 {
 }
 
@@ -390,6 +393,25 @@ HbMatrix<FS>::resize(IndexType dim, IndexType numOffDiags,
                           (upLo_==Lower) ? numOffDiags : 0,
                           (upLo_==Upper) ? numOffDiags : 0,
                           firstIndex, value);
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+HbMatrix<FS>::reserve(const HbMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+HbMatrix<FS>::reserve(IndexType dim, IndexType numOffDiags,
+                      IndexType firstIndex)
+{
+    return engine_.reserve(dim, dim,
+                           (upLo_==Lower) ? numOffDiags : 0,
+                           (upLo_==Upper) ? numOffDiags : 0,
+                           firstIndex);
 }
 
 template <typename FS>

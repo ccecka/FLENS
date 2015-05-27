@@ -156,6 +156,32 @@ posv(char                   upLo,
     return info;
 }
 
+#ifdef HAVE_CUSOLVER
+
+template <typename IndexType, typename T>
+IndexType
+posv(char                           upLo,
+    IndexType                       n,
+     IndexType                      nRhs,
+     thrust::device_ptr<T>          A,
+     IndexType                      ldA,
+     thrust::device_ptr<T>          B,
+     IndexType                      ldB)
+{
+  //CXXLAPACK_DEBUG_OUT("gesv");
+
+  IndexType info;
+  info = potrf(upLo, n, A, ldA);
+
+  if (info == 0) {
+    info = potrs(upLo, n, nRhs, A, ldA, B, ldB);
+  }
+
+  return info;
+}
+
+#endif // HAVE_CUSOLVER
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_POSV_TCC

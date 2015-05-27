@@ -108,17 +108,17 @@ operator<<(std::ostream &out, const HeMatrix<FS> &A)
                 out.width(28);
 
             if (i==j) {
-                out << ElementType(cxxblas::real(A(i,j)));
+                out << cxxblas::real(static_cast<ElementType>(A(i,j)));
             }
             if (i<j) {
                 out << ((A.upLo()==cxxblas::Upper)
-                        ? A(i,j)
-                        : cxxblas::conjugate(A(j,i)));
+                        ? static_cast<ElementType>(A(i,j))
+                        : cxxblas::conjugate(static_cast<ElementType>(A(j,i))));
             }
             if (i>j) {
                 out << ((A.upLo()==cxxblas::Upper)
-                        ? cxxblas::conjugate(A(j,i))
-                        : A(i,j));
+                        ? cxxblas::conjugate(static_cast<ElementType>(A(j,i)))
+                        : static_cast<ElementType>(A(i,j)));
             }
         }
         out << std::endl;

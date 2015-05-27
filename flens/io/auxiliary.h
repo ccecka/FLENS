@@ -33,7 +33,9 @@
 #ifndef FLENS_IO_AUXILIARY_H
 #define FLENS_IO_AUXILIARY_H 1
 
-#ifdef WITH_CUBLAS
+#ifdef HAVE_CUBLAS
+
+// XXX: Remove on Thrust 1.8.2, which provides this stream operator itself.
 
 #include <cxxstd/iostream.h>
 #include <cxxstd/memory.h>
@@ -49,6 +51,6 @@ operator<<(std::ostream &out, const thrust::device_reference<A> &x)
 
 } // namespace flens
 
-#endif // WITH_CUBLAS
+#endif // HAVE_CUBLAS
 
 #endif // FLENS_IO_AUXILIARY_H

@@ -42,12 +42,12 @@ namespace cxxblas {
 //
 //  B = A  or B = A^T
 //
-template <typename IndexType, typename MA, typename MB>
+template <typename IndexType, typename MAptr, typename MBptr>
     void
     gecopy(StorageOrder order,
            Transpose trans, IndexType m, IndexType n,
-           const MA *A, IndexType ldA,
-           MB *B, IndexType ldB);
+           const MAptr A, IndexType ldA,
+           MBptr B, IndexType ldB);
 
 } // namespace cxxblas
 

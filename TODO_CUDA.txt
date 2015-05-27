@@ -4,10 +4,15 @@ FLENS
 [ ] Use of std::allocator_traits in typedefs
 [ ] Further checking of allocator types, etc
 [ ] Fix MatrixView from DenseVector (need allocators types for conversion)
+[x] -- Result<M> propogates allocator
+[x] -- gesv, getrs propogates allocator
+[x] -- posv, potrs propogates allocator
 
 CUBLAS
 ======
 
+[ ] Implement geam
+[ ] Reroute matrix copy/axpby/axpy/transpose/etc through geam
 
 CUSOLVER
 ========
@@ -15,9 +20,9 @@ CUSOLVER
 [x] getrf
 [x] getrs
 [x] gesv (mocked with trf/trs)
-[ ] potrf
-[ ] potrs
-[ ] potsv (mocked with trf/trs)
+[x] potrf
+[x] potrs
+[x] potsv (mocked with trf/trs)
 [ ] geqrf
 [ ] ormqr
 [ ] sytrf

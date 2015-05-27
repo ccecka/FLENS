@@ -39,11 +39,11 @@
 
 namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename MA>
+template <typename IndexType, typename ALPHA, typename MAptr>
     void
     gescal(StorageOrder order,
            IndexType m, IndexType n,
-           const ALPHA &alpha, MA *A, IndexType ldA);
+           const ALPHA &alpha, MAptr A, IndexType ldA);
 
 } // namespace cxxblas
 

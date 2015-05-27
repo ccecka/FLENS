@@ -50,20 +50,18 @@ class MatrixClosure
         typedef typename Promotion<typename L::ElementType,
                                    typename R::ElementType>::Type  ElementType;
 
-        MatrixClosure(typename ConstRef<L>::Type l,
-                      typename ConstRef<R>::Type r);
+        MatrixClosure(const Left &l,
+                      const Right &r);
 
-        typename ConstRef<L>::Type
+        const Left &
         left() const;
 
-        typename ConstRef<R>::Type
+        const Right &
         right() const;
 
     private:
         typename ConstRef<L>::Type left_;
         typename ConstRef<R>::Type right_;
-        // L left_;
-        // R right_;
 };
 
 //
@@ -71,14 +69,15 @@ class MatrixClosure
 //  do things like in the implementation of conjTrans, i.e. creating nested
 //  closures inside on a function stack and then return it for later usage.
 //
+// TODO: Alternatives? OpConjTrans closure instead of the composition?
 
-#ifndef GCC_HACK
-    template <typename Op, typename L, typename R>
-    struct ConstRef<MatrixClosure<Op, L, R> >
-    {
-        typedef MatrixClosure<Op,L,R> Type;
-    };
-#endif
+template <typename Op, typename L, typename R>
+struct ConstRef<MatrixClosure<Op, L, R> >
+{
+    typedef MatrixClosure<Op,L,R> Type;
+};
+
+
 } // namespace flens
 
 #endif // FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_H

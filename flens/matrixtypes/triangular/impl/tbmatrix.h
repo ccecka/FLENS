@@ -113,6 +113,10 @@ class TbMatrix
         template <typename RHS>
             TbMatrix(TbMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            TbMatrix(TbMatrix<RHS> &&rhs);
+
         template <typename RHS>
             TbMatrix(const Matrix<RHS> &rhs);
 
@@ -239,6 +243,15 @@ class TbMatrix
                IndexType numOffDiags,
                IndexType firstColIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        template <typename RHS>
+            bool
+            reserve(const TbMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim,
+                IndexType numOffDiags,
+                IndexType firstColIndex = Engine::defaultIndexBase);
 
         bool
         fill(const ElementType &value = ElementType());

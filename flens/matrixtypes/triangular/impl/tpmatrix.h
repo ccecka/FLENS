@@ -107,6 +107,10 @@ class TpMatrix
         template <typename RHS>
             TpMatrix(TpMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<PS,RHS>::value, void>::Type>
+            TpMatrix(TpMatrix<RHS> &&rhs);
+
         template <typename RHS>
             TpMatrix(const Matrix<RHS> &rhs);
 
@@ -199,6 +203,14 @@ class TpMatrix
         resize(IndexType dim,
                IndexType indexBase = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        template <typename RHS>
+            bool
+            reserve(const TpMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim,
+                IndexType indexBase = Engine::defaultIndexBase);
 
         //-- Views -------------------------------------------------------------
 

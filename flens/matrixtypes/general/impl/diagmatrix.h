@@ -107,6 +107,10 @@ class DiagMatrix
         template <typename RHS>
         DiagMatrix(DiagMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            DiagMatrix(DiagMatrix<RHS> &&rhs);
+
         template <typename RHS>
         DiagMatrix(const DenseVector<RHS> &rhs);
 
@@ -196,6 +200,14 @@ class DiagMatrix
         resize(IndexType dim,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        template <typename RHS>
+        bool
+        reserve(const DiagMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim,
+                IndexType firstIndex = Engine::defaultIndexBase);
 
         bool
         fill(const ElementType &value = ElementType());

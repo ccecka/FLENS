@@ -85,8 +85,9 @@ template <typename RHS>
 Array<T, I, A>::Array(const RHS &rhs)
     : data_(),
       length_(rhs.length()),
-      firstIndex_(rhs.firstIndex()),
-      allocator_(rhs.allocator())
+      firstIndex_(rhs.firstIndex())
+      // XXX: HACK WAR?
+      //, allocator_(rhs.allocator())
 {
     if (length()>0) {
         raw_allocate_();
@@ -191,6 +192,29 @@ bool
 Array<T, I, A>::resize(const ARRAY &rhs, const ElementType &value)
 {
     return resize(rhs.length(), rhs.firstIndex(), value);
+}
+
+template <typename T, typename I, typename A>
+bool
+Array<T, I, A>::reserve(IndexType length, IndexType firstIndex)
+{
+    if (length!=length_) {
+        release_();
+        length_ = length;
+        firstIndex_ = firstIndex;
+        raw_allocate_();
+        return true;
+    }
+    changeIndexBase(firstIndex);
+    return false;
+}
+
+template <typename T, typename I, typename A>
+template <typename ARRAY>
+bool
+Array<T, I, A>::reserve(const ARRAY &rhs)
+{
+    return reserve(rhs.length(), rhs.firstIndex());
 }
 
 template <typename T, typename I, typename A>

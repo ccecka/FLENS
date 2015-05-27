@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_ARRAY_IMAGARRAY_H 1
 
 #include <cxxstd/complex.h>
+#include <cxxstd/memory.h>
 #include <flens/storage/array/array.h>
 #include <flens/storage/array/arrayview.h>
 #include <flens/storage/array/constarrayview.h>
@@ -48,22 +49,25 @@ struct ImagArray
 template <typename PT, typename I, typename A>
 struct ImagArray<Array<std::complex<PT>, I, A> >
 {
-    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other> ConstView;
-    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>      View;
+    typedef typename std::allocator_traits<A>::template rebind_alloc<PT>  PA;
+    typedef ConstArrayView<PT, I, PA>  ConstView;
+    typedef ArrayView<PT, I, PA>       View;
 };
 
 template <typename PT, typename I, typename A>
 struct ImagArray<ArrayView<std::complex<PT>, I, A> >
 {
-    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other> ConstView;
-    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>      View;
+    typedef typename std::allocator_traits<A>::template rebind_alloc<PT>  PA;
+    typedef ConstArrayView<PT, I, PA>  ConstView;
+    typedef ArrayView<PT, I, PA>       View;
 };
 
 template <typename PT, typename I, typename A>
 struct ImagArray<ConstArrayView<std::complex<PT>, I, A> >
 {
-    typedef ConstArrayView<PT, I, typename A::template rebind<PT>::other> ConstView;
-    typedef ArrayView<PT, I, typename A::template rebind<PT>::other>      View;
+    typedef typename std::allocator_traits<A>::template rebind_alloc<PT>  PA;
+    typedef ConstArrayView<PT, I, PA>  ConstView;
+    typedef ArrayView<PT, I, PA>       View;
 };
 
 } // namespace flens

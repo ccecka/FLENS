@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Cris Cecka
  *
  *   All rights reserved.
  *
@@ -30,35 +30,33 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_TCC
-#define FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_TCC 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_GEAM_TCC
+#define CXXBLAS_LEVEL1EXTENSIONS_GEAM_TCC 1
 
-#include <flens/auxiliary/auxiliary.h>
-#include <flens/matrixtypes/impl/matrixclosure.h>
+#include <cxxblas/typedefs.h>
 
-namespace flens {
+namespace cxxblas {
 
-template <typename Op, typename L, typename R>
-MatrixClosure<Op, L, R>::MatrixClosure(const L &l,
-                                       const R &r)
-    : left_(l), right_(r)
+//
+// C = alpha * op(A) + beta * op(B)
+//
+template <typename IndexType,
+          typename ALPHA, typename MA, typename BETA, typename MB, typename MC>
+void
+geam(StorageOrder orderA, StorageOrder orderB,
+     Transpose transA, Transpose transB,
+     IndexType m, IndexType n,
+     const ALPHA &alpha, const MA *A, IndexType ldA,
+     const BETA &beta, const MB *B, IndexType ldB,
+     MC *C, IndexType ldC)
 {
+
 }
 
-template <typename Op, typename L, typename R>
-const L &
-MatrixClosure<Op, L, R>::left() const
-{
-    return left_;
-}
+#ifdef HAVE_CUBLAS
 
-template <typename Op, typename L, typename R>
-const R &
-MatrixClosure<Op, L, R>::right() const
-{
-    return right_;
-}
+#endif // HAVE_CUBLAS
 
-} // namespace flens
+} // namespace cxxblas
 
-#endif // FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_TCC
+#endif // CXXBLAS_LEVEL1EXTENSIONS_GBSCAL_H

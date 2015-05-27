@@ -131,6 +131,10 @@ class TrMatrix
         template <typename RHS>
             TrMatrix(TrMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            TrMatrix(TrMatrix<RHS> &&rhs);
+
         template <typename RHS>
             TrMatrix(const Matrix<RHS> &rhs);
 
@@ -231,6 +235,15 @@ class TrMatrix
                IndexType firstRowIndex = Engine::defaultIndexBase,
                IndexType firstColIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        template <typename RHS>
+            bool
+            reserve(const TrMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType numRows, IndexType numCols,
+                IndexType firstRowIndex = Engine::defaultIndexBase,
+                IndexType firstColIndex = Engine::defaultIndexBase);
 
         // -- views ------------------------------------------------------------
         // diag views

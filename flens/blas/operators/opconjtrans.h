@@ -46,13 +46,13 @@ using VectorClosureOpConjTrans = VectorClosureOpConj<VectorClosureOpTrans<VX> >;
 template <typename MA>
 using MatrixClosureOpConjTrans = MatrixClosureOpConj<MatrixClosureOpTrans<MA> >;
 
-#ifdef GCC_HACK
-#   define conjTrans(x)   conjugate(transpose(x))
-#else
-    template <typename MA>
-        const MatrixClosureOpConj<MatrixClosureOpTrans<typename MA::Impl> >
-        conjTrans(const Matrix<MA> &A);
-#endif
+template <typename VX>
+    const VectorClosureOpConj<VectorClosureOpTrans<typename VX::Impl> >
+    conjTrans(const Vector<VX> &x);
+
+template <typename MA>
+    const MatrixClosureOpConj<MatrixClosureOpTrans<typename MA::Impl> >
+    conjTrans(const Matrix<MA> &A);
 
 } // namespace flens
 

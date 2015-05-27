@@ -44,11 +44,11 @@ namespace cxxblas {
 //
 //  where B is a mxn triangular matrix as specified by upLo
 //
-template <typename IndexType, typename MA, typename MB>
+template <typename IndexType, typename MAptr, typename MBptr>
     void
     trcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
-           IndexType m, IndexType n, const MA *A, IndexType ldA,
-           MB *B, IndexType ldB);
+           IndexType m, IndexType n, const MAptr A, IndexType ldA,
+           MBptr B, IndexType ldB);
 
 } // namespace cxxblas
 

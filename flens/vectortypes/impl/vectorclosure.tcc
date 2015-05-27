@@ -38,21 +38,21 @@
 namespace flens {
 
 template <typename Op, typename L, typename R>
-VectorClosure<Op, L, R>::VectorClosure(typename ConstRef<L>::Type l,
-                                       typename ConstRef<R>::Type r)
+VectorClosure<Op, L, R>::VectorClosure(const L &l,
+                                       const R &r)
     : left_(l), right_(r)
 {
 }
 
 template <typename Op, typename L, typename R>
-typename ConstRef<L>::Type
+const L &
 VectorClosure<Op, L, R>::left() const
 {
     return left_;
 }
 
 template <typename Op, typename L, typename R>
-typename ConstRef<R>::Type
+const R &
 VectorClosure<Op, L, R>::right() const
 {
     return right_;

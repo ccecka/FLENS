@@ -132,6 +132,130 @@ potrf(char                  upLo,
     return info;
 }
 
+#ifdef HAVE_CUSOLVER
+
+template <typename IndexType>
+IndexType
+potrf(char                                     upLo,
+      IndexType                                n,
+      thrust::device_ptr<float>                A,
+      IndexType                                ldA)
+{
+    CXXLAPACK_DEBUG_OUT("cusolverDnSpotrf");
+
+    int work_size;
+    cusolverDnSpotrf_bufferSize(CusolverEnv::handle(),
+                                F77UpLo2Cusolver(upLo), n,
+                                A.get(), ldA,
+                                &work_size);
+    float* work;
+    checkStatus(cudaMalloc(&work, work_size * sizeof(float)));
+
+    cusolverDnSpotrf(CusolverEnv::handle(),
+                     F77UpLo2Cusolver(upLo), n,
+                     A.get(), ldA,
+                     work, work_size,
+                     CusolverEnv::devInfo());
+
+    // TODO: Check solverInfo, check cusolverStatus
+
+    checkStatus(cudaFree(work));
+
+    return 0;
+}
+
+template <typename IndexType>
+IndexType
+potrf(char                                     upLo,
+      IndexType                                n,
+      thrust::device_ptr<double>               A,
+      IndexType                                ldA)
+{
+    CXXLAPACK_DEBUG_OUT("cusolverDnDpotrf");
+
+    int work_size;
+    cusolverDnDpotrf_bufferSize(CusolverEnv::handle(),
+                                F77UpLo2Cusolver(upLo), n,
+                                A.get(), ldA,
+                                &work_size);
+    double* work;
+    checkStatus(cudaMalloc(&work, work_size * sizeof(double)));
+
+    cusolverDnDpotrf(CusolverEnv::handle(),
+                     F77UpLo2Cusolver(upLo), n,
+                     A.get(), ldA,
+                     work, work_size,
+                     CusolverEnv::devInfo());
+
+    // TODO: Check solverInfo, check cusolverStatus
+
+    checkStatus(cudaFree(work));
+
+    return 0;
+}
+
+template <typename IndexType>
+IndexType
+potrf(char                                     upLo,
+      IndexType                                n,
+      thrust::device_ptr<std::complex<float> > A,
+      IndexType                                ldA)
+{
+    CXXLAPACK_DEBUG_OUT("cusolverDnCpotrf");
+
+    int work_size;
+    cusolverDnCpotrf_bufferSize(CusolverEnv::handle(),
+                                F77UpLo2Cusolver(upLo), n,
+                                reinterpret_cast<cuFloatComplex*>(A.get()), ldA,
+                                &work_size);
+    cuFloatComplex* work;
+    checkStatus(cudaMalloc(&work, work_size * sizeof(cuFloatComplex)));
+
+    cusolverDnCpotrf(CusolverEnv::handle(),
+                     F77UpLo2Cusolver(upLo), n,
+                     reinterpret_cast<cuFloatComplex*>(A.get()), ldA,
+                     work, work_size,
+                     CusolverEnv::devInfo());
+
+    // TODO: Check solverInfo, check cusolverStatus
+
+    checkStatus(cudaFree(work));
+
+    return 0;
+}
+
+template <typename IndexType>
+IndexType
+potrf(char                                      upLo,
+      IndexType                                 n,
+      thrust::device_ptr<std::complex<double> > A,
+      IndexType                                 ldA)
+{
+    CXXLAPACK_DEBUG_OUT("cusolverDnZpotrf");
+
+    int work_size;
+    cusolverDnZpotrf_bufferSize(CusolverEnv::handle(),
+                                F77UpLo2Cusolver(upLo), n,
+                                reinterpret_cast<cuDoubleComplex*>(A.get()), ldA,
+                                &work_size);
+    cuDoubleComplex* work;
+    checkStatus(cudaMalloc(&work, work_size * sizeof(cuDoubleComplex)));
+
+    cusolverDnZpotrf(CusolverEnv::handle(),
+                     F77UpLo2Cusolver(upLo), n,
+                     reinterpret_cast<cuDoubleComplex*>(A.get()), ldA,
+                     work, work_size,
+                     CusolverEnv::devInfo());
+
+    // TODO: Check solverInfo, check cusolverStatus
+
+    checkStatus(cudaFree(work));
+
+    return 0;
+}
+
+#endif // HAVE_CUSOLVER
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_POTRF_TCC

@@ -186,6 +186,15 @@ class BandStorageView
             resize(const FS &rhs, const ElementType &value = ElementType());
 
         bool
+        reserve(IndexType numRows, IndexType numCols,
+                IndexType numSubDiags, IndexType numSuperDiags,
+                IndexType firstIndex = I::defaultIndexBase);
+
+        template <typename FS>
+            bool
+            reserve(const FS &rhs);
+
+        bool
         fill(const ElementType &value = ElementType());
 
         bool

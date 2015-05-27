@@ -39,10 +39,10 @@ namespace flens {
 
 template <typename VX>
 const VectorClosureOpConj<typename VX::Impl>
-conjugate(const Vector<VX> &A)
+conjugate(const Vector<VX> &x)
 {
     typedef VectorClosureOpConj<typename VX::Impl> VC;
-    return VC(A.impl(), A.impl());
+    return VC(x.impl(), x.impl());
 }
 
 template <typename MA>

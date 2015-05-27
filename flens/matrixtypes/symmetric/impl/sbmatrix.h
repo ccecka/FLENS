@@ -121,6 +121,10 @@ class SbMatrix
         template <typename RHS>
             SbMatrix(SbMatrix<RHS> &rhs);
 
+        template <typename RHS,
+                  class = typename RestrictTo<!IsSame<FS,RHS>::value, void>::Type>
+            SbMatrix(SbMatrix<RHS> &&rhs);
+
         // -- operators --------------------------------------------------------
 
         SbMatrix &
@@ -230,6 +234,14 @@ class SbMatrix
         resize(IndexType dim, IndexType numOffDiags,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        template <typename RHS>
+            bool
+            reserve(const SbMatrix<RHS> &rhs);
+
+        bool
+        reserve(IndexType dim, IndexType numOffDiags,
+                IndexType firstIndex = Engine::defaultIndexBase);
 
         bool
         fill(const ElementType &value = ElementType());

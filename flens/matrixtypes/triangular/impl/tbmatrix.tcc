@@ -59,8 +59,7 @@ TbMatrix<FS>::TbMatrix(const Engine &engine, StorageUpLo upLo, Diag diag)
 
 template <typename FS>
 TbMatrix<FS>::TbMatrix(const TbMatrix &rhs)
-    : TriangularMatrix<TbMatrix<FS> >(),
-      engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
+    : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }
 
@@ -74,6 +73,13 @@ TbMatrix<FS>::TbMatrix(const TbMatrix<RHS> &rhs)
 template <typename FS>
 template <typename RHS>
 TbMatrix<FS>::TbMatrix(TbMatrix<RHS> &rhs)
+    : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
+{
+}
+
+template <typename FS>
+template <typename RHS, class>
+TbMatrix<FS>::TbMatrix(TbMatrix<RHS> &&rhs)
     : engine_(rhs.engine()), upLo_(rhs.upLo()), diag_(rhs.diag())
 {
 }
@@ -426,6 +432,23 @@ TbMatrix<FS>::resize(IndexType dim, IndexType numOffDiags,
                           firstIndex, value);
 }
 
+template <typename FS>
+template <typename RHS>
+bool
+TbMatrix<FS>::reserve(const TbMatrix<RHS> &rhs)
+{
+    return engine_.reserve(rhs.engine());
+}
+
+template <typename FS>
+bool
+TbMatrix<FS>::reserve(IndexType dim, IndexType numOffDiags,
+                      IndexType firstIndex)
+{
+    const IndexType numSubDiags = (upLo_ == Upper) ? 0 : numOffDiags;
+    const IndexType numSuperDiags = (upLo_ == Upper) ? numOffDiags : 0;
+    return engine_.reserve(dim, dim, numSubDiags, numSuperDiags, firstIndex);
+}
 
 template <typename FS>
 bool

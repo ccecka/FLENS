@@ -240,13 +240,17 @@ posv(MA &&A, VB &&b)
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename RemoveRef<VB>::Type    VectorB;
 
-    typedef typename VectorB::ElementType  ElementType;
-    typedef typename VectorB::IndexType    IndexType;
+//
+//  Create matrix view from vector b and call above variant
+//
+    typedef typename VectorB::ElementType        ElementType;
+    typedef typename VectorB::IndexType          IndexType;
+    typedef typename VectorB::Engine::Allocator  Allocator;
 
     const IndexType    n     = b.length();
     const StorageOrder order = MatrixA::Engine::order;
 
-    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+    GeMatrix<FullStorageView<ElementType, order, IndexOptions<IndexType>, Allocator> >  B(n, 1, b, n);
 
     return posv(A, B);
 }

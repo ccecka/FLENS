@@ -90,7 +90,8 @@ mm(Transpose        transposeA,
 #   endif
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
-        C.resize(m, n);
+        ASSERT(beta==BETA(0));
+        C.reserve(m, n);
     }
 
     if(DEBUGCLOSURE::identical(B, C)) {
@@ -182,7 +183,8 @@ mm(Transpose        transposeA,
 #   endif
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
-        C.resize(m, n);
+        ASSERT(beta==BETA(0));
+        C.reserve(m, n);
     }
 
     if(DEBUGCLOSURE::identical(A, C)) {
@@ -278,7 +280,8 @@ mm(Transpose        transposeA,
 #   endif
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
-        C.resize(m, n);
+        ASSERT(beta==BETA(0));
+        C.reserve(m, n);
     }
 
     ASSERT(!DEBUGCLOSURE::identical(B, C));
@@ -349,7 +352,8 @@ mm(Transpose        transposeA,
 #   endif
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
-        C.resize(m, n);
+        ASSERT(beta==BETA(0));
+        C.reserve(m, n);
     }
 
     ASSERT(!DEBUGCLOSURE::identical(A, C));
@@ -430,7 +434,8 @@ mm(Transpose        transposeA,
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
         ASSERT(C.numRows()==0 && C.numCols()==0);
-        C.resize(m, n);
+        ASSERT(beta==BETA(0));
+        C.reserve(m, n);
     }
 
 #   ifndef FLENS_DEBUG_CLOSURES
@@ -519,7 +524,8 @@ mm(Side             side,
 #   endif
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
-        C.resize(m, n);
+        ASSERT(beta==BETA(0));
+        C.reserve(m, n);
     }
 
     ASSERT(!DEBUGCLOSURE::identical(B, C));
@@ -581,7 +587,8 @@ mm(Side             side,
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
         ASSERT(C.numRows()==0 && C.numCols()==0);
-        C.resize(m,n);
+        ASSERT(beta==BETA(0));
+        C.reserve(m,n);
     }
 
 #   ifdef HAVE_CXXBLAS_HEMM
@@ -639,7 +646,8 @@ mm(Side             side,
 #   endif
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
-        C.resize(m, n);
+        ASSERT(beta==BETA(0));
+        C.reserve(m, n);
     }
 
     ASSERT(!DEBUGCLOSURE::identical(B, C));
@@ -706,7 +714,8 @@ mm(Side             side,
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
         ASSERT(C.numRows()==0 && C.numCols()==0);
-        C.resize(m, n);
+        ASSERT(beta==BETA(0));
+        C.reserve(m, n);
     }
 
 #   ifndef FLENS_DEBUG_CLOSURES
