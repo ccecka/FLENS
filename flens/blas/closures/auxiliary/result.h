@@ -69,9 +69,8 @@ struct Result<MatrixClosure<Op, L, R> >
     typedef typename AllocatorType<R>::Type RA;
     typedef typename CommonAllocator<LA,RA>::Type A;
 
-    // XXX! -- NEED ALLOCATOR TYPE!!
     typedef GeMatrix<FullStorage<T, ColMajor, IndexOptions<>, A> >  Type;
-    typedef typename Type::NoView                NoView;
+    typedef typename Type::NoView                                   NoView;
 };
 
 } // namespace flens

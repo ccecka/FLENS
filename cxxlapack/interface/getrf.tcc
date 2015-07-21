@@ -63,6 +63,7 @@ getrf(IndexType             m,
     ASSERT(info>=0);
     return info;
 }
+
 template <typename IndexType>
 IndexType
 getrf(IndexType             m,
@@ -151,19 +152,17 @@ getrf(IndexType                                m,
     CXXLAPACK_DEBUG_OUT("cusolverDnSgetrf");
 
     int work_size;
-    cusolverDnSgetrf_bufferSize(CusolverEnv::handle(),
-                                m, n,
-                                A.get(), ldA,
-                                &work_size);
+    checkStatus(cusolverDnSgetrf_bufferSize(CusolverEnv::handle(),
+                                            m, n,
+                                            A.get(), ldA,
+                                            &work_size));
     float* work;
     checkStatus(cudaMalloc(&work, work_size * sizeof(float)));
 
-    cusolverDnSgetrf(CusolverEnv::handle(),
-                     m, n, A.get(), ldA,
-                     work, iPiv.get(),
-                     CusolverEnv::devInfo());
-
-    // TODO: Check solverInfo, check cusolverStatus
+    checkStatus(cusolverDnSgetrf(CusolverEnv::handle(),
+                                 m, n, A.get(), ldA,
+                                 work, iPiv.get(),
+                                 CusolverEnv::devInfo()));
 
     checkStatus(cudaFree(work));
 
@@ -181,19 +180,17 @@ getrf(IndexType                                 m,
     CXXLAPACK_DEBUG_OUT("cusolverDnDgetrf");
 
     int work_size;
-    cusolverDnDgetrf_bufferSize(CusolverEnv::handle(),
-                                m, n,
-                                A.get(), ldA,
-                                &work_size);
+    checkStatus(cusolverDnDgetrf_bufferSize(CusolverEnv::handle(),
+                                            m, n,
+                                            A.get(), ldA,
+                                            &work_size));
     double* work;
     checkStatus(cudaMalloc(&work, work_size * sizeof(double)));
 
-    cusolverDnDgetrf(CusolverEnv::handle(),
-                     m, n, A.get(), ldA,
-                     work, iPiv.get(),
-                     CusolverEnv::devInfo());
-
-    // TODO: Check solverInfo, check cusolverStatus
+    checkStatus(cusolverDnDgetrf(CusolverEnv::handle(),
+                                 m, n, A.get(), ldA,
+                                 work, iPiv.get(),
+                                 CusolverEnv::devInfo()));
 
     checkStatus(cudaFree(work));
 
@@ -211,19 +208,17 @@ getrf(IndexType                                 m,
     CXXLAPACK_DEBUG_OUT("cusolverDnCgetrf");
 
     int work_size;
-    cusolverDnCgetrf_bufferSize(CusolverEnv::handle(),
-                                m, n,
-                                reinterpret_cast<cuFloatComplex*>(A.get()), ldA,
-                                &work_size);
+    checkStatus(cusolverDnCgetrf_bufferSize(CusolverEnv::handle(),
+                                            m, n,
+                                            reinterpret_cast<cuFloatComplex*>(A.get()), ldA,
+                                            &work_size));
     cuFloatComplex* work;
     checkStatus(cudaMalloc(&work, work_size * sizeof(cuFloatComplex)));
 
-    cusolverDnCgetrf(CusolverEnv::handle(),
-                     m, n, reinterpret_cast<cuFloatComplex*>(A.get()), ldA,
-                     work, iPiv.get(),
-                     CusolverEnv::devInfo());
-
-    // TODO: Check solverInfo, check cusolverStatus
+    checkStatus(cusolverDnCgetrf(CusolverEnv::handle(),
+                                 m, n, reinterpret_cast<cuFloatComplex*>(A.get()), ldA,
+                                 work, iPiv.get(),
+                                 CusolverEnv::devInfo()));
 
     checkStatus(cudaFree(work));
 
@@ -241,19 +236,17 @@ getrf(IndexType                                 m,
     CXXLAPACK_DEBUG_OUT("cusolverDnZgetrf");
 
     int work_size;
-    cusolverDnZgetrf_bufferSize(CusolverEnv::handle(),
-                                m, n,
-                                reinterpret_cast<cuDoubleComplex*>(A.get()), ldA,
-                                &work_size);
+    checkStatus(cusolverDnZgetrf_bufferSize(CusolverEnv::handle(),
+                                            m, n,
+                                            reinterpret_cast<cuDoubleComplex*>(A.get()), ldA,
+                                            &work_size));
     cuDoubleComplex* work;
     checkStatus(cudaMalloc(&work, work_size * sizeof(cuDoubleComplex)));
 
-    cusolverDnZgetrf(CusolverEnv::handle(),
-                     m, n, reinterpret_cast<cuDoubleComplex*>(A.get()), ldA,
-                     work, iPiv.get(),
-                     CusolverEnv::devInfo());
-
-    // TODO: Check solverInfo, check cusolverStatus
+    checkStatus(cusolverDnZgetrf(CusolverEnv::handle(),
+                                 m, n, reinterpret_cast<cuDoubleComplex*>(A.get()), ldA,
+                                 work, iPiv.get(),
+                                 CusolverEnv::devInfo()));
 
     checkStatus(cudaFree(work));
 

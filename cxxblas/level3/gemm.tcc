@@ -313,15 +313,15 @@ gemm(StorageOrder order,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 gemm(StorageOrder order, Transpose transA, Transpose transB,
-      IndexType m, IndexType n, IndexType k,
-      float alpha,
-      const thrust::device_ptr<const float> A, IndexType ldA,
-      const thrust::device_ptr<const float> B, IndexType ldB,
-      float beta,
-      thrust::device_ptr<float> C, IndexType ldC)
+     IndexType m, IndexType n, IndexType k,
+     float alpha,
+     const thrust::device_ptr<const float> A, IndexType ldA,
+     const thrust::device_ptr<const float> B, IndexType ldB,
+     float beta,
+     thrust::device_ptr<float> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasSgemm");
-    
+
     if (order==RowMajor) {
         gemm(ColMajor, transB, transA,
              n, m, k, alpha,
@@ -331,16 +331,16 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
         return;
     }
 
-    cublasStatus_t status = cublasSgemm(CublasEnv::handle(), 
-                                        CUBLAS::getCublasType(transA), 
+    cublasStatus_t status = cublasSgemm(CublasEnv::handle(),
+                                        CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(transB),
-                                        m,  n, k,
+                                        m, n, k,
                                         &alpha,
                                         A.get(), ldA,
                                         B.get(), ldB,
                                         &beta,
                                         C.get(), ldC);
-    
+
     checkStatus(status);
 }
 
@@ -348,15 +348,15 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 gemm(StorageOrder order, Transpose transA, Transpose transB,
-      IndexType m, IndexType n, IndexType k,
-      double alpha,
-      const thrust::device_ptr<const double> A, IndexType ldA,
-      const thrust::device_ptr<const double> B, IndexType ldB,
-      double beta,
-      thrust::device_ptr<double> C, IndexType ldC)
+     IndexType m, IndexType n, IndexType k,
+     double alpha,
+     const thrust::device_ptr<const double> A, IndexType ldA,
+     const thrust::device_ptr<const double> B, IndexType ldB,
+     double beta,
+     thrust::device_ptr<double> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasDgemm");
-    
+
     if (order==RowMajor) {
         gemm(ColMajor, transB, transA,
              n, m, k, alpha,
@@ -366,16 +366,16 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
         return;
     }
 
-    cublasStatus_t status = cublasDgemm(CublasEnv::handle(), 
-                                        CUBLAS::getCublasType(transA), 
+    cublasStatus_t status = cublasDgemm(CublasEnv::handle(),
+                                        CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(transB),
-                                        m,  n, k,
+                                        m, n, k,
                                         &alpha,
                                         A.get(), ldA,
                                         B.get(), ldB,
                                         &beta,
                                         C.get(), ldC);
-    
+
     checkStatus(status);
 }
 
@@ -383,15 +383,15 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 gemm(StorageOrder order, Transpose transA, Transpose transB,
-      IndexType m, IndexType n, IndexType k,
-      ComplexFloat alpha,
-      const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
-      const thrust::device_ptr<const ComplexFloat> B, IndexType ldB,
-      ComplexFloat beta,
-      thrust::device_ptr<ComplexFloat> C, IndexType ldC)
+     IndexType m, IndexType n, IndexType k,
+     ComplexFloat alpha,
+     const thrust::device_ptr<const ComplexFloat> A, IndexType ldA,
+     const thrust::device_ptr<const ComplexFloat> B, IndexType ldB,
+     ComplexFloat beta,
+     thrust::device_ptr<ComplexFloat> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasCgemm");
-    
+
     if (order==RowMajor) {
         gemm(ColMajor, transB, transA,
              n, m, k, alpha,
@@ -400,9 +400,9 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
              C, ldC);
         return;
     }
-    
-    cublasStatus_t status = cublasCgemm(CublasEnv::handle(), 
-                                        CUBLAS::getCublasType(transA), 
+
+    cublasStatus_t status = cublasCgemm(CublasEnv::handle(),
+                                        CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(transB),
                                         m, n, k,
                                         reinterpret_cast<const cuFloatComplex*>(&alpha),
@@ -410,7 +410,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
                                         reinterpret_cast<const cuFloatComplex*>(B.get()), ldB,
                                         reinterpret_cast<const cuFloatComplex*>(&beta),
                                         reinterpret_cast<cuFloatComplex*>(C.get()), ldC);
-    
+
     checkStatus(status);
 }
 
@@ -418,15 +418,15 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 gemm(StorageOrder order, Transpose transA, Transpose transB,
-      IndexType m, IndexType n, IndexType k,
-      ComplexDouble alpha,
-      const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
-      const thrust::device_ptr<const ComplexDouble> B, IndexType ldB,
-      ComplexDouble beta,
-      thrust::device_ptr<ComplexDouble> C, IndexType ldC)
+     IndexType m, IndexType n, IndexType k,
+     ComplexDouble alpha,
+     const thrust::device_ptr<const ComplexDouble> A, IndexType ldA,
+     const thrust::device_ptr<const ComplexDouble> B, IndexType ldB,
+     ComplexDouble beta,
+     thrust::device_ptr<ComplexDouble> C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("cublasZgemm");
-    
+
     if (order==RowMajor) {
         gemm(ColMajor, transB, transA,
              n, m, k, alpha,
@@ -436,8 +436,8 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
         return;
     }
 
-    cublasStatus_t status = cublasZgemm(CublasEnv::handle(), 
-                                        CUBLAS::getCublasType(transA), 
+    cublasStatus_t status = cublasZgemm(CublasEnv::handle(),
+                                        CUBLAS::getCublasType(transA),
                                         CUBLAS::getCublasType(transB),
                                         m, n, k,
                                         reinterpret_cast<const cuDoubleComplex*>(&alpha),
@@ -445,7 +445,7 @@ gemm(StorageOrder order, Transpose transA, Transpose transB,
                                         reinterpret_cast<const cuDoubleComplex*>(B.get()), ldB,
                                         reinterpret_cast<const cuDoubleComplex*>(&beta),
                                         reinterpret_cast<cuDoubleComplex*>(C.get()), ldC);
-    
+
     checkStatus(status);
 }
 
