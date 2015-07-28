@@ -34,8 +34,8 @@
 #define FLENS_FLENS_H 1
 
 #ifdef __INTEL_COMPILER
-     static_assert(__INTEL_COMPILER>=1200,
-                   "Intel icc Version 12 or higher required!");
+     static_assert(__INTEL_COMPILER>=1300,
+                   "Intel icc Version 13 or higher required!");
 #    if __INTEL_COMPILER<1300
 #        define STD_HACK
 #    endif
@@ -44,7 +44,6 @@
 #elif __GNUC__
      static_assert((__GNUG__==4 && __GNUC_MINOR__>=7) || __GNUG__>=5,
                    "GNU GCC Version 4.7 or higher required!");
-#    define INCLUDE_TYPE_TRAITS
 #endif
 
 #if defined(STD_HACK) && !(defined(NO_STD_HACK))
