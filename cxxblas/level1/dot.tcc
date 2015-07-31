@@ -226,17 +226,13 @@ dot(IndexType n,
     float &result)
 {
     CXXBLAS_DEBUG_OUT(" cublasSdot");
-   
 
-    cublasStatus_t status = cublasSdot(CublasEnv::handle(), n, 
-                                       x.get(), incX, 
-                                       y.get(), incY, 
-                                       &result);
-    
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasSdot(CublasEnv::handle(), n,
+                           x.get(), incX,
+                           y.get(), incY,
+                           &result));
+
+    CublasEnv::syncCopy();
 }
 
 // sdotu
@@ -259,16 +255,12 @@ dot(IndexType n,
     double &result)
 {
     CXXBLAS_DEBUG_OUT("cublasDdot");
-    
 
-    cublasStatus_t status = cublasDdot(CublasEnv::handle(), n, 
-                                       x.get(), incX, 
-                                       y.get(), incY, &result);
-    
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasDdot(CublasEnv::handle(), n,
+                           x.get(), incX,
+                           y.get(), incY, &result));
+
+    CublasEnv::syncCopy();
 }
 
 // ddotu
@@ -287,22 +279,17 @@ template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 dot(IndexType n,
     const thrust::device_ptr<ComplexFloat> x, IndexType incX,
-    const thrust::device_ptr<ComplexFloat> y, IndexType incY, 
+    const thrust::device_ptr<ComplexFloat> y, IndexType incY,
     ComplexFloat &result)
 {
     CXXBLAS_DEBUG_OUT("cublasCdotc");
-    
-    
-    cublasStatus_t status = cublasCdotc(CublasEnv::handle(), n, 
-                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
-                                        reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
-                                        reinterpret_cast<cuFloatComplex*>(&result));
 
-    
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasCdotc(CublasEnv::handle(), n,
+                            reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                            reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
+                            reinterpret_cast<cuFloatComplex*>(&result)));
+
+    CublasEnv::syncCopy();
 }
 
 // cdotu
@@ -310,22 +297,17 @@ template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 dotu(IndexType n,
      const thrust::device_ptr<const ComplexFloat> x, IndexType incX,
-     const thrust::device_ptr<const ComplexFloat> y, IndexType incY, 
+     const thrust::device_ptr<const ComplexFloat> y, IndexType incY,
      ComplexFloat &result)
 {
     CXXBLAS_DEBUG_OUT("cublasCdotu");
-    
-    
-    cublasStatus_t status = cublasCdotu(CublasEnv::handle(), n, 
-                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
-                                        reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
-                                        reinterpret_cast<cuFloatComplex*>(&result));
 
-    
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasCdotu(CublasEnv::handle(), n,
+                            reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                            reinterpret_cast<const cuFloatComplex*>(y.get()), incY,
+                            reinterpret_cast<cuFloatComplex*>(&result)));
+
+    CublasEnv::syncCopy();
 }
 
 // zdotc
@@ -337,17 +319,13 @@ dot(IndexType n,
     ComplexDouble &result)
 {
     CXXBLAS_DEBUG_OUT("cublasZdot");
-    
-    
-    cublasStatus_t status = cublasZdotc(CublasEnv::handle(), n, 
-                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
-                                        reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
-                                        reinterpret_cast<cuDoubleComplex*>(&result));
-    
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+
+    checkStatus(cublasZdotc(CublasEnv::handle(), n,
+                            reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                            reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
+                            reinterpret_cast<cuDoubleComplex*>(&result)));
+
+    CublasEnv::syncCopy();
 }
 
 //zdotu
@@ -359,17 +337,13 @@ dotu(IndexType n,
      ComplexDouble &result)
 {
     CXXBLAS_DEBUG_OUT("cublasZdotu");
-    
 
-    cublasStatus_t status = cublasZdotu(CublasEnv::handle(), n, 
-                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
-                                        reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
-                                        reinterpret_cast<cuDoubleComplex*>(&result));
-    
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasZdotu(CublasEnv::handle(), n,
+                            reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                            reinterpret_cast<const cuDoubleComplex*>(y.get()), incY,
+                            reinterpret_cast<cuDoubleComplex*>(&result)));
+
+    CublasEnv::syncCopy();
 }
 
 #endif // HAVE_CUBLAS

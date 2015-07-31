@@ -129,15 +129,10 @@ axpy(IndexType n, float alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasSaxpy");
 
-    cublasStatus_t status = cublasSaxpy(CublasEnv::handle(),
-                                        n, &alpha,
-                                        x.get(), incX,
-                                        y.get(), incY);
-
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasSaxpy(CublasEnv::handle(),
+                            n, &alpha,
+                            x.get(), incX,
+                            y.get(), incY));
 }
 
 // daxpy
@@ -149,15 +144,10 @@ axpy(IndexType n, double alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasDaxpy");
 
-    cublasStatus_t status = cublasDaxpy(CublasEnv::handle(),
-                                        n, &alpha,
-                                        x.get(), incX,
-                                        y.get(), incY);
-
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasDaxpy(CublasEnv::handle(),
+                            n, &alpha,
+                            x.get(), incX,
+                            y.get(), incY));
 }
 
 // caxpy
@@ -169,15 +159,10 @@ axpy(IndexType n, ComplexFloat alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasCaxpy");
 
-    cublasStatus_t status = cublasCaxpy(CublasEnv::handle(),
-                                        n, reinterpret_cast<cuFloatComplex*>(&alpha),
-                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
-                                        reinterpret_cast<cuFloatComplex*>(y.get()), incY);
-
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasCaxpy(CublasEnv::handle(),
+                            n, reinterpret_cast<cuFloatComplex*>(&alpha),
+                            reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                            reinterpret_cast<cuFloatComplex*>(y.get()), incY));
 }
 
 // zaxpy
@@ -189,15 +174,10 @@ axpy(IndexType n, ComplexDouble alpha,
 {
     CXXBLAS_DEBUG_OUT("cublasZaxpy");
 
-    cublasStatus_t status = cublasZaxpy(CublasEnv::handle(),
-                                        n, reinterpret_cast<cuDoubleComplex*>(&alpha),
-                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
-                                        reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
-
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasZaxpy(CublasEnv::handle(),
+                            n, reinterpret_cast<cuDoubleComplex*>(&alpha),
+                            reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                            reinterpret_cast<cuDoubleComplex*>(y.get()), incY));
 }
 
 #endif // HAVE_CUBLAS

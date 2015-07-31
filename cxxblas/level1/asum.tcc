@@ -113,17 +113,16 @@ asum(IndexType n, const ComplexDouble *x, IndexType incX, double &absSum)
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 asum(IndexType n,
-    const thrust::device_ptr<const float> x, IndexType incX,
-    float &result)
+     const thrust::device_ptr<const float> x, IndexType incX,
+     float &result)
 {
     CXXBLAS_DEBUG_OUT(" cublasSasum");
 
-    cublasStatus_t status = cublasSasum(CublasEnv::handle(), n, x, incX, &result);
+    checkStatus(cublasSasum(CublasEnv::handle(),
+                            n, x.get(), incX,
+                            &result));
 
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    CublasEnv::syncCopy();
 }
 
 
@@ -131,19 +130,16 @@ asum(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 asum(IndexType n,
-    const thrust::device_ptr<const double> x, IndexType incX,
-    double &result)
+     const thrust::device_ptr<const double> x, IndexType incX,
+     double &result)
 {
     CXXBLAS_DEBUG_OUT("cublasDasum");
 
-    cublasStatus_t status = cublasDasum(CublasEnv::handle(), n,
-                                        x.get(), incX,
-                                        &result);
+    checkStatus(cublasDasum(CublasEnv::handle(),
+                            n, x.get(), incX,
+                            &result));
 
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    CublasEnv::syncCopy();
 }
 
 
@@ -156,33 +152,27 @@ asum(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasCasum");
 
-    cublasStatus_t status = cublasScasum(CublasEnv::handle(), n,
-                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
-                                         &result);
+    checkStatus(cublasScasum(CublasEnv::handle(),
+                             n, reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                             &result));
 
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    CublasEnv::syncCopy();
 }
 
 // zasum
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 asum(IndexType n,
-    const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
-    double &result)
+     const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
+     double &result)
 {
     CXXBLAS_DEBUG_OUT("cublasDzasum");
 
-    cublasStatus_t status = cublasDzasum(CublasEnv::handle(), n,
-                                      reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
-                                      &result);
+    checkStatus(cublasDzasum(CublasEnv::handle(),
+                             n, reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                             &result));
 
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    CublasEnv::syncCopy();
 }
 
 #endif // HAVE_CUBLAS

@@ -130,21 +130,15 @@ acxpy(IndexType n, const float &alpha,
 {
     CXXBLAS_DEBUG_OUT("acxpy_cuda_generic (complex flaot)");
 
-    cublasStatus_t status1 = cublasSaxpy(CublasEnv::handle(),
-                                         n, &alpha,
-                                         reinterpret_cast<const float*>(x.get()), incX,
-                                         reinterpret_cast<float*>(y.get()), incY);
+    checkStatus(cublasSaxpy(CublasEnv::handle(),
+                            n, &alpha,
+                            reinterpret_cast<const float*>(x.get()), incX,
+                            reinterpret_cast<float*>(y.get()), incY));
     float nalpha = -alpha;
-    cublasStatus_t status2 = cublasSaxpy(CublasEnv::handle(),
-                                         n, &nalpha,
-                                         reinterpret_cast<const float*>(x.get())+1, incX,
-                                         reinterpret_cast<float*>(y.get())+1, incY);
-
-    checkStatus(status1);
-    checkStatus(status2);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasSaxpy(CublasEnv::handle(),
+                            n, &nalpha,
+                            reinterpret_cast<const float*>(x.get())+1, incX,
+                            reinterpret_cast<float*>(y.get())+1, incY));
 }
 
 template <typename IndexType>
@@ -155,21 +149,15 @@ acxpy(IndexType n, const double &alpha,
 {
     CXXBLAS_DEBUG_OUT("acxpy_cuda_generic (complex double)");
 
-    cublasStatus_t status1 = cublasSaxpy(CublasEnv::handle(),
-                                         n, &alpha,
-                                         reinterpret_cast<const double*>(x.get()), incX,
-                                         reinterpret_cast<double*>(y.get()), incY);
+    checkStatus(cublasSaxpy(CublasEnv::handle(),
+                            n, &alpha,
+                            reinterpret_cast<const double*>(x.get()), incX,
+                            reinterpret_cast<double*>(y.get()), incY));
     double nalpha = -alpha;
-    cublasStatus_t status2 = cublasSaxpy(CublasEnv::handle(),
-                                         n, &nalpha,
-                                         reinterpret_cast<const double*>(x.get())+1, incX,
-                                         reinterpret_cast<double*>(y.get())+1, incY);
-
-    checkStatus(status1);
-    checkStatus(status2);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasSaxpy(CublasEnv::handle(),
+                            n, &nalpha,
+                            reinterpret_cast<const double*>(x.get())+1, incX,
+                            reinterpret_cast<double*>(y.get())+1, incY));
 }
 
 #endif // HAVE_CUBLAS

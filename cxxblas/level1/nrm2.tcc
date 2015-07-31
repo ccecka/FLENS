@@ -184,19 +184,16 @@ nrm2(IndexType n, const ComplexDouble *x, IndexType incX, double &norm)
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 nrm2(IndexType n,
-    const thrust::device_ptr<const float> x, IndexType incX,
-    float &result)
+     const thrust::device_ptr<const float> x, IndexType incX,
+     float &result)
 {
     CXXBLAS_DEBUG_OUT(" cublasSnrm2");
 
-    cublasStatus_t status = cublasSnrm2(CublasEnv::handle(), n, 
-                                        x.get(), incX, &result);
-    
-    checkStatus(status);
-    
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasSnrm2(CublasEnv::handle(),
+                            n, x.get(), incX,
+                            &result));
+
+    CublasEnv::syncCopy();
 }
 
 
@@ -204,18 +201,16 @@ nrm2(IndexType n,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 nrm2(IndexType n,
-    const thrust::device_ptr<const double> x, IndexType incX,
-    double &result)
+     const thrust::device_ptr<const double> x, IndexType incX,
+     double &result)
 {
     CXXBLAS_DEBUG_OUT("cublasDnrm2");
 
-    cublasStatus_t status = cublasDnrm2(CublasEnv::handle(), n, 
-                                        x.get(), incX, &result);
-    
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasDnrm2(CublasEnv::handle(),
+                            n, x.get(), incX,
+                            &result));
+
+    CublasEnv::syncCopy();
 }
 
 
@@ -227,35 +222,28 @@ nrm2(IndexType n,
      float &result)
 {
     CXXBLAS_DEBUG_OUT("cublasCnrm2");
-    
-    cublasStatus_t status = cublasScnrm2(CublasEnv::handle(), n, 
-                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX, 
-                                         &result);
 
-    
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasScnrm2(CublasEnv::handle(),
+                             n, reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                             &result));
+
+    CublasEnv::syncCopy();
 }
 
 // znrm2
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 nrm2(IndexType n,
-    const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
-    double &result)
+     const thrust::device_ptr<const ComplexDouble> x, IndexType incX,
+     double &result)
 {
     CXXBLAS_DEBUG_OUT("cublasDznrm2");
-    
-    cublasStatus_t status = cublasDznrm2(CublasEnv::handle(), n, 
-                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX, 
-                                         &result);
-    
-    checkStatus(status);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+
+    checkStatus(cublasDznrm2(CublasEnv::handle(),
+                             n, reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                             &result));
+
+    CublasEnv::syncCopy();
 }
 
 #endif // HAVE_CUBLAS

@@ -190,6 +190,7 @@ rot(IndexType n,
 }
 
 #ifdef HAVE_CBLAS
+
 // srot
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger

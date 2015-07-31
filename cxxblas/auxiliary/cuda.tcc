@@ -11,146 +11,65 @@
 namespace cxxblas {
 
 void
-CudaEnv::init()
-{
-    if(NCalls==0) {
-        // Create stream with index 0
-        streamID   = 0;
-        streams.push_back(cudaStream_t());
-        checkStatus(cudaStreamCreate(&streams.at(0)));
-    }
-    NCalls++;
-}
-
-
-void
 CudaEnv::release()
 {
-    ASSERT(NCalls>0);
-    if (NCalls==1) {
-        // destroy events
-        for (auto& e : events)
-            checkStatus(cudaEventDestroy(e));
-        events.clear();
+  // destroy streams
+  for (auto& s : streams)
+    checkStatus(cudaStreamDestroy(s));
+  streams.clear();
 
-        // destroy streams
-        for (auto& s : streams)
-            checkStatus(cudaStreamDestroy(s));
-        streams.clear();
-    }
-    NCalls--;
+  // destroy events
+  for (auto& e : events)
+    checkStatus(cudaEventDestroy(e));
+  events.clear();
 }
-
 
 void
 CudaEnv::destroyStream(int _streamID)
 {
-    if(NCalls==0) {
-        std::cerr << "Error: Cuda not initialized!" << std::endl;
-        ASSERT(0);
+    if (_streamID < int(streams.size())) {
+        checkStatus(cudaStreamDestroy(streams[_streamID]));
+        streams[_streamID] = cudaStream_t(); // XXX: Needed?
     }
-
-    ASSERT(_streamID!=streamID);
-    checkStatus(cudaStreamDestroy(streams.at(_streamID)));
-    streams.at(_streamID) = cudaStream_t(); // XXX: Needed?
 }
 
 cudaStream_t &
-CudaEnv::getStream()
+CudaEnv::getStream(int _streamID)
 {
-    if(NCalls==0) {
-        std::cerr << "Error: Cuda not initialized!" << std::endl;
-        ASSERT(0);
-    }
-
-    return streams.at(streamID);
-}
-
-int
-CudaEnv::getStreamID()
-{
-    if(NCalls==0) {
-        std::cerr << "Error: Cuda not initialized!" << std::endl;
-        ASSERT(0);
-    }
-
-    return streamID;
-}
-
-
-void
-CudaEnv::setStream(int _streamID)
-{
-    if(NCalls==0) {
-        std::cerr << "Error: Cuda not initialized!" << std::endl;
-        ASSERT(0);
-    }
-
-    streamID = _streamID;
     // Expand the stream map
-    while (streamID >= streams.size())
+    while (_streamID >= int(streams.size()))
         streams.push_back(cudaStream_t());
     // Create new stream if not inited
-    if (streams.at(streamID) == cudaStream_t())
-        checkStatus(cudaStreamCreate(&streams.at(streamID)));
+    if (streams[_streamID] == cudaStream_t())
+        checkStatus(cudaStreamCreate(&streams[_streamID]));
+
+    return streams[_streamID];
 }
 
 void
 CudaEnv::syncStream(int _streamID)
 {
-    if(NCalls==0) {
-        std::cerr << "Error: Cuda not initialized!" << std::endl;
-        ASSERT(0);
-    }
-
-    checkStatus(cudaStreamSynchronize(streams.at(_streamID)));
+    checkStatus(cudaStreamSynchronize(streams[_streamID]));
 }
 
 void
-CudaEnv::enableSyncCopy()
+CudaEnv::eventRecord(int _eventID, int _streamID)
 {
-    syncCopyEnabled = true;
-}
-
-void
-CudaEnv::disableSyncCopy()
-{
-    syncCopyEnabled = false;
-}
-
-bool
-CudaEnv::isSyncCopyEnabled()
-{
-    return syncCopyEnabled;
-}
-
-
-void
-CudaEnv::eventRecord(int _eventID)
-{
-    ///
-    /// Creates event on current stream
-    ///
-
     // Expand the event map
-    while (_eventID >= events.size())
+    while (_eventID >= int(events.size()))
         events.push_back(cudaEvent_t());
     // Create new event if not inited
     if (events.at(_eventID) == cudaEvent_t())
         checkStatus(cudaEventCreate(&events.at(_eventID)));
 
     // Create Event
-    checkStatus(cudaEventRecord(events.at(_eventID), streams.at(streamID)));
+    checkStatus(cudaEventRecord(events[_eventID], getStream(_streamID)));
 }
 
 void
 CudaEnv::eventSynchronize(int _eventID)
 {
-    ///
-    /// cudaEventSynchronize: Host waits until -eventID is completeted
-    ///
-    ///
-    checkStatus(cudaEventSynchronize(events.at(_eventID)));
+    checkStatus(cudaEventSynchronize(events[_eventID]));
 }
 
 std::string
@@ -205,18 +124,6 @@ checkStatus(cudaError_t status)
 }
 
 void
-setStream(int streamID)
-{
-    CudaEnv::setStream(streamID);
-}
-
-int
-getStreamID()
-{
-    return CudaEnv::getStreamID();
-}
-
-void
 destroyStream(int streamID)
 {
     CudaEnv::destroyStream(streamID);
@@ -228,12 +135,6 @@ destroyStream(int streamID, Args... args)
 {
     destroyStream(streamID);
     destroyStream(args...);
-}
-
-void
-syncStream()
-{
-    syncStream(getStreamID());
 }
 
 void
@@ -271,7 +172,7 @@ checkStatus(cublasStatus_t status)
     } else if  (status==CUBLAS_STATUS_ARCH_MISMATCH) {
         std::cerr << "CUBLAS: Device does not support double precision!" << std::endl;
     } else if  (status==CUBLAS_STATUS_EXECUTION_FAILED) {
-        std::cerr << "CUBLAS: Failed to launch function of the GPU" << std::endl;
+        std::cerr << "CUBLAS: Failed to launch function on the GPU" << std::endl;
     } else if  (status==CUBLAS_STATUS_INTERNAL_ERROR) {
         std::cerr << "CUBLAS: An internal operation failed" << std::endl;
     } else {
@@ -284,36 +185,67 @@ checkStatus(cublasStatus_t status)
 void
 CublasEnv::init()
 {
-    CudaEnv::init();
-
-    // create BLAS handle
     checkStatus(cublasCreate(&handle_));
 }
 
 void
 CublasEnv::release()
 {
-    // destroy BLAS handle
     checkStatus(cublasDestroy(handle_));
-
-    CudaEnv::release();
-}
-
-void
-CublasEnv::setStream(int _streamID)
-{
-    CudaEnv::setStream(_streamID);
-
-    // Set stream
-    checkStatus(cublasSetStream(handle_, CudaEnv::getStream()));
+    CudaEnv::release();  // XXX race
 }
 
 cublasHandle_t &
 CublasEnv::handle()
 {
     // TODO: Safety checks? Error msgs?
-
     return handle_;
+}
+
+cudaStream_t
+CublasEnv::stream()
+{
+    cudaStream_t s;
+    cublasGetStream(handle_, &s);
+    return s;
+}
+
+int
+CublasEnv::streamID()
+{
+    return streamID_;
+}
+
+void
+CublasEnv::setStream(int _streamID)
+{
+    streamID_ = _streamID;
+    checkStatus(cublasSetStream(handle_, CudaEnv::getStream(streamID_)));
+}
+
+void
+CublasEnv::enableSyncCopy()
+{
+    syncCopyEnabled = true;
+}
+
+void
+CublasEnv::disableSyncCopy()
+{
+    syncCopyEnabled = false;
+}
+
+bool
+CublasEnv::isSyncCopyEnabled()
+{
+    return syncCopyEnabled;
+}
+
+void
+CublasEnv::syncCopy()
+{
+    if (syncCopyEnabled && streamID_ >= 0)
+        CudaEnv::syncStream(streamID_);
 }
 
 #endif // HAVE_CUBLAS

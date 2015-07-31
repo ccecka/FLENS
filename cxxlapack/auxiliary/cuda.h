@@ -10,32 +10,40 @@
 namespace cxxlapack {
 
 using cxxblas::CudaEnv;
-using cxxblas::checkStatus;
-
 
 class CusolverEnv {
- public:
+  public:
+    static void
+    init();
 
-  static void
-  init();
+    static void
+    release();
 
-  static cusolverDnHandle_t &
-  handle();
+    static cusolverDnHandle_t &
+    handle();
 
-  static int*
-  devInfo();
+    static int*
+    devInfo();
 
-  static void
-  release();
+    static void
+    setStream(int _streamID);
 
- private:
-  static cusolverDnHandle_t handle_;
-  static std::vector<int*>  devinfo_;
+  //private:
+    static cusolverDnHandle_t handle_;
+#pragma omp threadprivate(handle_)
+    static int streamID_;
+#pragma omp threadprivate(streamID_)
+    static std::vector<int*>  devinfo_;
+#pragma omp threadprivate(devinfo_)
 };
 
-// XXX
-cusolverDnHandle_t          CusolverEnv::handle_   = 0;
-std::vector<int*>           CusolverEnv::devinfo_  = std::vector<int*>();
+// XXX?
+cusolverDnHandle_t          CusolverEnv::handle_   =  0;
+int                         CusolverEnv::streamID_ = -1;
+std::vector<int*>           CusolverEnv::devinfo_  = {};
+
+
+using cxxblas::checkStatus;
 
 void
 checkStatus(cusolverStatus_t status);
