@@ -97,7 +97,7 @@ template <typename IndexType>
         const double *y, IndexType incY,
         std::complex<double> &result);
 
-#endif
+#endif // HAVE_CBLAS
 
 } // namespace cxxblas
 

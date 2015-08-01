@@ -151,7 +151,7 @@ axpby(IndexType n,
                       axpby_func<TALPHA,TBETA,TX,TY>(alpha,beta));
 }
 
-#endif // end HAVE_CUBLAS
+#endif // HAVE_CUBLAS
 
 } // namespace cxxblas
 

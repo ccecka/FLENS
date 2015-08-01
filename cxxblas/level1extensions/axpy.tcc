@@ -90,7 +90,7 @@ axpy(IndexType n, const std::complex<double> &alpha,
     cblas_daxpy(n, std::imag(alpha), x, incX, y_+1, 2*incY);
 }
 
-#endif
+#endif // HAVE_CBLAS
 
 } // namespace cxxblas
 
