@@ -330,7 +330,7 @@ fillRandom(Array<T, I, A> &x)
     typedef typename Array<T,I,A>::IndexType    IndexType;
 
     for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
-        x[i] = randomValue<T>();
+        x(i) = randomValue<T>();
     }
     return true;
 }
