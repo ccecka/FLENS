@@ -13,63 +13,63 @@ namespace cxxblas {
 void
 CudaEnv::release()
 {
-  // destroy streams
-  for (auto& s : streams)
+  // destroy streams_
+  for (auto& s : streams_)
     checkStatus(cudaStreamDestroy(s));
-  streams.clear();
+  streams_.clear();
 
-  // destroy events
-  for (auto& e : events)
+  // destroy events_
+  for (auto& e : events_)
     checkStatus(cudaEventDestroy(e));
-  events.clear();
+  events_.clear();
 }
 
 void
-CudaEnv::destroyStream(int _streamID)
+CudaEnv::destroyStream(int streamID)
 {
-    if (_streamID < int(streams.size())) {
-        checkStatus(cudaStreamDestroy(streams[_streamID]));
-        streams[_streamID] = cudaStream_t(); // XXX: Needed?
+    if (streamID < int(streams_.size())) {
+        checkStatus(cudaStreamDestroy(streams_[streamID]));
+        streams_[streamID] = cudaStream_t(); // XXX: Needed?
     }
 }
 
 cudaStream_t &
-CudaEnv::getStream(int _streamID)
+CudaEnv::getStream(int streamID)
 {
     // Expand the stream map
-    while (_streamID >= int(streams.size()))
-        streams.push_back(cudaStream_t());
+    while (streamID >= int(streams_.size()))
+        streams_.push_back(cudaStream_t());
     // Create new stream if not inited
-    if (streams[_streamID] == cudaStream_t())
-        checkStatus(cudaStreamCreate(&streams[_streamID]));
+    if (streams_[streamID] == cudaStream_t())
+        checkStatus(cudaStreamCreate(&streams_[streamID]));
 
-    return streams[_streamID];
+    return streams_[streamID];
 }
 
 void
-CudaEnv::syncStream(int _streamID)
+CudaEnv::syncStream(int streamID)
 {
-    checkStatus(cudaStreamSynchronize(streams[_streamID]));
+    checkStatus(cudaStreamSynchronize(streams_[streamID]));
 }
 
 void
-CudaEnv::eventRecord(int _eventID, int _streamID)
+CudaEnv::eventRecord(int eventID, int streamID)
 {
     // Expand the event map
-    while (_eventID >= int(events.size()))
-        events.push_back(cudaEvent_t());
+    while (eventID >= int(events_.size()))
+        events_.push_back(cudaEvent_t());
     // Create new event if not inited
-    if (events.at(_eventID) == cudaEvent_t())
-        checkStatus(cudaEventCreate(&events.at(_eventID)));
+    if (events_.at(eventID) == cudaEvent_t())
+        checkStatus(cudaEventCreate(&events_.at(eventID)));
 
     // Create Event
-    checkStatus(cudaEventRecord(events[_eventID], getStream(_streamID)));
+    checkStatus(cudaEventRecord(events_[eventID], getStream(streamID)));
 }
 
 void
-CudaEnv::eventSynchronize(int _eventID)
+CudaEnv::eventSynchronize(int eventID)
 {
-    checkStatus(cudaEventSynchronize(events[_eventID]));
+    checkStatus(cudaEventSynchronize(events_[eventID]));
 }
 
 std::string
@@ -217,34 +217,34 @@ CublasEnv::streamID()
 }
 
 void
-CublasEnv::setStream(int _streamID)
+CublasEnv::setStream(int streamID)
 {
-    streamID_ = _streamID;
+    streamID_ = streamID;
     checkStatus(cublasSetStream(handle_, CudaEnv::getStream(streamID_)));
 }
 
 void
 CublasEnv::enableSyncCopy()
 {
-    syncCopyEnabled = true;
+    syncCopyEnabled_ = true;
 }
 
 void
 CublasEnv::disableSyncCopy()
 {
-    syncCopyEnabled = false;
+    syncCopyEnabled_ = false;
 }
 
 bool
 CublasEnv::isSyncCopyEnabled()
 {
-    return syncCopyEnabled;
+    return syncCopyEnabled_;
 }
 
 void
 CublasEnv::syncCopy()
 {
-    if (syncCopyEnabled && streamID_ >= 0)
+    if (syncCopyEnabled_ && streamID_ >= 0)
         CudaEnv::syncStream(streamID_);
 }
 
