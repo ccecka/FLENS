@@ -1,6 +1,6 @@
-CXX  = g++-4.8
+#CXX  = g++
 
-CXXFLAGS += -g -std=c++11 -Wall -Wextra -Wno-unused-local-typedefs
+CXXFLAGS += -std=c++11 -O3 -Wall -Wextra -O3
 CXXFLAGS += -I../../..
 
 CXXFLAGS += -DWITH_REFBLAS
@@ -41,7 +41,7 @@ $(FLENSLAPACK) : $(OBJECT_FILES)
 	ranlib $(FLENSLAPACK)
 
 $(FLENSLAPACK_DEV) : $(OBJECT_FILES_DEV)
-	ar crs $(FLENSLAPACK) $(OBJECT_FILES)
+	ar crs $(FLENSLAPACK) $(OBJECT_FILES_DEV)
 	ranlib $(FLENSLAPACK)
 
 %.o : %.cc
