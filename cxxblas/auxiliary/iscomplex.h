@@ -44,7 +44,7 @@ struct IsNotComplex
 };
 
 template <typename T>
-struct IsNotComplex<std::complex<T> >
+struct IsNotComplex<Complex<T> >
 {
     static const bool value = false;
 };

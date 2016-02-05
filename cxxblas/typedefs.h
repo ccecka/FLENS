@@ -40,8 +40,10 @@ namespace cxxblas {
 // User could potentially define ComplexFloat/ComplexDouble instead of std::
 #ifndef CXXBLAS_COMPLEX_TYPES
 #define CXXBLAS_COMPLEX_TYPES 1
-typedef std::complex<float>     ComplexFloat;
-typedef std::complex<double>    ComplexDouble;
+template <typename T>
+using Complex = std::complex<T>;
+using ComplexFloat = Complex<float>;
+using ComplexDouble = Complex<double>;
 #endif // CXXBLAS_COMPLEX_TYPES
 
 enum StorageOrder {

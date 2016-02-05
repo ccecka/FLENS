@@ -77,7 +77,7 @@ nrm2_generic(IndexType n, const X *x, IndexType incX, T &norm)
 
 template <typename IndexType, typename X, typename T>
 void
-nrm2_generic(IndexType n, const std::complex<X> *x, IndexType incX, T &norm)
+nrm2_generic(IndexType n, const Complex<X> *x, IndexType incX, T &norm)
 {
     CXXBLAS_DEBUG_OUT("nrm2_generic");
 

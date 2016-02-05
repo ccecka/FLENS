@@ -70,7 +70,7 @@ gemv(StorageOrder order, Transpose transA,
      const float *A, IndexType ldA,
      const float *x, IndexType incX,
      const float &beta,
-     std::complex<float> *y, IndexType incY)
+     Complex<float> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("gemv (extension)");
 
@@ -88,8 +88,8 @@ gemv(StorageOrder order, Transpose transA,
      const float &alpha,
      const float *A, IndexType ldA,
      const float *x, IndexType incX,
-     const std::complex<float> &beta,
-     std::complex<float> *y, IndexType incY)
+     const Complex<float> &beta,
+     Complex<float> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("gemv (extension)");
 
@@ -106,9 +106,9 @@ gemv(StorageOrder order, Transpose transA,
      IndexType m, IndexType n,
      const float &alpha,
      const float *A, IndexType ldA,
-     const std::complex<float> *x, IndexType incX,
+     const Complex<float> *x, IndexType incX,
      const float &beta,
-     std::complex<float> *y, IndexType incY)
+     Complex<float> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("gemv (extension)");
 
@@ -131,9 +131,9 @@ gemv(StorageOrder order, Transpose transA,
      IndexType m, IndexType n,
      const float &alpha,
      const float *A, IndexType ldA,
-     const std::complex<float> *x, IndexType incX,
-     const std::complex<float> &beta,
-     std::complex<float> *y, IndexType incY)
+     const Complex<float> *x, IndexType incX,
+     const Complex<float> &beta,
+     Complex<float> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("gemv (extension)");
 
@@ -157,7 +157,7 @@ gemv(StorageOrder order, Transpose transA,
      const double *A, IndexType ldA,
      const double *x, IndexType incX,
      const double &beta,
-     std::complex<double> *y, IndexType incY)
+     Complex<double> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("gemv (extension)");
 
@@ -175,8 +175,8 @@ gemv(StorageOrder order, Transpose transA,
      const double &alpha,
      const double *A, IndexType ldA,
      const double *x, IndexType incX,
-     const std::complex<double> &beta,
-     std::complex<double> *y, IndexType incY)
+     const Complex<double> &beta,
+     Complex<double> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("gemv (extension)");
 
@@ -193,9 +193,9 @@ gemv(StorageOrder order, Transpose transA,
      IndexType m, IndexType n,
      const double &alpha,
      const double *A, IndexType ldA,
-     const std::complex<double> *x, IndexType incX,
+     const Complex<double> *x, IndexType incX,
      const double &beta,
-     std::complex<double> *y, IndexType incY)
+     Complex<double> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("gemv (extension)");
 
@@ -218,9 +218,9 @@ gemv(StorageOrder order, Transpose transA,
      IndexType m, IndexType n,
      const double &alpha,
      const double *A, IndexType ldA,
-     const std::complex<double> *x, IndexType incX,
-     const std::complex<double> &beta,
-     std::complex<double> *y, IndexType incY)
+     const Complex<double> *x, IndexType incX,
+     const Complex<double> &beta,
+     Complex<double> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("gemv (extension)");
 

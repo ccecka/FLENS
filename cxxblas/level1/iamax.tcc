@@ -59,7 +59,7 @@ iamax_generic(IndexType n, const X *x, IndexType incX, IndexType &iAbsMaxX)
 
 template <typename IndexType, typename X>
 void
-iamax_generic(IndexType n, const std::complex<X> *x, IndexType incX,
+iamax_generic(IndexType n, const Complex<X> *x, IndexType incX,
               IndexType &iAbsMaxX)
 {
     CXXBLAS_DEBUG_OUT("iamax_generic");

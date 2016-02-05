@@ -108,18 +108,18 @@ rotg(A &a, B &b, T &c, T &s)
 
 template <typename TA, typename TB, typename T>
 void
-rotg(std::complex<TA> &a, std::complex<TB> &b, T &c, std::complex<T> &s)
+rotg(Complex<TA> &a, Complex<TB> &b, T &c, Complex<T> &s)
 {
     using std::abs;
     using std::sqrt;
     using std::pow;
 
-    std::complex<T>  alpha;
+    Complex<T>  alpha;
     T                norm, scale;
 
     if (abs(a)==TA(0)) {
         c = 0;
-        s = std::complex<T>(1,0);
+        s = Complex<T>(1,0);
         a = b;
     } else {
         scale = abs(a) + abs(b);
@@ -144,13 +144,13 @@ rotg(std::complex<TA> &a, std::complex<TB> &b, T &c, std::complex<T> &s)
 template <typename IndexType, typename X, typename Y, typename T>
 void
 rot_generic(IndexType n,
-            std::complex<X> *x, IndexType incX,
-            std::complex<Y> *y, IndexType incY,
-            T c, const std::complex<T> &s)
+            Complex<X> *x, IndexType incX,
+            Complex<Y> *y, IndexType incY,
+            T c, const Complex<T> &s)
 {
     using std::conj;
 
-    typedef std::complex<T>   CT;
+    typedef Complex<T>   CT;
 
     if (incX != IndexType(1) || incY != IndexType(1)) {
 //
@@ -176,9 +176,9 @@ rot_generic(IndexType n,
 template <typename IndexType, typename X, typename Y, typename T>
 void
 rot(IndexType n,
-    std::complex<X> *x, IndexType incX,
-    std::complex<Y> *y, IndexType incY,
-    T c, const std::complex<T> &s)
+    Complex<X> *x, IndexType incX,
+    Complex<Y> *y, IndexType incY,
+    T c, const Complex<T> &s)
 {
     if (incX<0) {
         x -= incX*(n-1);
