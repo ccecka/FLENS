@@ -1,5 +1,5 @@
-CXX = g++-4.8
-FC  = gfortran
+#CXX = g++
+#FC  = gfortran
 
 CXX_SOURCE_FILES = $(wildcard *.cc) \
                    $(wildcard asum/*.cc) \
@@ -14,8 +14,8 @@ F77_SOURCE_FILES = $(wildcard asum/*.f) \
 OBJECT_FILES     = $(patsubst %.cc,%.o,$(CXX_SOURCE_FILES)) \
                    $(patsubst %.f,%.o,$(F77_SOURCE_FILES))
 
-CXXFLAGS    += -I../../../.. -std=c++11 -Wall -Wextra #-I/usr/local/cuda/include -DWITH_CUBLAS
-LDFLAGS     += #-L/usr/local/cuda/lib -lcublas
+CXXFLAGS    += -I../../../.. -std=c++11 -O3 -Wall -Wextra
+LDFLAGS     +=
 
 FLENSBLAS  = blas_FLENS.a
 

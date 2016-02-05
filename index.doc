@@ -3,7 +3,7 @@ FLENS                                                                   [TOC]
 =====
 
 FLENS extends C++ for matrix/vector types that are ideally suited for numerical
-linear algebra.  That's it ...
+linear algebra.  That's it...
 
 ...but the consequences are immense!
 
@@ -102,7 +102,7 @@ Until we have fixed the problem please get FLENS from gitHub.
 #  the performance critical computations.  The interface of BLAS is really
 #  low-level.  Does this sound bad to you?  Do you think it is old fashioned and
 #  out dated?
-#  
+#
 #  People using Fortran/LAPACK/BLAS in scientific computing often deal with
 #  problems where performance and memory resources really matter.  This includes
 #  such extreme cases where a numerical simulation runs for several months.  And
@@ -116,20 +116,20 @@ Until we have fixed the problem please get FLENS from gitHub.
 #  is going on is also a key requirement for all computational routines.  It is
 #  important to know how things are done.  This way you can exactly localize
 #  routines that are critical for performance.
-#  
-#  
-#  
-#  
-#  
+#
+#
+#
+#
+#
 #  C++ is a modern programming language.  It allows object oriented programming
 #  as well as generic programming.  Beside the standard template library numerous
 #  C++ libraries exist that further enhance the core capabilities of C++.  Being
 #  a little bit hyperbolic: every programming feature one possibly could imagine
 #  is somehow provided by C++.  Either directly or through an additional C++
 #  library.
-#  
+#
 #  If you compare the Fortran77 LAPACK/BLAS combination with an arbitrary numerical
-#  C++ library you would expect that LAPACK/BLAS has 
+#  C++ library you would expect that LAPACK/BLAS has
 
 
 
@@ -168,4 +168,3 @@ Contributors
         __icc__          -> http://software.intel.com/en-us/articles/intel-compilers/
         __snapshot__     -> http://www.mathematik.uni-ulm.de/~lehn/FLENS/downloads/
         __list__         -> https://imap.uni-ulm.de/lists/info/flens
-
