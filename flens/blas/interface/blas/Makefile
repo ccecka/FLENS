@@ -14,7 +14,7 @@ F77_SOURCE_FILES = $(wildcard asum/*.f) \
 OBJECT_FILES     = $(patsubst %.cc,%.o,$(CXX_SOURCE_FILES)) \
                    $(patsubst %.f,%.o,$(F77_SOURCE_FILES))
 
-CXXFLAGS    += -I../../../.. -std=c++11 -Wall -Wextra -Wno-unused-local-typedefs #-I/usr/local/cuda/include -DWITH_CUBLAS
+CXXFLAGS    += -I../../../.. -std=c++11 -Wall -Wextra #-I/usr/local/cuda/include -DWITH_CUBLAS
 LDFLAGS     += #-L/usr/local/cuda/lib -lcublas
 
 FLENSBLAS  = blas_FLENS.a

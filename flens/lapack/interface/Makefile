@@ -1,6 +1,6 @@
 CXX  = g++-4.8
 
-CXXFLAGS += -g -std=c++11 -Wall -Wextra -Wno-unused-local-typedefs
+CXXFLAGS += -g -std=c++11 -Wall -Wextra
 CXXFLAGS += -I../../..
 
 CXXFLAGS += -DWITH_REFBLAS
