@@ -41,7 +41,7 @@ namespace cxxblas {
 
 template <typename IndexType, typename X>
 void
-imax1_generic(IndexType n, const std::complex<X> *x, IndexType incX,
+imax1_generic(IndexType n, const Complex<X> *x, IndexType incX,
               IndexType &iAbsMaxX)
 {
     CXXBLAS_DEBUG_OUT("imax1_generic");

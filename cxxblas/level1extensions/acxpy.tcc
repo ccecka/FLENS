@@ -69,8 +69,8 @@ acxpy(IndexType n, const ALPHA &alpha, const X *x,
 
 template <typename IndexType>
 void
-acxpy(IndexType n, const float &alpha, const std::complex<float> *x,
-      IndexType incX, std::complex<float> *y, IndexType incY)
+acxpy(IndexType n, const float &alpha, const Complex<float> *x,
+      IndexType incX, Complex<float> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("acxpy_generic (complex float)");
 
@@ -86,8 +86,8 @@ acxpy(IndexType n, const float &alpha, const std::complex<float> *x,
 
 template <typename IndexType>
 void
-acxpy(IndexType n, const double &alpha, const std::complex<double> *x,
-      IndexType incX, std::complex<double> *y, IndexType incY)
+acxpy(IndexType n, const double &alpha, const Complex<double> *x,
+      IndexType incX, Complex<double> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("acxpy_generic (complex double)");
 
@@ -125,8 +125,8 @@ acxpy(IndexType n, const double &alpha,
 template <typename IndexType>
 void
 acxpy(IndexType n, const float &alpha,
-      const thrust::device_ptr<const std::complex<float> > x, IndexType incX,
-      const thrust::device_ptr<std::complex<float> > y, IndexType incY)
+      const thrust::device_ptr<const Complex<float> > x, IndexType incX,
+      const thrust::device_ptr<Complex<float> > y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("acxpy_cuda_generic (complex flaot)");
 
@@ -144,8 +144,8 @@ acxpy(IndexType n, const float &alpha,
 template <typename IndexType>
 void
 acxpy(IndexType n, const double &alpha,
-      const thrust::device_ptr<const std::complex<double> > x, IndexType incX,
-      const thrust::device_ptr<std::complex<double> > y, IndexType incY)
+      const thrust::device_ptr<const Complex<double> > x, IndexType incX,
+      const thrust::device_ptr<Complex<double> > y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("acxpy_cuda_generic (complex double)");
 

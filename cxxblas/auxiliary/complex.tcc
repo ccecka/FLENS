@@ -49,8 +49,8 @@ conjugate(const T &x)
 template <typename T>
 typename
 cxxblas::RestrictTo<std::is_arithmetic<T>::value,
-         std::complex<T> >::Type
-conjugate(const std::complex<T> &x)
+         Complex<T> >::Type
+conjugate(const Complex<T> &x)
 {
     return std::conj(x);
 }
@@ -68,7 +68,7 @@ template <typename T>
 typename
 cxxblas::RestrictTo<std::is_arithmetic<T>::value,
          const T >::Type
-real(const std::complex<T> &x)
+real(const Complex<T> &x)
 {
     return std::real(x);
 }
@@ -86,14 +86,14 @@ template <typename T>
 typename
 cxxblas::RestrictTo<std::is_arithmetic<T>::value,
                const T >::Type
-imag(const std::complex<T> &x)
+imag(const Complex<T> &x)
 {
     return std::imag(x);
 }
 
 template <typename T>
 T
-abs1(const std::complex<T> &x)
+abs1(const Complex<T> &x)
 {
     using std::abs;
 

@@ -44,8 +44,8 @@ template <typename IndexType>
 void
 dotu(IndexType n,
      const float *x, IndexType incX,
-     const std::complex<float> *y, IndexType incY,
-     std::complex<float> &result)
+     const Complex<float> *y, IndexType incY,
+     Complex<float> &result)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cdotu [extension] [real,complex]");
 
@@ -54,15 +54,15 @@ dotu(IndexType n,
 
     float real_result = cblas_sdot(n, x, incX, yr, 2*incY);
     float imag_result = cblas_sdot(n, x, incX, yi, 2*incY);
-    result = std::complex<float>(real_result, imag_result);
+    result = Complex<float>(real_result, imag_result);
 }
 
 template <typename IndexType>
 void
 dotu(IndexType n,
-     const std::complex<float> *x, IndexType incX,
+     const Complex<float> *x, IndexType incX,
      const float *y, IndexType incY,
-     std::complex<float> &result)
+     Complex<float> &result)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cdotu [extension] [complex,real]");
 
@@ -74,8 +74,8 @@ template <typename IndexType>
 void
 dotu(IndexType n,
      const double *x, IndexType incX,
-     const std::complex<double> *y, IndexType incY,
-     std::complex<double> &result)
+     const Complex<double> *y, IndexType incY,
+     Complex<double> &result)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zdotu [extension] [real,complex]");
 
@@ -84,15 +84,15 @@ dotu(IndexType n,
 
     double real_result = cblas_ddot(n, x, incX, yr, 2*incY);
     double imag_result = cblas_ddot(n, x, incX, yi, 2*incY);
-    result = std::complex<double>(real_result, imag_result);
+    result = Complex<double>(real_result, imag_result);
 }
 
 template <typename IndexType>
 void
 dotu(IndexType n,
-     const std::complex<double> *x, IndexType incX,
+     const Complex<double> *x, IndexType incX,
      const double *y, IndexType incY,
-     std::complex<double> &result)
+     Complex<double> &result)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zdotu [extension] [complex,real]");
 
@@ -103,8 +103,8 @@ template <typename IndexType>
 void
 dot(IndexType n,
     const float *x, IndexType incX,
-    const std::complex<float> *y, IndexType incY,
-    std::complex<float> &result)
+    const Complex<float> *y, IndexType incY,
+    Complex<float> &result)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cdot [extension] [real,complex]");
 
@@ -114,9 +114,9 @@ dot(IndexType n,
 template <typename IndexType>
 void
 dot(IndexType n,
-    const std::complex<float> *x, IndexType incX,
+    const Complex<float> *x, IndexType incX,
     const float *y, IndexType incY,
-    std::complex<float> &result)
+    Complex<float> &result)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cdot [extension] [complex,real]");
 
@@ -125,15 +125,15 @@ dot(IndexType n,
 
     float real_result = cblas_sdot(n, y, incY, xr, 2*incX);
     float imag_result = cblas_sdot(n, y, incY, xi, 2*incX);
-    result = std::complex<float>(real_result, -imag_result);
+    result = Complex<float>(real_result, -imag_result);
 }
 
 template <typename IndexType>
 void
 dot(IndexType n,
     const double *x, IndexType incX,
-    const std::complex<double> *y, IndexType incY,
-    std::complex<double> &result)
+    const Complex<double> *y, IndexType incY,
+    Complex<double> &result)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zdot [extension] [real, complex]");
 
@@ -143,9 +143,9 @@ dot(IndexType n,
 template <typename IndexType>
 void
 dot(IndexType n,
-    const std::complex<double> *x, IndexType incX,
+    const Complex<double> *x, IndexType incX,
     const double *y, IndexType incY,
-    std::complex<double> &result)
+    Complex<double> &result)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zdot [extension] [complex, real]");
 
@@ -154,7 +154,7 @@ dot(IndexType n,
 
     double real_result = cblas_ddot(n, y, incY, xr, 2*incX);
     double imag_result = cblas_ddot(n, y, incY, xi, 2*incX);
-    result = std::complex<double>(real_result, -imag_result);
+    result = Complex<double>(real_result, -imag_result);
 }
 
 #endif // HAVE_CBLAS
