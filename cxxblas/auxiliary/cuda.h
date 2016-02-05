@@ -23,16 +23,16 @@ class CudaEnv {
     release();
 
     static cudaStream_t &
-    getStream(int _streamID);
+    getStream(int streamID);
 
     static void
-    destroyStream(int _streamID);
+    destroyStream(int streamID);
 
     static void
-    syncStream(int _streamID);
+    syncStream(int streamID);
 
     static void
-    eventRecord(int _eventID, int _streamID);
+    eventRecord(int _eventID, int streamID);
 
     static void
     eventSynchronize(int _eventID);
@@ -41,13 +41,13 @@ class CudaEnv {
     getInfo();
 
   //private:
-    static std::vector<cudaStream_t>    streams;
-    static std::vector<cudaEvent_t>     events;
+    static std::vector<cudaStream_t>    streams_;
+    static std::vector<cudaEvent_t>     events_;
 };
 
 // XXX?
-std::vector<cudaStream_t>   CudaEnv::streams         = {};
-std::vector<cudaEvent_t>    CudaEnv::events          = {};
+std::vector<cudaStream_t>   CudaEnv::streams_    = {};
+std::vector<cudaEvent_t>    CudaEnv::events_     = {};
 
 
 void
@@ -89,7 +89,7 @@ class CublasEnv {
     streamID();
 
     static void
-    setStream(int _streamID);
+    setStream(int streamID);
 
     static void
     enableSyncCopy();
@@ -107,15 +107,15 @@ class CublasEnv {
     static cublasHandle_t               handle_;
 #pragma omp threadprivate(handle_)
     static int                          streamID_;
-#pragma omp threadprivate(streamID)
-    static bool                         syncCopyEnabled;
-#pragma omp threadprivate(syncCopyEnabled)
+#pragma omp threadprivate(streamID_)
+    static bool                         syncCopyEnabled_;
+#pragma omp threadprivate(syncCopyEnabled_)
 };
 
 // XXX?
-cublasHandle_t              CublasEnv::handle_     =  0;
-int                         CublasEnv::streamID_   = -1;
-bool                        CublasEnv::syncCopyEnabled = true;
+cublasHandle_t              CublasEnv::handle_          =  0;
+int                         CublasEnv::streamID_        = -1;
+bool                        CublasEnv::syncCopyEnabled_ = true;
 
 
 void
