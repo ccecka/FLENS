@@ -44,7 +44,7 @@ template <typename IndexType>
 void
 axpy(IndexType n, const float &alpha,
      const float *x, IndexType incX,
-     std::complex<float> *y, IndexType incY)
+     Complex<float> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_caxpy [extension]");
 
@@ -53,9 +53,9 @@ axpy(IndexType n, const float &alpha,
 
 template <typename IndexType>
 void
-axpy(IndexType n, const std::complex<float> &alpha,
+axpy(IndexType n, const Complex<float> &alpha,
      const float *x, IndexType incX,
-     std::complex<float> *y, IndexType incY)
+     Complex<float> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_caxpy [extension]");
 
@@ -69,7 +69,7 @@ template <typename IndexType>
 void
 axpy(IndexType n, const double &alpha,
      const double *x, IndexType incX,
-     std::complex<double> *y, IndexType incY)
+     Complex<double> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zaxpy [extension]");
 
@@ -78,9 +78,9 @@ axpy(IndexType n, const double &alpha,
 
 template <typename IndexType>
 void
-axpy(IndexType n, const std::complex<double> &alpha,
+axpy(IndexType n, const Complex<double> &alpha,
      const double *x, IndexType incX,
-     std::complex<double> *y, IndexType incY)
+     Complex<double> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zaxpy [extension]");
 
@@ -90,7 +90,7 @@ axpy(IndexType n, const std::complex<double> &alpha,
     cblas_daxpy(n, std::imag(alpha), x, incX, y_+1, 2*incY);
 }
 
-#endif
+#endif // HAVE_CBLAS
 
 } // namespace cxxblas
 

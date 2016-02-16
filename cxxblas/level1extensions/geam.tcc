@@ -59,4 +59,4 @@ geam(StorageOrder orderA, StorageOrder orderB,
 
 } // namespace cxxblas
 
-#endif // CXXBLAS_LEVEL1EXTENSIONS_GBSCAL_H
+#endif // CXXBLAS_LEVEL1EXTENSIONS_GEAM_H

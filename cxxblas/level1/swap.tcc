@@ -127,11 +127,9 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasSswap");
 
-    cublasStatus_t status = cublasSswap(CublasEnv::handle(), n,
-                                        x.get(), incX,
-                                        y.get(), incY);
-
-    checkStatus(status);
+    checkStatus(cublasSswap(CublasEnv::handle(), n,
+                            x.get(), incX,
+                            y.get(), incY));
 }
 
 // dcopy
@@ -143,11 +141,9 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasDswap");
 
-    cublasStatus_t status = cublasDswap(CublasEnv::handle(), n,
-                                        x.get(), incX,
-                                        y.get(), incY);
-
-    checkStatus(status);
+    checkStatus(cublasDswap(CublasEnv::handle(), n,
+                            x.get(), incX,
+                            y.get(), incY));
 }
 
 // ccopy
@@ -159,12 +155,9 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasCswap");
 
-    cublasStatus_t status = cublasCswap(CublasEnv::handle(), n,
-                                        reinterpret_cast<cuFloatComplex*>(x.get()), incX,
-                                        reinterpret_cast<cuFloatComplex*>(y.get()), incY);
-
-
-    checkStatus(status);
+    checkStatus(cublasCswap(CublasEnv::handle(), n,
+                            reinterpret_cast<cuFloatComplex*>(x.get()), incX,
+                            reinterpret_cast<cuFloatComplex*>(y.get()), incY));
 }
 
 // zcopy
@@ -176,11 +169,9 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasZswap");
 
-    cublasStatus_t status = cublasZswap(CublasEnv::handle(), n,
-                                        reinterpret_cast<cuDoubleComplex*>(x.get()), incX,
-                                        reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
-
-    checkStatus(status);
+    checkStatus(cublasZswap(CublasEnv::handle(), n,
+                            reinterpret_cast<cuDoubleComplex*>(x.get()), incX,
+                            reinterpret_cast<cuDoubleComplex*>(y.get()), incY));
 }
 
 #endif // HAVE_CUBLAS

@@ -33,9 +33,7 @@
 #ifndef FLENS_AUXILIARY_ISINTEGER_H
 #define FLENS_AUXILIARY_ISINTEGER_H 1
 
-#ifdef INCLUDE_TYPE_TRAITS
-#   include <cxxstd/type_traits.h>
-#endif
+#include <cxxstd/type_traits.h>
 
 namespace flens {
 

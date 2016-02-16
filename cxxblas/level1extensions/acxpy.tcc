@@ -69,8 +69,8 @@ acxpy(IndexType n, const ALPHA &alpha, const X *x,
 
 template <typename IndexType>
 void
-acxpy(IndexType n, const float &alpha, const std::complex<float> *x,
-      IndexType incX, std::complex<float> *y, IndexType incY)
+acxpy(IndexType n, const float &alpha, const Complex<float> *x,
+      IndexType incX, Complex<float> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("acxpy_generic (complex float)");
 
@@ -86,8 +86,8 @@ acxpy(IndexType n, const float &alpha, const std::complex<float> *x,
 
 template <typename IndexType>
 void
-acxpy(IndexType n, const double &alpha, const std::complex<double> *x,
-      IndexType incX, std::complex<double> *y, IndexType incY)
+acxpy(IndexType n, const double &alpha, const Complex<double> *x,
+      IndexType incX, Complex<double> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("acxpy_generic (complex double)");
 
@@ -125,51 +125,39 @@ acxpy(IndexType n, const double &alpha,
 template <typename IndexType>
 void
 acxpy(IndexType n, const float &alpha,
-      const thrust::device_ptr<const std::complex<float> > x, IndexType incX,
-      const thrust::device_ptr<std::complex<float> > y, IndexType incY)
+      const thrust::device_ptr<const Complex<float> > x, IndexType incX,
+      const thrust::device_ptr<Complex<float> > y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("acxpy_cuda_generic (complex flaot)");
 
-    cublasStatus_t status1 = cublasSaxpy(CublasEnv::handle(),
-                                         n, &alpha,
-                                         reinterpret_cast<const float*>(x.get()), incX,
-                                         reinterpret_cast<float*>(y.get()), incY);
+    checkStatus(cublasSaxpy(CublasEnv::handle(),
+                            n, &alpha,
+                            reinterpret_cast<const float*>(x.get()), incX,
+                            reinterpret_cast<float*>(y.get()), incY));
     float nalpha = -alpha;
-    cublasStatus_t status2 = cublasSaxpy(CublasEnv::handle(),
-                                         n, &nalpha,
-                                         reinterpret_cast<const float*>(x.get())+1, incX,
-                                         reinterpret_cast<float*>(y.get())+1, incY);
-
-    checkStatus(status1);
-    checkStatus(status2);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasSaxpy(CublasEnv::handle(),
+                            n, &nalpha,
+                            reinterpret_cast<const float*>(x.get())+1, incX,
+                            reinterpret_cast<float*>(y.get())+1, incY));
 }
 
 template <typename IndexType>
 void
 acxpy(IndexType n, const double &alpha,
-      const thrust::device_ptr<const std::complex<double> > x, IndexType incX,
-      const thrust::device_ptr<std::complex<double> > y, IndexType incY)
+      const thrust::device_ptr<const Complex<double> > x, IndexType incX,
+      const thrust::device_ptr<Complex<double> > y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("acxpy_cuda_generic (complex double)");
 
-    cublasStatus_t status1 = cublasSaxpy(CublasEnv::handle(),
-                                         n, &alpha,
-                                         reinterpret_cast<const double*>(x.get()), incX,
-                                         reinterpret_cast<double*>(y.get()), incY);
+    checkStatus(cublasSaxpy(CublasEnv::handle(),
+                            n, &alpha,
+                            reinterpret_cast<const double*>(x.get()), incX,
+                            reinterpret_cast<double*>(y.get()), incY));
     double nalpha = -alpha;
-    cublasStatus_t status2 = cublasSaxpy(CublasEnv::handle(),
-                                         n, &nalpha,
-                                         reinterpret_cast<const double*>(x.get())+1, incX,
-                                         reinterpret_cast<double*>(y.get())+1, incY);
-
-    checkStatus(status1);
-    checkStatus(status2);
-    if (CudaEnv::isSyncCopyEnabled()) {
-        syncStream();
-    }
+    checkStatus(cublasSaxpy(CublasEnv::handle(),
+                            n, &nalpha,
+                            reinterpret_cast<const double*>(x.get())+1, incX,
+                            reinterpret_cast<double*>(y.get())+1, incY));
 }
 
 #endif // HAVE_CUBLAS

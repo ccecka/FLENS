@@ -144,14 +144,14 @@ axpby(IndexType n,
                                reinterpret_cast<      TY*>(y.get()) + n*incY,
                                incY);
 
-    thrust::transform(thrust::cuda::par.on(CudaEnv::getStream()),
+    thrust::transform(thrust::cuda::par.on(CublasEnv::stream()),
                       xr.begin(), xr.end(),
                       yr.begin(),
                       yr.begin(),
                       axpby_func<TALPHA,TBETA,TX,TY>(alpha,beta));
 }
 
-#endif // end HAVE_CUBLAS
+#endif // HAVE_CUBLAS
 
 } // namespace cxxblas
 

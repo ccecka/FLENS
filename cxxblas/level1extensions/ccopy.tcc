@@ -74,8 +74,8 @@ ccopy(IndexType n, const T *x, IndexType incX,
 
 template <typename IndexType, typename T>
 void
-ccopy(IndexType n, const std::complex<T> *x, IndexType incX,
-      thrust::device_ptr<std::complex<T>> y, IndexType incY)
+ccopy(IndexType n, const Complex<T> *x, IndexType incX,
+      thrust::device_ptr<Complex<T>> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("ccopy_generic [complex] [host -> device]");
 
@@ -94,8 +94,8 @@ ccopy(IndexType n, const thrust::device_ptr<const T> x, IndexType incX,
 
 template <typename IndexType, typename T>
 void
-ccopy(IndexType n, const thrust::device_ptr<const std::complex<T>> x, IndexType incX,
-      std::complex<T> *y, IndexType incY)
+ccopy(IndexType n, const thrust::device_ptr<const Complex<T>> x, IndexType incX,
+      Complex<T> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("ccopy_generic [complex] [device -> host]");
 
@@ -114,8 +114,8 @@ ccopy(IndexType n, const thrust::device_ptr<const T> x, IndexType incX,
 
 template <typename IndexType, typename T>
 void
-ccopy(IndexType n, const thrust::device_ptr<const std::complex<T>> x, IndexType incX,
-      thrust::device_ptr<std::complex<T>> y, IndexType incY)
+ccopy(IndexType n, const thrust::device_ptr<const Complex<T>> x, IndexType incX,
+      thrust::device_ptr<Complex<T>> y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("ccopy_generic [complex] [device -> device]");
 

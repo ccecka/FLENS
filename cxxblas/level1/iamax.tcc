@@ -59,7 +59,7 @@ iamax_generic(IndexType n, const X *x, IndexType incX, IndexType &iAbsMaxX)
 
 template <typename IndexType, typename X>
 void
-iamax_generic(IndexType n, const std::complex<X> *x, IndexType incX,
+iamax_generic(IndexType n, const Complex<X> *x, IndexType incX,
               IndexType &iAbsMaxX)
 {
     CXXBLAS_DEBUG_OUT("iamax_generic");
@@ -156,14 +156,13 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIsamax");
 
-    cublasStatus_t status = cublasIsamax(CublasEnv::handle(), n,
-                                         x.get(), incX, &result);
+    checkStatus(cublasIsamax(CublasEnv::handle(),
+                             n, x.get(), incX,
+                             &result));
 
-    checkStatus(status);
-    syncStream();
-
-    // We have to correct the result -> only syncModed allowed
-    ASSERT(CudaEnv::isSyncCopyEnabled());
+    // We have to correct the result -> only syncMode allowed
+    ASSERT(CublasEnv::isSyncCopyEnabled());
+    CublasEnv::syncCopy();
     // Correct Indexing
     --result; // cuBLAS is one-based, cblas is zero-based
 }
@@ -178,14 +177,13 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIdamax");
 
-    cublasStatus_t status = cublasIdamax(CublasEnv::handle(), n,
-                                         x.get(), incX, &result);
+    checkStatus(cublasIdamax(CublasEnv::handle(),
+                             n, x.get(), incX,
+                             &result));
 
-    checkStatus(status);
-    syncStream();
-
-    // We have to correct the result -> only syncModed allowed
-    ASSERT(CudaEnv::isSyncCopyEnabled());
+    // We have to correct the result -> only syncMode allowed
+    ASSERT(CublasEnv::isSyncCopyEnabled());
+    CublasEnv::syncCopy();
     // Correct Indexing
     --result; // cuBLAS is one-based, cblas is zero-based
 }
@@ -200,16 +198,13 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIcamax");
 
-    cublasStatus_t status = cublasIcamax(CublasEnv::handle(), n,
-                                         reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
-                                         &result);
+    checkStatus(cublasIcamax(CublasEnv::handle(),
+                             n, reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                             &result));
 
-
-    checkStatus(status);
-    syncStream();
-
-    // We have to correct the result -> only syncModed allowed
-    ASSERT(CudaEnv::isSyncCopyEnabled());
+    // We have to correct the result -> only syncMode allowed
+    ASSERT(CublasEnv::isSyncCopyEnabled());
+    CublasEnv::syncCopy();
     // Correct Indexing
     --result; // cuBLAS is one-based, cblas is zero-based
 }
@@ -223,16 +218,14 @@ iamax(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasIzamax");
 
-    cublasStatus_t status = cublasIzamax(CublasEnv::handle(), n,
-                                         reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
-                                         &result);
-
-    checkStatus(status);
-    checkStatus(status);
-    syncStream();
+    checkStatus(cublasIzamax(CublasEnv::handle(),
+                             n, reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                             &result));
 
     // We have to correct the result -> only syncModed allowed
-    ASSERT(CudaEnv::isSyncCopyEnabled());
+    ASSERT(CublasEnv::isSyncCopyEnabled());
+    CublasEnv::syncCopy();
+    // Correct Indexing
     --result; // cuBLAS is one-based, cblas is zero-based
 }
 

@@ -49,7 +49,7 @@ template <typename IndexType>
          const float *A, IndexType ldA,
          const float *x, IndexType incX,
          float beta,
-         std::complex<float> *y, IndexType incY);
+         Complex<float> *y, IndexType incY);
 
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -57,26 +57,26 @@ template <typename IndexType>
          IndexType n, float alpha,
          const float *A, IndexType ldA,
          const float *x, IndexType incX,
-         std::complex<float> beta,
-         std::complex<float> *y, IndexType incY);
+         Complex<float> beta,
+         Complex<float> *y, IndexType incY);
 
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
          IndexType n, float alpha,
          const float *A, IndexType ldA,
-         const std::complex<float> *x, IndexType incX,
+         const Complex<float> *x, IndexType incX,
          float beta,
-         std::complex<float> *y, IndexType incY);
+         Complex<float> *y, IndexType incY);
 
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
          IndexType n, float alpha,
          const float *A, IndexType ldA,
-         const std::complex<float> *x, IndexType incX,
-         std::complex<float> beta,
-         std::complex<float> *y, IndexType incY);
+         const Complex<float> *x, IndexType incX,
+         Complex<float> beta,
+         Complex<float> *y, IndexType incY);
 
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -85,7 +85,7 @@ template <typename IndexType>
          const double *A, IndexType ldA,
          const double *x, IndexType incX,
          double beta,
-         std::complex<double> *y, IndexType incY);
+         Complex<double> *y, IndexType incY);
 
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -93,26 +93,26 @@ template <typename IndexType>
          IndexType n, double alpha,
          const double *A, IndexType ldA,
          const double *x, IndexType incX,
-         std::complex<double> beta,
-         std::complex<double> *y, IndexType incY);
+         Complex<double> beta,
+         Complex<double> *y, IndexType incY);
 
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
          IndexType n, double alpha,
          const double *A, IndexType ldA,
-         const std::complex<double> *x, IndexType incX,
+         const Complex<double> *x, IndexType incX,
          double beta,
-         std::complex<double> *y, IndexType incY);
+         Complex<double> *y, IndexType incY);
 
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
          IndexType n, double alpha,
          const double *A, IndexType ldA,
-         const std::complex<double> *x, IndexType incX,
-         std::complex<double> beta,
-         std::complex<double> *y, IndexType incY);
+         const Complex<double> *x, IndexType incX,
+         Complex<double> beta,
+         Complex<double> *y, IndexType incY);
 
 #endif // HAVE_CBLAS
 

@@ -45,59 +45,59 @@ template <typename IndexType>
     void
     dotu(IndexType n,
          const float *x, IndexType incX,
-         const std::complex<float> *y, IndexType incY,
-         std::complex<float> &result);
+         const Complex<float> *y, IndexType incY,
+         Complex<float> &result);
 
 template <typename IndexType>
     void
     dotu(IndexType n,
-         const std::complex<float> *x, IndexType incX,
+         const Complex<float> *x, IndexType incX,
          const float *y, IndexType incY,
-         std::complex<float> &result);
+         Complex<float> &result);
 
 template <typename IndexType>
     void
     dotu(IndexType n,
          const double *x, IndexType incX,
-         const std::complex<double> *y, IndexType incY,
-         std::complex<double> &result);
+         const Complex<double> *y, IndexType incY,
+         Complex<double> &result);
 
 template <typename IndexType>
     void
     dotu(IndexType n,
-         const std::complex<double> *x, IndexType incX,
+         const Complex<double> *x, IndexType incX,
          const double *y, IndexType incY,
-         std::complex<double> &result);
+         Complex<double> &result);
 
 template <typename IndexType>
     void
     dot(IndexType n,
         const float *x, IndexType incX,
-        const std::complex<float> *y, IndexType incY,
-        std::complex<float> &result);
+        const Complex<float> *y, IndexType incY,
+        Complex<float> &result);
 
 template <typename IndexType>
     void
     dot(IndexType n,
-        const std::complex<float> *x, IndexType incX,
+        const Complex<float> *x, IndexType incX,
         const float *y, IndexType incY,
-        std::complex<float> &result);
+        Complex<float> &result);
 
 template <typename IndexType>
     void
     dot(IndexType n,
         const double *x, IndexType incX,
-        const std::complex<double> *y, IndexType incY,
-        std::complex<double> &result);
+        const Complex<double> *y, IndexType incY,
+        Complex<double> &result);
 
 template <typename IndexType>
     void
     dot(IndexType n,
-        const std::complex<double> *x, IndexType incX,
+        const Complex<double> *x, IndexType incX,
         const double *y, IndexType incY,
-        std::complex<double> &result);
+        Complex<double> &result);
 
-#endif
+#endif // HAVE_CBLAS
 
 } // namespace cxxblas
 

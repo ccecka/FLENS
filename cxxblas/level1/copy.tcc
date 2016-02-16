@@ -118,18 +118,13 @@ copy(IndexType n,
      const T *x, IndexType incX,
      thrust::device_ptr<T> y, IndexType incY)
 {
-    if (CudaEnv::isSyncCopyEnabled()) {
-
+    if (CublasEnv::isSyncCopyEnabled()) {
         CXXBLAS_DEBUG_OUT("cublasSetVector [sync]");
-        cublasStatus_t status = cublasSetVector(n, sizeof(T), x, incX, y.get(), incY);
-        checkStatus(status);
-
+        checkStatus(cublasSetVector(n, sizeof(T), x, incX, y.get(), incY));
     } else {
-
         CXXBLAS_DEBUG_OUT("cublasSetVector [async]");
-        cublasStatus_t status = cublasSetVectorAsync(n, sizeof(T), x, incX, y.get(), incY, CudaEnv::getStream());
-        checkStatus(status);
-
+        checkStatus(cublasSetVectorAsync(n, sizeof(T), x, incX, y.get(), incY,
+                                         CublasEnv::stream()));
     }
 }
 
@@ -139,18 +134,13 @@ copy(IndexType n,
      const thrust::device_ptr<const T> x, IndexType incX,
      T *y, IndexType incY)
 {
-    if (CudaEnv::isSyncCopyEnabled()) {
-
+    if (CublasEnv::isSyncCopyEnabled()) {
         CXXBLAS_DEBUG_OUT("cublasGetVector [sync]");
-        cublasStatus_t status = cublasGetVector(n, sizeof(T), x.get(), incX, y, incY);
-        checkStatus(status);
-
+        checkStatus(cublasGetVector(n, sizeof(T), x.get(), incX, y, incY));
     } else {
-
         CXXBLAS_DEBUG_OUT("cublasGetVector [async]");
-        cublasStatus_t status = cublasGetVectorAsync(n, sizeof(T), x.get(), incX, y, incY, CudaEnv::getStream());
-        checkStatus(status);
-
+        checkStatus(cublasGetVectorAsync(n, sizeof(T), x.get(), incX, y, incY,
+                                         CublasEnv::stream()));
     }
 }
 
@@ -163,11 +153,9 @@ copy(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasScopy");
 
-    cublasStatus_t status = cublasScopy(CublasEnv::handle(), n,
-                                        x.get(), incX,
-                                        y.get(), incY);
-
-    checkStatus(status);
+    checkStatus(cublasScopy(CublasEnv::handle(), n,
+                            x.get(), incX,
+                            y.get(), incY));
 }
 
 // dcopy
@@ -179,11 +167,9 @@ copy(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasDcopy");
 
-    cublasStatus_t status = cublasDcopy(CublasEnv::handle(), n,
-                                        x.get(), incX,
-                                        y.get(), incY);
-
-    checkStatus(status);
+    checkStatus(cublasDcopy(CublasEnv::handle(), n,
+                            x.get(), incX,
+                            y.get(), incY));
 }
 
 // ccopy
@@ -195,12 +181,9 @@ copy(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasCcopy");
 
-    cublasStatus_t status = cublasCcopy(CublasEnv::handle(), n,
-                                        reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
-                                        reinterpret_cast<cuFloatComplex*>(y.get()), incY);
-
-
-    checkStatus(status);
+    checkStatus(cublasCcopy(CublasEnv::handle(), n,
+                            reinterpret_cast<const cuFloatComplex*>(x.get()), incX,
+                            reinterpret_cast<cuFloatComplex*>(y.get()), incY));
 }
 
 // zcopy
@@ -212,11 +195,9 @@ copy(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("cublasZcopy");
 
-    cublasStatus_t status = cublasZcopy(CublasEnv::handle(), n,
-                                        reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
-                                        reinterpret_cast<cuDoubleComplex*>(y.get()), incY);
-
-    checkStatus(status);
+    checkStatus(cublasZcopy(CublasEnv::handle(), n,
+                            reinterpret_cast<const cuDoubleComplex*>(x.get()), incX,
+                            reinterpret_cast<cuDoubleComplex*>(y.get()), incY));
 }
 
 #endif // HAVE_CUBLAS

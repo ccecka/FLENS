@@ -58,8 +58,8 @@ template <typename IndexType, typename T>
 // ccopy [complex]
 template <typename IndexType, typename T>
     void
-    ccopy(IndexType n, const std::complex<T> *x, IndexType incX,
-          thrust::device_ptr<std::complex<T> > y, IndexType incY);
+    ccopy(IndexType n, const Complex<T> *x, IndexType incX,
+          thrust::device_ptr<Complex<T> > y, IndexType incY);
 
 //
 // Copy device -> host
@@ -74,8 +74,8 @@ template <typename IndexType, typename T>
 // ccopy [complex]
 template <typename IndexType, typename T>
     void
-    ccopy(IndexType n, const thrust::device_ptr<const std::complex<T> > x, IndexType incX,
-          std::complex<T> *y, IndexType incY);
+    ccopy(IndexType n, const thrust::device_ptr<const Complex<T> > x, IndexType incX,
+          Complex<T> *y, IndexType incY);
 //
 // Copy device -> device
 //
@@ -89,8 +89,8 @@ template <typename IndexType, typename T>
 // ccopy [complex]
 template <typename IndexType, typename T>
     void
-    ccopy(IndexType n, const thrust::device_ptr<const std::complex<T> > x, IndexType incX,
-          thrust::device_ptr<std::complex<T> > y, IndexType incY);
+    ccopy(IndexType n, const thrust::device_ptr<const Complex<T> > x, IndexType incX,
+          thrust::device_ptr<Complex<T> > y, IndexType incY);
 
 #endif // HAVE_CUBLAS
 

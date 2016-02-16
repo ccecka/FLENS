@@ -65,8 +65,8 @@ template <typename T>
 #endif
 
 template <typename T>
-    std::complex<T>
-    pow(const std::complex<T> &base, int exponent);
+    Complex<T>
+    pow(const Complex<T> &base, int exponent);
 
 } // namespace cxxblas
 

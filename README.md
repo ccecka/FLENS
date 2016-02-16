@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ccecka/FLENS.png?branch=cublas)](https://travis-ci.org/ccecka/FLENS)
 =========================================================
 FLENS: Flexible Library for Efficient Numerical Solutions
 =========================================================

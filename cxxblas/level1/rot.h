@@ -51,7 +51,7 @@ template <typename A, typename B, typename T>
 
 template <typename TA, typename TB, typename T>
     void
-    rotg(std::complex<TA> &a, std::complex<TB> &b, T &c, std::complex<T> &s);
+    rotg(Complex<TA> &a, Complex<TB> &b, T &c, Complex<T> &s);
 
 /*
  *  Note: The following variant of function rot is based on
@@ -66,9 +66,9 @@ template <typename TA, typename TB, typename T>
 template <typename IndexType, typename X, typename Y, typename T>
     void
     rot(IndexType n,
-        std::complex<X> *x, IndexType incX,
-        std::complex<Y> *y, IndexType incY,
-        T c, const std::complex<T> &s);
+        Complex<X> *x, IndexType incX,
+        Complex<Y> *y, IndexType incY,
+        T c, const Complex<T> &s);
 
 
 #ifdef HAVE_CBLAS

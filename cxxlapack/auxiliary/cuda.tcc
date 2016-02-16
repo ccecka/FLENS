@@ -10,9 +10,6 @@ namespace cxxlapack {
 void
 CusolverEnv::init()
 {
-  CudaEnv::init();
-
-  // create SOLVER handle
   checkStatus(cusolverDnCreate(&handle_));
 
   // create devInfo
@@ -27,16 +24,23 @@ CusolverEnv::release()
   checkStatus(cusolverDnDestroy(handle_));
 
   // destroy devInfo
-  for (auto di : devinfo_)
+  for (auto& di : devinfo_)
     checkStatus(cudaFree(di));
 
   CudaEnv::release();
 }
 
+void
+CusolverEnv::setStream(int _streamID)
+{
+    streamID_ = _streamID;
+    checkStatus(cusolverDnSetStream(handle_, CudaEnv::getStream(streamID_)));
+}
+
 cusolverDnHandle_t &
 CusolverEnv::handle()
 {
-    // TODO: Stream support. Safety checks? Error msgs?
+    // TODO: Safety checks? Error msgs?
 
     return handle_;
 }
@@ -45,7 +49,7 @@ int*
 CusolverEnv::devInfo()
 {
   // TODO: Stream support
-
+  ASSERT(devinfo_[0] != 0);
   return devinfo_[0];
 }
 

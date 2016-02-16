@@ -4,6 +4,8 @@
 
 # Executables
 EXEC = $(basename $(wildcard *.cc))
+
+# Remove select executables
 EXEC := $(filter-out design-flaws-mtl4, $(EXEC))
 EXEC := $(filter-out geccs-superlu gecrs-superlu, $(EXEC))
 EXEC := $(filter-out mpfr-real-lapack-geev mpfr-real-lapack-getrf, $(EXEC))
@@ -11,16 +13,8 @@ EXEC := $(filter-out qd-lapack-geev qd-lapack-getrf, $(EXEC))
 
 EXEC := $(filter-out tut01-page03-example04 tut02-page03-example tut02-page04-example1 tut02-page04-example2 tut05-page02-example2 tut05-page02-example4 tut08-page01-example2 tut08-page01-example5, $(EXEC))
 
-
-
-
 # External libraries
 FLENS_DIR = ../../
-BOOST_DIR =
-
-# Optional libraries
-# Only needed if using CUDA
-CUDA_PATH = /usr/local/cuda
 
 ####################
 ## Makefile Setup ##
@@ -40,7 +34,7 @@ ifeq ($(arch-name),)
 endif
 
 # Define the C++ compiler to use
-CXX := $(shell which g++) -std=c++11
+#CXX := $(shell which g++) -std=c++11
 
 # Dependency directory and flags
 DEPSDIR := $(shell mkdir -p .deps; echo .deps)
@@ -55,16 +49,15 @@ DEPSFLAGS = -MD -MF $(DEPSFILE) #-MP
 INCLUDES += -I. -I$(FLENS_DIR)
 
 # Define cxx compile flags
-CXXFLAGS  = -fopenmp -funroll-loops -O3 -Wall -Wextra
-CXXFLAGS += -DALWAYS_USE_CXXLAPACK
+CXXFLAGS = $(CFLAGS) -std=c++11 -O3 -Wall -Wextra
 
 # Define any directories containing libraries
 #   To include directories use -Lpath/to/files
-LDFLAGS += -L/opt/OpenBLAS/lib #-L/usr/local/opt/openblas/lib
+LDFLAGS +=
 
 # Define any libraries to link into executable
 #   To link in libraries (libXXX.so or libXXX.a) use -lXXX
-LDLIBS  += -lopenblas -llapack
+LDLIBS  +=
 
 ######################
 ## Makefile Options ##
@@ -75,12 +68,9 @@ LDLIBS  += -lopenblas -llapack
 ## Makefile Rules ##
 ####################
 
-# Suffix replacement rules
 #   $^: the name of the prereqs of the rule
 #   $<: the name of the first prereq of the rule
 #   $@: the name of the target of the rule
-.SUFFIXES:                                        # Delete the default suffixes
-.SUFFIXES: .hpp .cpp .kern .kern.cpp .kern.cu .o  # Define our suffix list
 
 # 'make' - default rule
 all: $(EXEC)
@@ -89,7 +79,7 @@ all: $(EXEC)
 $(EXEC): % : %.o
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
-# Default rule for creating a .o file from a .cpp file
+# Default rule for creating a .o file from a .cc file
 %.o: %.cc
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(DEPSFLAGS) -c -o $@ $<
 

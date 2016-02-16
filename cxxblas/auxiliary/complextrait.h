@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_AUXILIARY_COMPLEXTRAIT_H
 #define CXXBLAS_AUXILIARY_COMPLEXTRAIT_H 1
 
-#include <cxxstd/complex.h>
+#include <cxxblas/typedefs.h>
 
 namespace cxxblas {
 
@@ -44,7 +44,7 @@ struct ComplexTrait
 };
 
 template <typename T>
-struct ComplexTrait<std::complex<T> >
+struct ComplexTrait<Complex<T> >
 {
     typedef T  PrimitiveType;
 };

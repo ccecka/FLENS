@@ -1,21 +1,25 @@
 FLENS
 =====
 
+[ ] Use cxxblas::Complex rather than std::complex
 [ ] Use of std::allocator_traits in typedefs
 [ ] Further checking of allocator types, etc
-[ ] Fix MatrixView from DenseVector (need allocators types for conversion)
+[ ] Fix MatrixView from DenseVector in impls (need allocators types)
 [x] -- Result<M> propogates allocator
 [x] -- gesv, getrs propogates allocator
 [x] -- posv, potrs propogates allocator
 
-CUBLAS
+CXXBLAS/CUBLAS
 ======
 
+[x] Allow thrust::complex
 [ ] Implement geam
 [ ] Reroute matrix copy/axpby/axpy/transpose/etc through geam
 
-CUSOLVER
+CXXLAPACK/CUSOLVER
 ========
+
+[ ] Use cxxblas::Complex rather than std::complex in cxxlapack
 
 [x] getrf
 [x] getrs
@@ -32,3 +36,11 @@ CUSOLVER
 
 CUSOLVER_SP??
 ==========
+
+
+C++ General
+===========
+
+[ ] using X = Y    rather than   typedef Y X;
+[ ] Prefer <type_traits> over custom impls
+[ ] Improved type introspection
